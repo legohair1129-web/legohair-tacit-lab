@@ -76,7 +76,7 @@ export default async function HomePage() {
         href="/case/new"
         className="mt-8 block rounded-lg bg-foreground py-4 text-center text-base font-medium text-background"
       >
-        ＋ 今日のカルテを記録する
+        ＋ 今日のCASEを記録する
       </Link>
 
       <div className="mt-8 grid grid-cols-2 gap-3">
@@ -98,7 +98,7 @@ export default async function HomePage() {
 
       {recentCases && recentCases.length > 0 && (
         <div className="mt-10">
-          <h2 className="text-xs font-medium tracking-[0.15em] text-muted">最近のカルテ</h2>
+          <h2 className="text-xs font-medium tracking-[0.15em] text-muted">最近のCASE</h2>
           <div className="mt-3 space-y-2">
             {recentCases.map((c) => (
               <Link
@@ -122,7 +122,7 @@ export default async function HomePage() {
 
       {pickupCases && pickupCases.length > 0 && (
         <div className="mt-10">
-          <h2 className="text-xs font-medium tracking-[0.15em] text-accent">ピックアップカルテ</h2>
+          <h2 className="text-xs font-medium tracking-[0.15em] text-accent">注目CASE</h2>
           <div className="mt-3 space-y-2">
             {pickupCases.map((c) => (
               <Link

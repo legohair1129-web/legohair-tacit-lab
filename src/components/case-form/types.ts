@@ -1,58 +1,27 @@
-import type { DecisionOption } from "@/lib/types/database";
-
 export type CaseFormState = {
-  // CUSTOMER
+  // customer selection
   customerMode: "new" | "existing";
   existingCustomerId: string | null;
+
+  // customer basics
   store: string;
   ageGroup: string;
   visitType: "new" | "existing" | "";
   visitCycle: string;
-  menu: string;
-  relationshipLevel: "R0" | "R1" | "R2" | "R3" | "R4" | "";
-  state: string;
-  stateNote: string;
-  beautyNeeds: string[];
-  issues: string[];
+  menuItems: string[];
 
-  // MEMORY
-  memoryNote: string;
+  // discover
+  discoveries: string[];
+  customerPriority: string;
+  observationNote: string;
 
-  // NOTICE
-  noticeItems: string[];
-  noticeNote: string;
+  // design
+  decisionCategories: string[];
+  finalProposal: string;
+  proposalReason: string;
 
-  // INTUITION
-  intuitionText: string;
-  intuitionCueItems: string[];
-  intuitionCueNote: string;
-
-  // DISCOVER
-  discoverAsked: string;
-  discoverFound: string;
-  discoverCustomerWish: string;
-  discoverRealIssue: string;
-  discoverAlignment: string;
-
-  // DECISION
-  decisionOptions: DecisionOption[];
-  decisionFinal: string;
-  decisionReason: string;
-  decisionNotChosen: string;
-  decisionNotChosenReason: string;
-
-  // FORECAST
-  forecastHairState: string;
-  forecastFeeling: string;
-  forecastNextStyle: string;
-  forecastNextTreatment: string;
-  forecastNextVisitTiming: string;
-  forecastSuccessState: string;
-
-  // BEST BEFORE
-  bestBeforeItems: string[];
-  bestBeforeActions: string[];
-  bestBeforeNote: string;
+  // next before
+  nextBefore: string;
 
   isShared: boolean;
 };
@@ -60,69 +29,36 @@ export type CaseFormState = {
 export const INITIAL_CASE_FORM_STATE: CaseFormState = {
   customerMode: "new",
   existingCustomerId: null,
+
   store: "",
   ageGroup: "",
   visitType: "",
   visitCycle: "",
-  menu: "",
-  relationshipLevel: "",
-  state: "",
-  stateNote: "",
-  beautyNeeds: [],
-  issues: [],
+  menuItems: [],
 
-  memoryNote: "",
+  discoveries: [],
+  customerPriority: "",
+  observationNote: "",
 
-  noticeItems: [],
-  noticeNote: "",
+  decisionCategories: [],
+  finalProposal: "",
+  proposalReason: "",
 
-  intuitionText: "",
-  intuitionCueItems: [],
-  intuitionCueNote: "",
-
-  discoverAsked: "",
-  discoverFound: "",
-  discoverCustomerWish: "",
-  discoverRealIssue: "",
-  discoverAlignment: "",
-
-  decisionOptions: [],
-  decisionFinal: "",
-  decisionReason: "",
-  decisionNotChosen: "",
-  decisionNotChosenReason: "",
-
-  forecastHairState: "",
-  forecastFeeling: "",
-  forecastNextStyle: "",
-  forecastNextTreatment: "",
-  forecastNextVisitTiming: "",
-  forecastSuccessState: "",
-
-  bestBeforeItems: [],
-  bestBeforeActions: [],
-  bestBeforeNote: "",
+  nextBefore: "",
 
   isShared: true,
 };
 
-// One theme per screen (per the design spec's "1画面1テーマ" rule) — the
-// CUSTOMER node in the macro flow (CUSTOMER→MEMORY→…) expands into five
-// single-topic screens (basic info / state / need / issue / relationship).
+// One theme per screen, grouped by PHASE (KNOW / DISCOVER / DESIGN / NEXT
+// BEFORE). ANSWER_CHECK is conditional — case/new/page.tsx skips it when
+// there's nothing to review.
 export const CASE_FORM_STEPS = [
-  "CUSTOMER_BASIC",
-  "CUSTOMER_STATE",
-  "BEAUTY_NEED",
-  "ISSUE",
-  "RELATIONSHIP",
-  "MEMORY",
-  "NOTICE",
-  "INTUITION",
-  "INTUITION_CUE",
+  "CUSTOMER_SELECT",
+  "ANSWER_CHECK",
+  "CUSTOMER_BASICS",
   "DISCOVER",
-  "DECISION",
-  "FORECAST",
-  "BEST_BEFORE",
+  "DESIGN",
+  "NEXT_BEFORE",
 ] as const;
 
 export type CaseFormStep = (typeof CASE_FORM_STEPS)[number];

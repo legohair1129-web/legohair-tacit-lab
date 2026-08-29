@@ -15,6 +15,11 @@ import {
   labelFor,
   type Option,
 } from "@/lib/constants/options";
+import {
+  DISCOVERY_OPTIONS,
+  CUSTOMER_PRIORITY_OPTIONS,
+  DECISION_CATEGORY_OPTIONS,
+} from "@/lib/constants/caseFlow";
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("ja-JP", {
@@ -83,12 +88,12 @@ export function CaseDetail({
     <div className="px-6 py-8">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-xs tracking-[0.2em] text-muted">カルテ</p>
+          <p className="text-xs tracking-[0.2em] text-muted">CASE</p>
           <p className="mt-1 text-sm text-muted-2">{formatDate(c.created_at)}</p>
         </div>
         {c.is_pickup && (
           <span className="shrink-0 rounded-full bg-accent px-3 py-1 text-xs font-medium text-white">
-            ピックアップ
+            注目CASE
           </span>
         )}
       </div>
@@ -99,12 +104,19 @@ export function CaseDetail({
         </div>
       )}
 
+      {c.forecast_success_state && (
+        <div className="mt-4 rounded-lg border border-accent bg-accent-soft/40 p-4">
+          <p className="text-xs font-medium tracking-wide text-accent">次回来店時の目標</p>
+          <p className="mt-1 text-base leading-relaxed">{c.forecast_success_state}</p>
+        </div>
+      )}
+
       {previousCase && (
         <Link
           href={`/case/${previousCase.id}`}
           className="mt-4 block rounded-lg border border-border px-4 py-2.5 text-sm text-muted"
         >
-          ← 前回のカルテ（{formatDate(previousCase.created_at)}）
+          ← 前回のCASE（{formatDate(previousCase.created_at)}）
         </Link>
       )}
 
@@ -145,6 +157,8 @@ export function CaseDetail({
       </Section>
 
       <Section title="発見">
+        <Chips values={c.discoveries} options={DISCOVERY_OPTIONS} />
+        <Row label="お客様が大切にしていたこと" value={labelFor(CUSTOMER_PRIORITY_OPTIONS, c.customer_priority)} />
         <Row label="実際に何を聞いたか" value={c.discover_asked} />
         <Row label="何が分かったか" value={c.discover_found} />
         <Row label="お客様が言った希望" value={c.discover_customer_wish} />
@@ -153,10 +167,11 @@ export function CaseDetail({
       </Section>
 
       <Section title="決断">
+        <Chips values={c.decision_categories} options={DECISION_CATEGORY_OPTIONS} />
         {c.decision_options.map((o, i) => (
           <Row key={i} label={o.label} value={o.text} />
         ))}
-        <Row label="最終的な提案" value={c.decision_final} />
+        <Row label="今日の提案" value={c.decision_final} />
         <Row label="理由" value={c.decision_reason} />
         <Row label="やらなかった提案" value={c.decision_not_chosen} />
         <Row label="やらなかった理由" value={c.decision_not_chosen_reason} />
@@ -204,7 +219,7 @@ export function CaseDetail({
           href={`/case/${nextCase.id}`}
           className="mt-4 block rounded-lg border border-border px-4 py-2.5 text-sm text-muted"
         >
-          次回のカルテ（{formatDate(nextCase.created_at)}）→
+          次回のCASE（{formatDate(nextCase.created_at)}）→
         </Link>
       )}
 

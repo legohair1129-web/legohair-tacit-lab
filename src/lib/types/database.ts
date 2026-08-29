@@ -42,6 +42,7 @@ export type Case = {
   visit_type: "new" | "existing" | null;
   visit_cycle: string | null;
   menu: string | null;
+  menu_items: string[];
   relationship_level: "R0" | "R1" | "R2" | "R3" | "R4" | null;
 
   state: "KEEP" | "CHANGE" | "FEAR" | "LOST" | "IDEAL" | "PROBLEM" | "TRUST" | "TRANSITION" | null;
@@ -53,6 +54,10 @@ export type Case = {
 
   notice_items: string[];
   notice_note: string | null;
+
+  discoveries: string[];
+  customer_priority: string | null;
+  decision_categories: string[];
 
   intuition_text: string | null;
   intuition_cue_items: string[];

@@ -8,23 +8,20 @@ export function SaveSummary({ value, caseId }: { value: CaseFormState; caseId: s
   return (
     <div className="flex min-h-dvh flex-col px-6 pb-10 pt-10">
       <p className="text-xs tracking-[0.2em] text-muted">記録完了</p>
-      <h1 className="mt-2 text-xl font-medium leading-snug">カルテを記録しました。</h1>
+      <h1 className="mt-2 text-xl font-medium leading-snug">CASEを記録しました。</h1>
 
       <div className="mt-8 space-y-5">
-        {value.intuitionText && (
-          <SummaryBlock label="今日の直感" text={value.intuitionText} />
+        {value.nextBefore && (
+          <div className="rounded-lg border border-accent bg-accent-soft/40 p-4">
+            <p className="text-xs font-medium tracking-wide text-accent">次回来店時の目標</p>
+            <p className="mt-1 text-base leading-relaxed">{value.nextBefore}</p>
+          </div>
         )}
-        {value.decisionFinal && (
-          <SummaryBlock label="今日の決断" text={value.decisionFinal} />
-        )}
-        {value.forecastNextStyle && <SummaryBlock label="予測" text={value.forecastNextStyle} />}
-        {value.forecastSuccessState && (
-          <SummaryBlock label="最高のビフォー" text={value.forecastSuccessState} />
-        )}
+        {value.finalProposal && <SummaryBlock label="今日の提案" text={value.finalProposal} />}
       </div>
 
       <p className="mt-10 text-sm leading-relaxed text-muted">
-        次回来店で、答え合わせをしましょう。
+        次回来店時に、この答え合わせをしましょう。
       </p>
 
       <div className="mt-6 space-y-3">
@@ -32,7 +29,7 @@ export function SaveSummary({ value, caseId }: { value: CaseFormState; caseId: s
           <Button variant="secondary">ホームへ</Button>
         </Link>
         <Link href={`/case/${caseId}`}>
-          <Button>カルテを見る</Button>
+          <Button>CASEを見る</Button>
         </Link>
       </div>
     </div>

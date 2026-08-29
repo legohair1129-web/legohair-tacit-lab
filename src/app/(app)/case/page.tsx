@@ -22,19 +22,19 @@ export default async function CaseListPage() {
 
   return (
     <div className="px-6 py-8">
-      <p className="text-xs tracking-[0.2em] text-muted">カルテ</p>
-      <h1 className="mt-1 text-xl font-medium">自分のカルテ</h1>
+      <p className="text-xs tracking-[0.2em] text-muted">CASE</p>
+      <h1 className="mt-1 text-xl font-medium">自分のCASE</h1>
 
       <Link
         href="/case/new"
         className="mt-6 block rounded-lg bg-foreground py-3.5 text-center text-base font-medium text-background"
       >
-        ＋ 今日のカルテを記録する
+        ＋ 今日のCASEを記録する
       </Link>
 
       <div className="mt-8 space-y-3">
         {!cases || cases.length === 0 ? (
-          <p className="text-sm text-muted-2">まだカルテがありません。</p>
+          <p className="text-sm text-muted-2">まだCASEがありません。</p>
         ) : (
           cases.map((c) => (
             <Link

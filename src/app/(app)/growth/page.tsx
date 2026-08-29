@@ -83,7 +83,7 @@ export default async function GrowthPage() {
       <h1 className="mt-1 text-xl font-medium">記録の振り返り</h1>
 
       <div className="mt-6 grid grid-cols-2 gap-3">
-        <Stat label="総カルテ数" value={total} />
+        <Stat label="総CASE数" value={total} />
         <Stat label="答え合わせ済み" value={reviewedCount} />
       </div>
 
@@ -111,7 +111,7 @@ export default async function GrowthPage() {
       )}
 
       {total === 0 && (
-        <p className="mt-10 text-sm text-muted-2">カルテを記録すると、ここに振り返りが表示されます。</p>
+        <p className="mt-10 text-sm text-muted-2">CASEを記録すると、ここに振り返りが表示されます。</p>
       )}
     </div>
   );

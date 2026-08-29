@@ -1,12 +1,10 @@
 "use client";
 
 import { StepShell } from "@/components/ui/StepShell";
-import { ChipMultiSelect } from "@/components/ui/ChipMultiSelect";
 import { TextArea } from "@/components/ui/TextArea";
-import { BEST_BEFORE_ITEM_OPTIONS, BEST_BEFORE_ACTION_OPTIONS } from "@/lib/constants/options";
 import type { CaseFormState } from "@/components/case-form/types";
 
-export function BestBeforeStep({
+export function NextBeforeStep({
   value,
   onPatch,
   onBack,
@@ -25,36 +23,30 @@ export function BestBeforeStep({
 }) {
   return (
     <StepShell
-      eyebrow="STEP 13 / 最高のビフォー"
-      title="最高のビフォーを設計する"
-      subtitle="次回来店時、どんな状態なら今回の仕事は成功ですか？"
+      eyebrow="PHASE 4 / 次をつくる"
+      title="次回来店時、どんなBEFOREなら成功？"
+      subtitle="今日の仕上がりではなく、次回来店された時の状態を想像してください。"
       stepIndex={stepIndex}
       totalSteps={totalSteps}
       onBack={onBack}
       onNext={onNext}
-      nextLabel="記録する"
+      nextLabel="CASEを保存する"
       nextLoading={saving}
+      nextDisabled={value.nextBefore.trim() === ""}
     >
       <div className="space-y-6">
-        <ChipMultiSelect
-          options={BEST_BEFORE_ITEM_OPTIONS}
-          value={value.bestBeforeItems}
-          onChange={(v) => onPatch({ bestBeforeItems: v })}
-        />
-
-        <div>
-          <p className="mb-2 text-sm text-muted">そのビフォーをつくるため、今日何をしましたか？</p>
-          <ChipMultiSelect
-            options={BEST_BEFORE_ACTION_OPTIONS}
-            value={value.bestBeforeActions}
-            onChange={(v) => onPatch({ bestBeforeActions: v })}
-          />
-        </div>
-
         <TextArea
-          placeholder="補足（任意）"
-          value={value.bestBeforeNote}
-          onChange={(e) => onPatch({ bestBeforeNote: e.target.value })}
+          rows={6}
+          autoFocus
+          placeholder={
+            "例：朝のスタイリングが楽になっている\n" +
+            "カラーが抜けても黄味が少ない\n" +
+            "前髪が扱いやすい\n" +
+            "ダメージが進んでいない\n" +
+            "自分に似合うものが前回より分かっている"
+          }
+          value={value.nextBefore}
+          onChange={(e) => onPatch({ nextBefore: e.target.value })}
         />
 
         <label className="flex items-start gap-3 rounded-xl border border-border bg-surface p-4">
@@ -65,7 +57,7 @@ export function BestBeforeStep({
             className="mt-0.5 h-5 w-5 accent-foreground"
           />
           <span className="text-sm leading-relaxed">
-            このカルテをライブラリで他スタッフと共有する
+            このCASEを「学び」で他スタッフと共有する
             <br />
             <span className="text-xs text-muted-2">
               顧客を特定できる情報は保存されません。あとから変更できます。

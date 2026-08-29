@@ -6,25 +6,20 @@ import { createClient } from "@/lib/supabase/client";
 import { RadioCards } from "@/components/ui/RadioCards";
 import { TextArea } from "@/components/ui/TextArea";
 import { Button } from "@/components/ui/Button";
-import { FORECAST_ACCURACY_OPTIONS, BEFORE_CONNECTION_OPTIONS } from "@/lib/constants/options";
+import { ANSWER_CHECK_OPTIONS } from "@/lib/constants/caseFlow";
 import type { Case, CaseReview } from "@/lib/types/database";
 
 export function ReviewForm({ caseRow }: { caseRow: Case }) {
   const router = useRouter();
   const supabase = createClient();
 
-  const [forecastAccuracy, setForecastAccuracy] = useState<string | null>(null);
-  const [beforeConnection, setBeforeConnection] = useState<string | null>(null);
-  const [actualResult, setActualResult] = useState("");
-  const [whatWasRight, setWhatWasRight] = useState("");
-  const [whatWasMissed, setWhatWasMissed] = useState("");
-  const [newNotice, setNewNotice] = useState("");
-  const [nextWatchPoint, setNextWatchPoint] = useState("");
-  const [learning, setLearning] = useState("");
+  const [accuracy, setAccuracy] = useState<string | null>(null);
+  const [note, setNote] = useState("");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit() {
+    if (!accuracy) return;
     setSaving(true);
     setError(null);
 
@@ -36,14 +31,8 @@ export function ReviewForm({ caseRow }: { caseRow: Case }) {
     const { error } = await supabase.from("case_reviews").insert({
       case_id: caseRow.id,
       reviewed_by: user.id,
-      forecast_accuracy: forecastAccuracy as CaseReview["forecast_accuracy"],
-      before_connection: beforeConnection as CaseReview["before_connection"],
-      actual_result: actualResult || null,
-      what_was_right: whatWasRight || null,
-      what_was_missed: whatWasMissed || null,
-      new_notice: newNotice || null,
-      next_watch_point: nextWatchPoint || null,
-      learning: learning || null,
+      forecast_accuracy: accuracy as CaseReview["forecast_accuracy"],
+      actual_result: note || null,
     });
 
     setSaving(false);
@@ -58,62 +47,31 @@ export function ReviewForm({ caseRow }: { caseRow: Case }) {
   }
 
   return (
-    // Fixed submit bar below sits above BottomNav, not at the viewport
-    // bottom — see StepShell.tsx for the same stacking rationale.
     <div
       className="px-6 py-8"
       style={{ paddingBottom: "calc(var(--footer-h) + var(--bottom-nav-total))" }}
     >
       <p className="text-xs tracking-[0.2em] text-muted">振り返り</p>
-      <h1 className="mt-2 text-xl font-medium leading-snug">答え合わせ</h1>
+      <h1 className="mt-2 text-xl font-medium leading-snug">
+        前回決めた「最高のビフォー」、実際どうでしたか？
+      </h1>
 
-      <div className="mt-6 space-y-4">
-        {caseRow.intuition_text && (
-          <RefBlock label="前回の直感" text={caseRow.intuition_text} />
-        )}
-        {caseRow.forecast_success_state && (
-          <RefBlock label="前回の予測（成功の定義）" text={caseRow.forecast_success_state} />
-        )}
-        {caseRow.best_before_note && <RefBlock label="前回の最高のビフォー" text={caseRow.best_before_note} />}
-      </div>
+      {caseRow.forecast_success_state && (
+        <div className="mt-6 rounded-lg border border-accent-soft bg-accent-soft/40 p-4">
+          <p className="text-xs text-accent">前回あなたが決めた「最高のビフォー」</p>
+          <p className="mt-1 text-sm leading-relaxed">{caseRow.forecast_success_state}</p>
+        </div>
+      )}
 
       <div className="mt-8 space-y-6">
-        <Field label="前回の予測はどうでしたか？">
-          <RadioCards
-            columns={2}
-            options={FORECAST_ACCURACY_OPTIONS}
-            value={forecastAccuracy}
-            onChange={setForecastAccuracy}
-          />
-        </Field>
+        <RadioCards columns={2} options={ANSWER_CHECK_OPTIONS} value={accuracy} onChange={setAccuracy} />
 
-        <Field label="前回のアフターは、今回の良いビフォーにつながりましたか？">
-          <RadioCards options={BEFORE_CONNECTION_OPTIONS} value={beforeConnection} onChange={setBeforeConnection} />
-        </Field>
-
-        <Field label="実際にはどうなりましたか？">
-          <TextArea rows={3} value={actualResult} onChange={(e) => setActualResult(e.target.value)} />
-        </Field>
-
-        <Field label="何が当たっていましたか？">
-          <TextArea rows={2} value={whatWasRight} onChange={(e) => setWhatWasRight(e.target.value)} />
-        </Field>
-
-        <Field label="何を読み違えましたか？">
-          <TextArea rows={2} value={whatWasMissed} onChange={(e) => setWhatWasMissed(e.target.value)} />
-        </Field>
-
-        <Field label="今回、新しく気づいたことは？">
-          <TextArea rows={2} value={newNotice} onChange={(e) => setNewNotice(e.target.value)} />
-        </Field>
-
-        <Field label="次回来店では何を見ますか？">
-          <TextArea rows={2} value={nextWatchPoint} onChange={(e) => setNextWatchPoint(e.target.value)} />
-        </Field>
-
-        <Field label="今回のお客様から学んだ、次にも使える気づきは？">
-          <TextArea rows={3} value={learning} onChange={(e) => setLearning(e.target.value)} />
-        </Field>
+        <TextArea
+          rows={2}
+          placeholder="そう判断した理由（任意）"
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+        />
       </div>
 
       {error && <p className="mt-4 text-sm text-danger">{error}</p>}
@@ -123,29 +81,11 @@ export function ReviewForm({ caseRow }: { caseRow: Case }) {
         style={{ height: "var(--footer-h)", bottom: "var(--bottom-nav-total)" }}
       >
         <div className="mx-auto max-w-lg">
-          <Button type="button" onClick={handleSubmit} disabled={saving}>
+          <Button type="button" onClick={handleSubmit} disabled={saving || !accuracy}>
             {saving ? "保存中…" : "答え合わせを記録する"}
           </Button>
         </div>
       </div>
-    </div>
-  );
-}
-
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <p className="mb-2 text-sm text-muted">{label}</p>
-      {children}
-    </div>
-  );
-}
-
-function RefBlock({ label, text }: { label: string; text: string }) {
-  return (
-    <div className="rounded-lg border border-border bg-surface p-4">
-      <p className="text-xs text-muted">{label}</p>
-      <p className="mt-1 text-sm leading-relaxed">{text}</p>
     </div>
   );
 }

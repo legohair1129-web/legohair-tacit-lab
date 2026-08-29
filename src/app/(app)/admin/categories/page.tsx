@@ -23,7 +23,7 @@ export default async function AdminCategoriesPage() {
       <p className="text-xs tracking-[0.2em] text-muted">管理者</p>
       <h1 className="mt-1 text-xl font-medium">カテゴリ管理</h1>
       <p className="mt-2 text-sm text-muted">
-        カルテ入力の「気になる項目」選択肢です。非表示にした項目は新規入力では選べなくなりますが、過去のカルテには残ります。
+        CASEの「課題」選択肢です（LIBRARYの絞り込みで使用）。非表示にした項目は新規入力では選べなくなりますが、過去のCASEには残ります。
       </p>
 
       <CategoryManager fieldKey="issue" initialItems={issueItems ?? []} />

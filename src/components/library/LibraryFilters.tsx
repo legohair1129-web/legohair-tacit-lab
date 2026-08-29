@@ -22,7 +22,7 @@ export type LibrarySearchParams = {
 };
 
 const FIELDS: { key: keyof LibrarySearchParams; label: string; options: Option[] }[] = [
-  { key: "state", label: "状態", options: STATE_OPTIONS },
+  { key: "state", label: "お客様の状態", options: STATE_OPTIONS },
   { key: "need", label: "ニーズ", options: BEAUTY_NEED_OPTIONS },
   { key: "relationship", label: "関係性", options: RELATIONSHIP_LEVEL_OPTIONS },
   { key: "forecast", label: "予測結果", options: FORECAST_ACCURACY_OPTIONS },
@@ -63,7 +63,7 @@ export function LibraryFilters({
               : "border-border bg-surface"
           }`}
         >
-          読みが外れたカルテ
+          読みが外れたCASE
         </button>
         <button
           type="button"
@@ -74,7 +74,7 @@ export function LibraryFilters({
               : "border-border bg-surface"
           }`}
         >
-          ピックアップカルテ
+          注目CASE
         </button>
         {hasFilters && (
           <button
@@ -109,7 +109,7 @@ export function LibraryFilters({
           onChange={(e) => setParam("issue", e.target.value)}
           className="rounded-lg border border-border bg-surface px-3 py-2 text-sm"
         >
-          <option value="">気になる項目</option>
+          <option value="">課題</option>
           {issueOptions.map((o) => (
             <option key={o.value} value={o.value}>
               {o.label}

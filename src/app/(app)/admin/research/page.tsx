@@ -10,6 +10,7 @@ import {
   labelFor,
   type Option,
 } from "@/lib/constants/options";
+import { DISCOVERY_OPTIONS, CUSTOMER_PRIORITY_OPTIONS, DECISION_CATEGORY_OPTIONS } from "@/lib/constants/caseFlow";
 
 function distribution(values: string[], options: Option[]) {
   const counts = new Map<string, number>();
@@ -32,7 +33,9 @@ export default async function ResearchPage() {
   const [{ data: cases }, { data: profiles }, { data: reviews }] = await Promise.all([
     supabase
       .from("cases")
-      .select("id,staff_id,state,beauty_needs,intuition_cue_items,best_before_items")
+      .select(
+        "id,staff_id,state,beauty_needs,intuition_cue_items,best_before_items,discoveries,customer_priority,decision_categories"
+      )
       .limit(1000),
     supabase.from("profiles").select("id,display_name,store,research_group"),
     supabase.from("case_reviews").select("case_id,forecast_accuracy"),
@@ -63,11 +66,20 @@ export default async function ResearchPage() {
     (reviews ?? []).map((r) => r.forecast_accuracy).filter((v): v is NonNullable<typeof v> => !!v),
     FORECAST_ACCURACY_OPTIONS
   );
+  const discoveryDist = distribution(allCases.flatMap((c) => c.discoveries), DISCOVERY_OPTIONS);
+  const customerPriorityDist = distribution(
+    allCases.map((c) => c.customer_priority).filter((v): v is NonNullable<typeof v> => !!v),
+    CUSTOMER_PRIORITY_OPTIONS
+  );
+  const decisionCategoryDist = distribution(
+    allCases.flatMap((c) => c.decision_categories),
+    DECISION_CATEGORY_OPTIONS
+  );
 
   const topStylistCases = allCases.filter((c) => profileById.get(c.staff_id)?.research_group === "top_stylist");
   const otherCases = allCases.filter((c) => profileById.get(c.staff_id)?.research_group !== "top_stylist");
-  const topStylistCueDist = distribution(topStylistCases.flatMap((c) => c.intuition_cue_items), INTUITION_CUE_OPTIONS).slice(0, 5);
-  const otherCueDist = distribution(otherCases.flatMap((c) => c.intuition_cue_items), INTUITION_CUE_OPTIONS).slice(0, 5);
+  const topStylistDiscoveryDist = distribution(topStylistCases.flatMap((c) => c.discoveries), DISCOVERY_OPTIONS).slice(0, 5);
+  const otherDiscoveryDist = distribution(otherCases.flatMap((c) => c.discoveries), DISCOVERY_OPTIONS).slice(0, 5);
 
   return (
     <div className="px-6 py-8">
@@ -87,19 +99,22 @@ export default async function ResearchPage() {
       </div>
 
       <div className="mt-6">
-        <Stat label="カルテ総数" value={allCases.length} />
+        <Stat label="CASE総数" value={allCases.length} />
       </div>
 
-      <DistBlock title="スタッフ別カルテ数" items={staffRows.map((s) => ({ label: `${s.label}${s.store ? ` (${s.store})` : ""}`, count: s.count }))} />
-      <DistBlock title="状態分布" items={stateDist} />
-      <DistBlock title="ニーズ分布" items={needDist} />
-      <DistBlock title="直感のきっかけ分布" items={cueDist} />
+      <DistBlock title="スタッフ別CASE数" items={staffRows.map((s) => ({ label: `${s.label}${s.store ? ` (${s.store})` : ""}`, count: s.count }))} />
+      <DistBlock title="気づき分布" items={discoveryDist} />
+      <DistBlock title="お客様が大切にしていたこと分布" items={customerPriorityDist} />
+      <DistBlock title="今日変えたこと分布" items={decisionCategoryDist} />
       <DistBlock title="予測結果分布" items={forecastDist} />
-      <DistBlock title="最高のビフォー項目分布" items={bestBeforeDist} />
+      <DistBlock title="状態分布（旧項目）" items={stateDist} />
+      <DistBlock title="ニーズ分布（旧項目）" items={needDist} />
+      <DistBlock title="直感のきっかけ分布（旧項目）" items={cueDist} />
+      <DistBlock title="最高のビフォー項目分布（旧項目）" items={bestBeforeDist} />
 
       <div className="mt-10">
         <h2 className="text-xs font-medium tracking-[0.15em] text-muted">
-          トップスタイリスト群 と その他スタッフ群 の比較（直感のきっかけ）
+          トップスタイリスト群 と その他スタッフ群 の比較（気づき）
         </h2>
         <p className="mt-1 text-xs text-muted-2">
           トップスタイリスト {topStylistCases.length}件 ／ その他 {otherCases.length}件
@@ -108,7 +123,7 @@ export default async function ResearchPage() {
           <div>
             <p className="mb-2 text-xs text-muted">トップスタイリスト</p>
             <div className="space-y-2">
-              {topStylistCueDist.map((item) => (
+              {topStylistDiscoveryDist.map((item) => (
                 <Row key={item.label} label={item.label} count={item.count} />
               ))}
             </div>
@@ -116,7 +131,7 @@ export default async function ResearchPage() {
           <div>
             <p className="mb-2 text-xs text-muted">その他</p>
             <div className="space-y-2">
-              {otherCueDist.map((item) => (
+              {otherDiscoveryDist.map((item) => (
                 <Row key={item.label} label={item.label} count={item.count} />
               ))}
             </div>

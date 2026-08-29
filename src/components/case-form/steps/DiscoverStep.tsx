@@ -1,9 +1,10 @@
 "use client";
 
 import { StepShell } from "@/components/ui/StepShell";
+import { ChipMultiSelect } from "@/components/ui/ChipMultiSelect";
 import { RadioCards } from "@/components/ui/RadioCards";
 import { TextArea } from "@/components/ui/TextArea";
-import { DISCOVER_ALIGNMENT_OPTIONS } from "@/lib/constants/options";
+import { DISCOVERY_OPTIONS, CUSTOMER_PRIORITY_OPTIONS } from "@/lib/constants/caseFlow";
 import type { CaseFormState } from "@/components/case-form/types";
 
 export function DiscoverStep({
@@ -23,64 +24,38 @@ export function DiscoverStep({
 }) {
   return (
     <StepShell
-      eyebrow="STEP 10 / 発見"
-      title="話してみて、何が分かりましたか？"
+      eyebrow="PHASE 2 / 気づく"
+      title="今日、一番気づいたことは？"
+      subtitle="複数選択できます。"
       stepIndex={stepIndex}
       totalSteps={totalSteps}
       onBack={onBack}
       onNext={onNext}
     >
-      <div className="space-y-6">
-        <Field label="実際に何を聞きましたか？">
-          <TextArea
-            rows={3}
-            value={value.discoverAsked}
-            onChange={(e) => onPatch({ discoverAsked: e.target.value })}
-          />
-        </Field>
+      <div className="space-y-8">
+        <ChipMultiSelect
+          options={DISCOVERY_OPTIONS}
+          value={value.discoveries}
+          onChange={(v) => onPatch({ discoveries: v })}
+        />
 
-        <Field label="何が分かりましたか？">
-          <TextArea
-            rows={3}
-            value={value.discoverFound}
-            onChange={(e) => onPatch({ discoverFound: e.target.value })}
-          />
-        </Field>
-
-        <Field label="お客様が言った希望は？">
-          <TextArea
-            rows={3}
-            value={value.discoverCustomerWish}
-            onChange={(e) => onPatch({ discoverCustomerWish: e.target.value })}
-          />
-        </Field>
-
-        <Field label="あなたが感じた、本当の課題は？">
-          <TextArea
-            rows={3}
-            value={value.discoverRealIssue}
-            onChange={(e) => onPatch({ discoverRealIssue: e.target.value })}
-          />
-        </Field>
-
-        <Field label="お客様の言葉と本当の課題は同じでしたか？">
+        <div>
+          <p className="mb-2 text-sm text-muted">お客様が一番大切にしていたのは？</p>
           <RadioCards
             columns={2}
-            options={DISCOVER_ALIGNMENT_OPTIONS}
-            value={value.discoverAlignment || null}
-            onChange={(v) => onPatch({ discoverAlignment: v })}
+            options={CUSTOMER_PRIORITY_OPTIONS}
+            value={value.customerPriority || null}
+            onChange={(v) => onPatch({ customerPriority: v })}
           />
-        </Field>
+        </div>
+
+        <TextArea
+          rows={2}
+          placeholder={"もう少し残しておきたいことはありますか？（任意）\n例：朝はアイロンする時間がほとんどない"}
+          value={value.observationNote}
+          onChange={(e) => onPatch({ observationNote: e.target.value })}
+        />
       </div>
     </StepShell>
-  );
-}
-
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <p className="mb-2 text-sm text-muted">{label}</p>
-      {children}
-    </div>
   );
 }
