@@ -10,6 +10,16 @@
   --accent: #b5794f;
   --accent-soft: #f2e6da;
   --danger: #a1462f;
+
+  /* BottomNav's own content height, excluding the iOS home-indicator safe
+     area. Anything that stacks above BottomNav (e.g. a step wizard's fixed
+     action bar) offsets by bottom-nav-total below, not just this value. */
+  --bottom-nav-h: 4rem;
+  --bottom-nav-total: calc(var(--bottom-nav-h) + env(safe-area-inset-bottom));
+
+  /* Fixed action-bar footer used by the CASE step wizard and the answer
+     review form (py-4 padding + one button row + border). */
+  --footer-h: 7rem;
 }
 
 @theme inline {

@@ -58,7 +58,12 @@ export function ReviewForm({ caseRow }: { caseRow: Case }) {
   }
 
   return (
-    <div className="px-6 py-8 pb-32">
+    // Fixed submit bar below sits above BottomNav, not at the viewport
+    // bottom — see StepShell.tsx for the same stacking rationale.
+    <div
+      className="px-6 py-8"
+      style={{ paddingBottom: "calc(var(--footer-h) + var(--bottom-nav-total))" }}
+    >
       <p className="text-xs tracking-[0.2em] text-muted">ANSWER</p>
       <h1 className="mt-2 text-xl font-medium leading-snug">答え合わせ</h1>
 
@@ -113,7 +118,10 @@ export function ReviewForm({ caseRow }: { caseRow: Case }) {
 
       {error && <p className="mt-4 text-sm text-danger">{error}</p>}
 
-      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-surface/95 px-6 py-4 backdrop-blur">
+      <div
+        className="fixed inset-x-0 z-30 border-t border-border bg-surface/95 px-6 py-4 backdrop-blur"
+        style={{ height: "var(--footer-h)", bottom: "var(--bottom-nav-total)" }}
+      >
         <div className="mx-auto max-w-lg">
           <Button type="button" onClick={handleSubmit} disabled={saving}>
             {saving ? "保存中…" : "答え合わせを記録する"}

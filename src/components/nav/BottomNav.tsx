@@ -17,8 +17,8 @@ export function BottomNav({ isAdmin }: { isAdmin: boolean }) {
   const items = isAdmin ? [...STAFF_ITEMS, ADMIN_ITEM] : STAFF_ITEMS;
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-surface/95 backdrop-blur pb-[env(safe-area-inset-bottom)]">
-      <ul className="mx-auto flex max-w-lg items-stretch justify-around">
+    <nav className="fixed inset-x-0 bottom-0 z-40 h-[var(--bottom-nav-h)] border-t border-border bg-surface/95 backdrop-blur pb-[env(safe-area-inset-bottom)]">
+      <ul className="mx-auto flex h-full max-w-lg items-stretch justify-around">
         {items.map((item) => {
           const active =
             pathname === item.href || pathname.startsWith(`${item.href}/`);
@@ -26,7 +26,7 @@ export function BottomNav({ isAdmin }: { isAdmin: boolean }) {
             <li key={item.href} className="flex-1">
               <Link
                 href={item.href}
-                className="flex flex-col items-center gap-1.5 py-3 text-[11px] tracking-[0.12em]"
+                className="flex h-full flex-col items-center justify-center gap-1.5 text-[11px] tracking-[0.12em]"
               >
                 <span
                   className={

@@ -61,7 +61,10 @@ export function NewStaffForm({ storeOptions }: { storeOptions: string[] }) {
         <p className="rounded-lg bg-danger/10 px-4 py-3 text-sm text-danger">{state.error}</p>
       )}
 
-      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-border bg-surface/95 px-6 py-4 backdrop-blur">
+      <div
+        className="fixed inset-x-0 z-30 border-t border-border bg-surface/95 px-6 py-4 backdrop-blur"
+        style={{ height: "var(--footer-h)", bottom: "var(--bottom-nav-total)" }}
+      >
         <div className="mx-auto flex max-w-lg gap-3">
           <Button type="button" variant="secondary" className="w-auto px-6" onClick={() => router.back()}>
             戻る

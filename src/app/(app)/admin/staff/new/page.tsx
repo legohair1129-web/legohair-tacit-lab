@@ -20,7 +20,7 @@ export default async function NewStaffPage() {
   const storeOptions = [...new Set((stores ?? []).map((s) => s.store).filter(Boolean))] as string[];
 
   return (
-    <div className="px-6 py-8 pb-28">
+    <div className="px-6 py-8" style={{ paddingBottom: "calc(var(--footer-h) + var(--bottom-nav-total))" }}>
       <p className="text-xs tracking-[0.2em] text-muted">ADMIN</p>
       <h1 className="mt-1 text-xl font-medium">スタッフを追加</h1>
 

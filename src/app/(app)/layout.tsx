@@ -25,7 +25,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       <div className="flex justify-end px-6 pt-3">
         <SignOutButton />
       </div>
-      <main className="flex-1 pb-24">{children}</main>
+      <main className="flex-1 pb-[var(--bottom-nav-total)]">{children}</main>
       <BottomNav isAdmin={profile?.role === "admin"} />
     </div>
   );
