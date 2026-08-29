@@ -24,7 +24,7 @@ export function IssueStep({
 }) {
   return (
     <StepShell
-      eyebrow="STEP 4 / ISSUE"
+      eyebrow="STEP 4 / 気になる項目"
       title="今回扱った・気になった項目は？"
       subtitle="複数選択できます。"
       stepIndex={stepIndex}

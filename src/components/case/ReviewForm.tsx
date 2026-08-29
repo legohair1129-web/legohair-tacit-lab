@@ -64,17 +64,17 @@ export function ReviewForm({ caseRow }: { caseRow: Case }) {
       className="px-6 py-8"
       style={{ paddingBottom: "calc(var(--footer-h) + var(--bottom-nav-total))" }}
     >
-      <p className="text-xs tracking-[0.2em] text-muted">ANSWER</p>
+      <p className="text-xs tracking-[0.2em] text-muted">振り返り</p>
       <h1 className="mt-2 text-xl font-medium leading-snug">答え合わせ</h1>
 
       <div className="mt-6 space-y-4">
         {caseRow.intuition_text && (
-          <RefBlock label="前回のINTUITION" text={caseRow.intuition_text} />
+          <RefBlock label="前回の直感" text={caseRow.intuition_text} />
         )}
         {caseRow.forecast_success_state && (
-          <RefBlock label="前回のFORECAST（成功の定義）" text={caseRow.forecast_success_state} />
+          <RefBlock label="前回の予測（成功の定義）" text={caseRow.forecast_success_state} />
         )}
-        {caseRow.best_before_note && <RefBlock label="前回のBEST BEFORE" text={caseRow.best_before_note} />}
+        {caseRow.best_before_note && <RefBlock label="前回の最高のビフォー" text={caseRow.best_before_note} />}
       </div>
 
       <div className="mt-8 space-y-6">
@@ -87,7 +87,7 @@ export function ReviewForm({ caseRow }: { caseRow: Case }) {
           />
         </Field>
 
-        <Field label="前回のAFTERは、今回の良いBEFOREにつながりましたか？">
+        <Field label="前回のアフターは、今回の良いビフォーにつながりましたか？">
           <RadioCards options={BEFORE_CONNECTION_OPTIONS} value={beforeConnection} onChange={setBeforeConnection} />
         </Field>
 

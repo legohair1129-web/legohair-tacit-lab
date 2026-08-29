@@ -5,31 +5,31 @@
 export type Option = { value: string; label: string };
 
 export const STATE_OPTIONS: (Option & { description: string })[] = [
-  { value: "KEEP", label: "KEEP", description: "今を守りたい" },
-  { value: "CHANGE", label: "CHANGE", description: "変わりたい" },
-  { value: "FEAR", label: "FEAR", description: "変わりたいけど怖い" },
-  { value: "LOST", label: "LOST", description: "自分でも分からない" },
-  { value: "IDEAL", label: "IDEAL", description: "なりたい像が明確" },
-  { value: "PROBLEM", label: "PROBLEM", description: "問題を解決したい" },
-  { value: "TRUST", label: "TRUST", description: "任せたい" },
-  { value: "TRANSITION", label: "TRANSITION", description: "生活・人生・気分が動いている" },
+  { value: "KEEP", label: "現状維持", description: "今を守りたい" },
+  { value: "CHANGE", label: "変化", description: "変わりたい" },
+  { value: "FEAR", label: "迷い", description: "変わりたいけど怖い" },
+  { value: "LOST", label: "模索中", description: "自分でも分からない" },
+  { value: "IDEAL", label: "理想像あり", description: "なりたい像が明確" },
+  { value: "PROBLEM", label: "お悩み解決", description: "問題を解決したい" },
+  { value: "TRUST", label: "お任せ", description: "任せたい" },
+  { value: "TRANSITION", label: "転機", description: "生活・人生・気分が動いている" },
 ];
 
 export const BEAUTY_NEED_OPTIONS: (Option & { description: string })[] = [
-  { value: "DESIGN", label: "DESIGN", description: "似合う・可愛く・かっこよくなりたい" },
-  { value: "CHANGE", label: "CHANGE", description: "イメチェン・気分を変えたい" },
-  { value: "MAINTENANCE", label: "MAINTENANCE", description: "綺麗な状態を維持したい" },
-  { value: "PROBLEM_SOLVING", label: "PROBLEM SOLVING", description: "白髪・クセ・ダメージ等を解決したい" },
-  { value: "EASY_LIFE", label: "EASY LIFE", description: "朝を楽に・手入れを簡単にしたい" },
-  { value: "SELF_IMAGE", label: "SELF IMAGE", description: "若く見られたい・好印象・自信を持ちたい" },
+  { value: "DESIGN", label: "デザイン", description: "似合う・可愛く・かっこよくなりたい" },
+  { value: "CHANGE", label: "イメージチェンジ", description: "イメチェン・気分を変えたい" },
+  { value: "MAINTENANCE", label: "メンテナンス", description: "綺麗な状態を維持したい" },
+  { value: "PROBLEM_SOLVING", label: "お悩み解決", description: "白髪・クセ・ダメージ等を解決したい" },
+  { value: "EASY_LIFE", label: "お手入れを楽に", description: "朝を楽に・手入れを簡単にしたい" },
+  { value: "SELF_IMAGE", label: "自分らしさ", description: "若く見られたい・好印象・自信を持ちたい" },
 ];
 
 export const RELATIONSHIP_LEVEL_OPTIONS: (Option & { description: string })[] = [
-  { value: "R0", label: "R0", description: "初回・関係性なし" },
-  { value: "R1", label: "R1", description: "理解形成中" },
-  { value: "R2", label: "R2", description: "信頼形成" },
-  { value: "R3", label: "R3", description: "委任 — ある程度提案を任せてもらえる" },
-  { value: "R4", label: "R4", description: "共創 — 美容師とお客様が一緒に未来を考えられる" },
+  { value: "R0", label: "初回", description: "関係性がまだない状態" },
+  { value: "R1", label: "関係構築中", description: "まだお互いを理解している段階" },
+  { value: "R2", label: "信頼関係あり", description: "信頼が生まれてきている" },
+  { value: "R3", label: "一任", description: "ある程度提案を任せてもらえる" },
+  { value: "R4", label: "共創", description: "美容師とお客様が一緒に未来を考えられる" },
 ];
 
 export const VISIT_TYPE_OPTIONS: Option[] = [

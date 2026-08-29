@@ -22,7 +22,7 @@ export function BeautyNeedStep({
 }) {
   return (
     <StepShell
-      eyebrow="STEP 3 / BEAUTY NEED"
+      eyebrow="STEP 3 / 美容ニーズ"
       title="どんなニーズがありそうですか？"
       subtitle="複数選択できます。"
       stepIndex={stepIndex}

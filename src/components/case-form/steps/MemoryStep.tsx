@@ -23,7 +23,7 @@ export function MemoryStep({
 }) {
   return (
     <StepShell
-      eyebrow="STEP 6 / MEMORY"
+      eyebrow="STEP 6 / 記憶"
       title="前回以前、このお客様について覚えていることは？"
       subtitle="会話・出来事・好きなもの・前回の反応など。「特になし」で構いません。"
       stepIndex={stepIndex}

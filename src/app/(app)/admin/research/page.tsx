@@ -46,7 +46,7 @@ export default async function ResearchPage() {
   for (const c of allCases) staffCounts.set(c.staff_id, (staffCounts.get(c.staff_id) ?? 0) + 1);
   const staffRows = [...staffCounts.entries()]
     .map(([staffId, count]) => ({
-      label: profileById.get(staffId)?.display_name ?? "unknown",
+      label: profileById.get(staffId)?.display_name ?? "不明",
       store: profileById.get(staffId)?.store ?? null,
       count,
     }))
@@ -71,7 +71,7 @@ export default async function ResearchPage() {
 
   return (
     <div className="px-6 py-8">
-      <p className="text-xs tracking-[0.2em] text-muted">RESEARCH</p>
+      <p className="text-xs tracking-[0.2em] text-muted">リサーチ</p>
       <h1 className="mt-1 text-xl font-medium">LEGOHAIRの美容師は何を見ているのか</h1>
       <p className="mt-2 text-sm text-muted">
         実データの観察です。特定の傾向を「正しい」と決めつけるものではありません。
@@ -79,7 +79,7 @@ export default async function ResearchPage() {
 
       <div className="mt-3 flex gap-4">
         <Link href="/admin/staff" className="text-xs text-muted underline underline-offset-2">
-          スタッフgroup管理へ
+          スタッフグループ管理へ
         </Link>
         <Link href="/admin/categories" className="text-xs text-muted underline underline-offset-2">
           カテゴリ管理へ
@@ -87,22 +87,22 @@ export default async function ResearchPage() {
       </div>
 
       <div className="mt-6">
-        <Stat label="CASE総数" value={allCases.length} />
+        <Stat label="カルテ総数" value={allCases.length} />
       </div>
 
-      <DistBlock title="スタッフ別CASE数" items={staffRows.map((s) => ({ label: `${s.label}${s.store ? ` (${s.store})` : ""}`, count: s.count }))} />
-      <DistBlock title="STATE分布" items={stateDist} />
-      <DistBlock title="NEED分布" items={needDist} />
-      <DistBlock title="INTUITION CUE分布" items={cueDist} />
+      <DistBlock title="スタッフ別カルテ数" items={staffRows.map((s) => ({ label: `${s.label}${s.store ? ` (${s.store})` : ""}`, count: s.count }))} />
+      <DistBlock title="状態分布" items={stateDist} />
+      <DistBlock title="ニーズ分布" items={needDist} />
+      <DistBlock title="直感のきっかけ分布" items={cueDist} />
       <DistBlock title="予測結果分布" items={forecastDist} />
-      <DistBlock title="BEST BEFORE項目分布" items={bestBeforeDist} />
+      <DistBlock title="最高のビフォー項目分布" items={bestBeforeDist} />
 
       <div className="mt-10">
         <h2 className="text-xs font-medium tracking-[0.15em] text-muted">
-          トップスタイリスト群 と その他スタッフ群 の比較（INTUITION CUE）
+          トップスタイリスト群 と その他スタッフ群 の比較（直感のきっかけ）
         </h2>
         <p className="mt-1 text-xs text-muted-2">
-          トップスタイリスト {topStylistCases.length} CASE ／ その他 {otherCases.length} CASE
+          トップスタイリスト {topStylistCases.length}件 ／ その他 {otherCases.length}件
         </p>
         <div className="mt-3 grid grid-cols-2 gap-3">
           <div>

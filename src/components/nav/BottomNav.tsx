@@ -4,13 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const STAFF_ITEMS = [
-  { href: "/home", label: "HOME" },
-  { href: "/case", label: "CASE" },
-  { href: "/library", label: "LIBRARY" },
-  { href: "/growth", label: "GROWTH" },
+  { href: "/home", label: "ホーム" },
+  { href: "/case", label: "カルテ" },
+  { href: "/library", label: "ライブラリ" },
+  { href: "/growth", label: "成長" },
 ] as const;
 
-const ADMIN_ITEM = { href: "/admin/research", label: "RESEARCH" } as const;
+const ADMIN_ITEM = { href: "/admin/research", label: "リサーチ" } as const;
 
 export function BottomNav({ isAdmin }: { isAdmin: boolean }) {
   const pathname = usePathname();

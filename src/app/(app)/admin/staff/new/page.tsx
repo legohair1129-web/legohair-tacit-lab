@@ -21,7 +21,7 @@ export default async function NewStaffPage() {
 
   return (
     <div className="px-6 py-8" style={{ paddingBottom: "calc(var(--footer-h) + var(--bottom-nav-total))" }}>
-      <p className="text-xs tracking-[0.2em] text-muted">ADMIN</p>
+      <p className="text-xs tracking-[0.2em] text-muted">管理者</p>
       <h1 className="mt-1 text-xl font-medium">スタッフを追加</h1>
 
       <NewStaffForm storeOptions={storeOptions} />

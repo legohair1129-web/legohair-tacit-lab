@@ -23,7 +23,7 @@ export function NoticeStep({
 }) {
   return (
     <StepShell
-      eyebrow="STEP 7 / NOTICE"
+      eyebrow="STEP 7 / 気づき"
       title="今日、最初に何に気づきましたか？"
       stepIndex={stepIndex}
       totalSteps={totalSteps}

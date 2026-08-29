@@ -23,7 +23,7 @@ export function DiscoverStep({
 }) {
   return (
     <StepShell
-      eyebrow="STEP 10 / DISCOVER"
+      eyebrow="STEP 10 / 発見"
       title="話してみて、何が分かりましたか？"
       stepIndex={stepIndex}
       totalSteps={totalSteps}

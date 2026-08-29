@@ -23,6 +23,8 @@ function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("ja-JP", { year: "numeric", month: "numeric", day: "numeric" });
 }
 
+const ROLE_LABEL: Record<Profile["role"], string> = { staff: "スタッフ", admin: "管理者" };
+
 export function StaffGroupRow({ profile }: { profile: RowProfile }) {
   const supabase = createClient();
   const [group, setGroup] = useState(profile.research_group ?? "");
@@ -54,7 +56,7 @@ export function StaffGroupRow({ profile }: { profile: RowProfile }) {
           <p className="mt-0.5 text-xs text-muted">{profile.email ?? "—"}</p>
           <p className="mt-1 text-xs text-muted-2">
             {profile.store ?? "店舗未設定"}
-            {profile.position ? ` ・ ${profile.position}` : ""} ・ {profile.role}
+            {profile.position ? ` ・ ${profile.position}` : ""} ・ {ROLE_LABEL[profile.role]}
           </p>
           <p className="mt-0.5 text-xs text-muted-2">登録日 {formatDate(profile.created_at)}</p>
         </div>
@@ -74,7 +76,7 @@ export function StaffGroupRow({ profile }: { profile: RowProfile }) {
       </div>
 
       <div className="mt-3 flex items-center gap-2 border-t border-border pt-3">
-        <span className="text-xs text-muted">RESEARCH group</span>
+        <span className="text-xs text-muted">リサーチグループ</span>
         <select
           value={group}
           onChange={(e) => handleGroupChange(e.target.value)}

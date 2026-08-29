@@ -21,7 +21,7 @@ export function ForecastStep({
 }) {
   return (
     <StepShell
-      eyebrow="STEP 12 / FORECAST"
+      eyebrow="STEP 12 / 予測"
       title="次回来店時、このお客様はどうなっていると思いますか？"
       subtitle="すべて埋める必要はありません。"
       stepIndex={stepIndex}

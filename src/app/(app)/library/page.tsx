@@ -72,14 +72,14 @@ export default async function LibraryPage({ searchParams }: PageProps<"/library"
 
   return (
     <div className="px-6 py-8">
-      <p className="text-xs tracking-[0.2em] text-muted">LIBRARY</p>
-      <h1 className="mt-1 text-xl font-medium">他スタッフのCASEから学ぶ</h1>
+      <p className="text-xs tracking-[0.2em] text-muted">ライブラリ</p>
+      <h1 className="mt-1 text-xl font-medium">他スタッフのカルテから学ぶ</h1>
 
       <LibraryFilters issueOptions={issueOptions ?? []} researchGroupOptions={RESEARCH_GROUP_OPTIONS} />
 
       <div className="mt-6 space-y-3">
         {filteredCases.length === 0 ? (
-          <p className="text-sm text-muted-2">条件に合うCASEがありません。</p>
+          <p className="text-sm text-muted-2">条件に合うカルテがありません。</p>
         ) : (
           filteredCases.map((c) => (
             <Link
@@ -99,7 +99,7 @@ export default async function LibraryPage({ searchParams }: PageProps<"/library"
               <div className="mt-1 flex flex-wrap gap-1.5 text-xs text-muted">
                 {c.state && <span>{labelFor(STATE_OPTIONS, c.state)}</span>}
                 {c.relationship_level && <span>・ {labelFor(RELATIONSHIP_LEVEL_OPTIONS, c.relationship_level)}</span>}
-                {c.is_pickup && <span className="text-accent">・ PICKUP</span>}
+                {c.is_pickup && <span className="text-accent">・ ピックアップ</span>}
               </div>
               {c.intuition_text && (
                 <p className="mt-1.5 truncate text-sm text-muted-2">{c.intuition_text}</p>

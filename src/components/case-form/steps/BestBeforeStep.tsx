@@ -25,8 +25,8 @@ export function BestBeforeStep({
 }) {
   return (
     <StepShell
-      eyebrow="STEP 13 / BEST BEFORE"
-      title="最高のBEFOREを設計する"
+      eyebrow="STEP 13 / 最高のビフォー"
+      title="最高のビフォーを設計する"
       subtitle="次回来店時、どんな状態なら今回の仕事は成功ですか？"
       stepIndex={stepIndex}
       totalSteps={totalSteps}
@@ -43,7 +43,7 @@ export function BestBeforeStep({
         />
 
         <div>
-          <p className="mb-2 text-sm text-muted">そのBEFOREをつくるため、今日何をしましたか？</p>
+          <p className="mb-2 text-sm text-muted">そのビフォーをつくるため、今日何をしましたか？</p>
           <ChipMultiSelect
             options={BEST_BEFORE_ACTION_OPTIONS}
             value={value.bestBeforeActions}
@@ -65,7 +65,7 @@ export function BestBeforeStep({
             className="mt-0.5 h-5 w-5 accent-foreground"
           />
           <span className="text-sm leading-relaxed">
-            このCASEをLIBRARYで他スタッフと共有する
+            このカルテをライブラリで他スタッフと共有する
             <br />
             <span className="text-xs text-muted-2">
               顧客を特定できる情報は保存されません。あとから変更できます。

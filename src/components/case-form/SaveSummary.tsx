@@ -7,19 +7,19 @@ import type { CaseFormState } from "@/components/case-form/types";
 export function SaveSummary({ value, caseId }: { value: CaseFormState; caseId: string }) {
   return (
     <div className="flex min-h-dvh flex-col px-6 pb-10 pt-10">
-      <p className="text-xs tracking-[0.2em] text-muted">SAVE</p>
-      <h1 className="mt-2 text-xl font-medium leading-snug">CASEを記録しました。</h1>
+      <p className="text-xs tracking-[0.2em] text-muted">記録完了</p>
+      <h1 className="mt-2 text-xl font-medium leading-snug">カルテを記録しました。</h1>
 
       <div className="mt-8 space-y-5">
         {value.intuitionText && (
-          <SummaryBlock label="TODAY'S INTUITION" text={value.intuitionText} />
+          <SummaryBlock label="今日の直感" text={value.intuitionText} />
         )}
         {value.decisionFinal && (
-          <SummaryBlock label="TODAY'S DECISION" text={value.decisionFinal} />
+          <SummaryBlock label="今日の決断" text={value.decisionFinal} />
         )}
-        {value.forecastNextStyle && <SummaryBlock label="FORECAST" text={value.forecastNextStyle} />}
+        {value.forecastNextStyle && <SummaryBlock label="予測" text={value.forecastNextStyle} />}
         {value.forecastSuccessState && (
-          <SummaryBlock label="BEST BEFORE" text={value.forecastSuccessState} />
+          <SummaryBlock label="最高のビフォー" text={value.forecastSuccessState} />
         )}
       </div>
 
@@ -29,10 +29,10 @@ export function SaveSummary({ value, caseId }: { value: CaseFormState; caseId: s
 
       <div className="mt-6 space-y-3">
         <Link href="/home">
-          <Button variant="secondary">HOMEへ</Button>
+          <Button variant="secondary">ホームへ</Button>
         </Link>
         <Link href={`/case/${caseId}`}>
-          <Button>CASEを見る</Button>
+          <Button>カルテを見る</Button>
         </Link>
       </div>
     </div>

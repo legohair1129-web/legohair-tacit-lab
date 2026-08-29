@@ -33,7 +33,7 @@ export function AdminPickupControl({
 
   return (
     <div className="mt-6 rounded-lg border border-accent-soft bg-accent-soft/30 p-4">
-      <p className="text-xs font-medium tracking-wide text-accent">ADMIN / PICKUP CASE</p>
+      <p className="text-xs font-medium tracking-wide text-accent">管理者 / ピックアップカルテ</p>
 
       <label className="mt-3 flex items-center gap-2 text-sm">
         <input
@@ -42,7 +42,7 @@ export function AdminPickupControl({
           onChange={(e) => setIsPickup(e.target.checked)}
           className="h-5 w-5 accent-foreground"
         />
-        PICKUP CASEに指定する
+        ピックアップカルテに指定する
       </label>
 
       <textarea

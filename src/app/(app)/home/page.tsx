@@ -65,9 +65,9 @@ export default async function HomePage() {
       <p className="mt-3 text-sm leading-relaxed text-muted">
         私たちの仕事は、
         <br />
-        今日のAFTERで終わらない。
+        今日のアフターで終わらない。
         <br />
-        次にお会いした時のBEFOREまでが、
+        次にお会いした時のビフォーまでが、
         <br />
         私たちの仕事。
       </p>
@@ -76,7 +76,7 @@ export default async function HomePage() {
         href="/case/new"
         className="mt-8 block rounded-lg bg-foreground py-4 text-center text-base font-medium text-background"
       >
-        ＋ 今日のCASEを記録する
+        ＋ 今日のカルテを記録する
       </Link>
 
       <div className="mt-8 grid grid-cols-2 gap-3">
@@ -84,21 +84,21 @@ export default async function HomePage() {
           <p className="text-xs text-muted">今週</p>
           <p className="mt-1 text-2xl font-medium">
             {weekCaseCount ?? 0}
-            <span className="ml-1 text-sm font-normal text-muted">CASE</span>
+            <span className="ml-1 text-sm font-normal text-muted">件</span>
           </p>
         </div>
         <div className="rounded-xl border border-border bg-surface p-4">
           <p className="text-xs text-muted">答え合わせ待ち</p>
           <p className="mt-1 text-2xl font-medium">
             {awaitingReviewCount}
-            <span className="ml-1 text-sm font-normal text-muted">CASE</span>
+            <span className="ml-1 text-sm font-normal text-muted">件</span>
           </p>
         </div>
       </div>
 
       {recentCases && recentCases.length > 0 && (
         <div className="mt-10">
-          <h2 className="text-xs font-medium tracking-[0.15em] text-muted">最近のCASE</h2>
+          <h2 className="text-xs font-medium tracking-[0.15em] text-muted">最近のカルテ</h2>
           <div className="mt-3 space-y-2">
             {recentCases.map((c) => (
               <Link
@@ -122,7 +122,7 @@ export default async function HomePage() {
 
       {pickupCases && pickupCases.length > 0 && (
         <div className="mt-10">
-          <h2 className="text-xs font-medium tracking-[0.15em] text-accent">PICKUP CASE</h2>
+          <h2 className="text-xs font-medium tracking-[0.15em] text-accent">ピックアップカルテ</h2>
           <div className="mt-3 space-y-2">
             {pickupCases.map((c) => (
               <Link

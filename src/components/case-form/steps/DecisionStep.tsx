@@ -5,7 +5,7 @@ import { TextArea } from "@/components/ui/TextArea";
 import type { CaseFormState } from "@/components/case-form/types";
 import type { DecisionOption } from "@/lib/types/database";
 
-const OPTION_LABELS = ["OPTION A", "OPTION B", "OPTION C"];
+const OPTION_LABELS = ["案A", "案B", "案C"];
 
 export function DecisionStep({
   value,
@@ -37,7 +37,7 @@ export function DecisionStep({
 
   return (
     <StepShell
-      eyebrow="STEP 11 / DECISION"
+      eyebrow="STEP 11 / 決断"
       title="どんな選択肢を考えましたか？"
       subtitle="最大3案まで（任意）。"
       stepIndex={stepIndex}

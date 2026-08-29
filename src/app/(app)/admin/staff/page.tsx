@@ -36,7 +36,7 @@ export default async function AdminStaffPage({ searchParams }: PageProps<"/admin
 
   return (
     <div className="px-6 py-8">
-      <p className="text-xs tracking-[0.2em] text-muted">ADMIN</p>
+      <p className="text-xs tracking-[0.2em] text-muted">管理者</p>
       <h1 className="mt-1 text-xl font-medium">スタッフ管理</h1>
 
       {sp.created === "1" && (

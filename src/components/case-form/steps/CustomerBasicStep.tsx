@@ -39,7 +39,7 @@ export function CustomerBasicStep({
 
   return (
     <StepShell
-      eyebrow="STEP 1 / CUSTOMER"
+      eyebrow="STEP 1 / お客様情報"
       title="今日のお客様について"
       stepIndex={stepIndex}
       totalSteps={totalSteps}

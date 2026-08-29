@@ -83,12 +83,12 @@ export function CaseDetail({
     <div className="px-6 py-8">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-xs tracking-[0.2em] text-muted">CASE</p>
+          <p className="text-xs tracking-[0.2em] text-muted">カルテ</p>
           <p className="mt-1 text-sm text-muted-2">{formatDate(c.created_at)}</p>
         </div>
         {c.is_pickup && (
           <span className="shrink-0 rounded-full bg-accent px-3 py-1 text-xs font-medium text-white">
-            PICKUP CASE
+            ピックアップ
           </span>
         )}
       </div>
@@ -104,11 +104,11 @@ export function CaseDetail({
           href={`/case/${previousCase.id}`}
           className="mt-4 block rounded-lg border border-border px-4 py-2.5 text-sm text-muted"
         >
-          ← 前回のCASE（{formatDate(previousCase.created_at)}）
+          ← 前回のカルテ（{formatDate(previousCase.created_at)}）
         </Link>
       )}
 
-      <Section title="CUSTOMER">
+      <Section title="お客様">
         <Row label="年代" value={c.age_group} />
         <Row label="新規 / 既存" value={c.visit_type === "new" ? "新規" : c.visit_type === "existing" ? "既存" : null} />
         <Row label="来店周期" value={c.visit_cycle} />
@@ -117,7 +117,7 @@ export function CaseDetail({
         <Row label="関係性" value={labelFor(RELATIONSHIP_LEVEL_OPTIONS, c.relationship_level)} />
         {c.state && (
           <div>
-            <p className="text-xs text-muted">CUSTOMER STATE</p>
+            <p className="text-xs text-muted">状態</p>
             <p className="mt-0.5">{labelFor(STATE_OPTIONS, c.state)}</p>
             {c.state_note && <p className="mt-1 text-muted-2">{c.state_note}</p>}
           </div>
@@ -126,25 +126,25 @@ export function CaseDetail({
         <Chips values={c.issues} options={issueOptions} />
       </Section>
 
-      <Section title="MEMORY">
+      <Section title="記憶">
         <p>{c.memory_note || "—"}</p>
       </Section>
 
-      <Section title="NOTICE">
+      <Section title="気づき">
         <Chips values={c.notice_items} options={NOTICE_ITEM_OPTIONS} />
         {c.notice_note && <p>{c.notice_note}</p>}
       </Section>
 
-      <Section title="INTUITION">
+      <Section title="直感">
         <p className="italic">{c.intuition_text || "—"}</p>
       </Section>
 
-      <Section title="INTUITION CUE">
+      <Section title="直感のきっかけ">
         <Chips values={c.intuition_cue_items} options={INTUITION_CUE_OPTIONS} />
         {c.intuition_cue_note && <p>{c.intuition_cue_note}</p>}
       </Section>
 
-      <Section title="DISCOVER">
+      <Section title="発見">
         <Row label="実際に何を聞いたか" value={c.discover_asked} />
         <Row label="何が分かったか" value={c.discover_found} />
         <Row label="お客様が言った希望" value={c.discover_customer_wish} />
@@ -152,7 +152,7 @@ export function CaseDetail({
         <Row label="言葉と課題は同じだったか" value={labelFor(DISCOVER_ALIGNMENT_OPTIONS, c.discover_alignment)} />
       </Section>
 
-      <Section title="DECISION">
+      <Section title="決断">
         {c.decision_options.map((o, i) => (
           <Row key={i} label={o.label} value={o.text} />
         ))}
@@ -162,7 +162,7 @@ export function CaseDetail({
         <Row label="やらなかった理由" value={c.decision_not_chosen_reason} />
       </Section>
 
-      <Section title="FORECAST">
+      <Section title="予測">
         <Row label="髪の状態" value={c.forecast_hair_state} />
         <Row label="気持ち" value={c.forecast_feeling} />
         <Row label="次にしたくなりそうなスタイル" value={c.forecast_next_style} />
@@ -171,7 +171,7 @@ export function CaseDetail({
         <Row label="成功の定義" value={c.forecast_success_state} />
       </Section>
 
-      <Section title="BEST BEFORE">
+      <Section title="最高のビフォー">
         <Chips values={c.best_before_items} options={BEST_BEFORE_ITEM_OPTIONS} />
         <Chips values={c.best_before_actions} options={BEST_BEFORE_ACTION_OPTIONS} />
         {c.best_before_note && <p>{c.best_before_note}</p>}
@@ -179,10 +179,10 @@ export function CaseDetail({
 
       {review && (
         <>
-          <Section title="RESULT">
+          <Section title="結果">
             <Row label="予測はどうだったか" value={labelFor(FORECAST_ACCURACY_OPTIONS, review.forecast_accuracy)} />
             <Row
-              label="前回のAFTERは良いBEFOREにつながったか"
+              label="前回のアフターは良いビフォーにつながったか"
               value={labelFor(BEFORE_CONNECTION_OPTIONS, review.before_connection)}
             />
             <Row label="実際にはどうなったか" value={review.actual_result} />
@@ -192,7 +192,7 @@ export function CaseDetail({
             <Row label="次回何を見るか" value={review.next_watch_point} />
           </Section>
           {review.learning && (
-            <Section title="LEARNING">
+            <Section title="学び">
               <p>{review.learning}</p>
             </Section>
           )}
@@ -204,7 +204,7 @@ export function CaseDetail({
           href={`/case/${nextCase.id}`}
           className="mt-4 block rounded-lg border border-border px-4 py-2.5 text-sm text-muted"
         >
-          次回のCASE（{formatDate(nextCase.created_at)}）→
+          次回のカルテ（{formatDate(nextCase.created_at)}）→
         </Link>
       )}
 

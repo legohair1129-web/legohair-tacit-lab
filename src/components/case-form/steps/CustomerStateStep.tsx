@@ -23,7 +23,7 @@ export function CustomerStateStep({
 }) {
   return (
     <StepShell
-      eyebrow="STEP 2 / CUSTOMER STATE"
+      eyebrow="STEP 2 / 状態"
       title="今日、このお客様はどんな状態でしたか？"
       subtitle="「この人はどんな人か」ではなく、今日の状態を選んでください。"
       stepIndex={stepIndex}

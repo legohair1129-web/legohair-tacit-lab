@@ -21,7 +21,7 @@ export function IntuitionStep({
 }) {
   return (
     <StepShell
-      eyebrow="STEP 8 / INTUITION"
+      eyebrow="STEP 8 / 直感"
       title="その瞬間、なんとなく何を感じましたか？"
       subtitle="理由はまだ考えなくて大丈夫です。感じたことをそのまま書いてください。"
       stepIndex={stepIndex}

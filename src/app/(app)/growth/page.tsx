@@ -18,12 +18,12 @@ function topCounts(values: string[], options: Option[], top = 3) {
 }
 
 const DEPTH_FIELDS: { key: keyof Case; label: string }[] = [
-  { key: "memory_note", label: "MEMORY" },
-  { key: "notice_note", label: "NOTICE" },
-  { key: "intuition_cue_note", label: "INTUITION CUE" },
-  { key: "forecast_next_style", label: "FORECAST（次のスタイル）" },
-  { key: "forecast_success_state", label: "FORECAST（成功の定義）" },
-  { key: "best_before_note", label: "BEST BEFORE" },
+  { key: "memory_note", label: "記憶" },
+  { key: "notice_note", label: "気づき" },
+  { key: "intuition_cue_note", label: "直感のきっかけ" },
+  { key: "forecast_next_style", label: "予測（次のスタイル）" },
+  { key: "forecast_success_state", label: "予測（成功の定義）" },
+  { key: "best_before_note", label: "最高のビフォー" },
 ];
 
 export default async function GrowthPage() {
@@ -79,17 +79,17 @@ export default async function GrowthPage() {
 
   return (
     <div className="px-6 py-8">
-      <p className="text-xs tracking-[0.2em] text-muted">GROWTH</p>
+      <p className="text-xs tracking-[0.2em] text-muted">成長</p>
       <h1 className="mt-1 text-xl font-medium">記録の振り返り</h1>
 
       <div className="mt-6 grid grid-cols-2 gap-3">
-        <Stat label="総CASE数" value={total} />
+        <Stat label="総カルテ数" value={total} />
         <Stat label="答え合わせ済み" value={reviewedCount} />
       </div>
 
-      {stateCounts.length > 0 && <TopList title="よく記録しているSTATE" items={stateCounts} />}
-      {cueCounts.length > 0 && <TopList title="よく気づいているCUE" items={cueCounts} />}
-      {needCounts.length > 0 && <TopList title="よく扱うNEED" items={needCounts} />}
+      {stateCounts.length > 0 && <TopList title="よく記録している状態" items={stateCounts} />}
+      {cueCounts.length > 0 && <TopList title="よく気づいているきっかけ" items={cueCounts} />}
+      {needCounts.length > 0 && <TopList title="よく扱うニーズ" items={needCounts} />}
 
       {growingFields.length > 0 && (
         <div className="mt-10">
@@ -111,7 +111,7 @@ export default async function GrowthPage() {
       )}
 
       {total === 0 && (
-        <p className="mt-10 text-sm text-muted-2">CASEを記録すると、ここに振り返りが表示されます。</p>
+        <p className="mt-10 text-sm text-muted-2">カルテを記録すると、ここに振り返りが表示されます。</p>
       )}
     </div>
   );

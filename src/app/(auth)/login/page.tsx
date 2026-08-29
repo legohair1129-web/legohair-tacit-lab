@@ -37,9 +37,9 @@ export default function LoginPage() {
           <p className="text-xs tracking-[0.2em] text-muted">LEGOHAIR TACIT LAB</p>
           <h1 className="mt-3 text-2xl font-medium">最高のビフォーをつくる。</h1>
           <p className="mt-2 text-sm leading-relaxed text-muted">
-            今日のAFTERを、
+            今日のアフターを、
             <br />
-            次回来店時の最高のBEFOREへ。
+            次回来店時の最高のビフォーへ。
           </p>
         </div>
 

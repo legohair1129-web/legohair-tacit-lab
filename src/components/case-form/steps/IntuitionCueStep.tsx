@@ -23,7 +23,7 @@ export function IntuitionCueStep({
 }) {
   return (
     <StepShell
-      eyebrow="STEP 9 / INTUITION CUE"
+      eyebrow="STEP 9 / 直感のきっかけ"
       title="今振り返ると、何がそう感じさせたと思いますか？"
       stepIndex={stepIndex}
       totalSteps={totalSteps}
