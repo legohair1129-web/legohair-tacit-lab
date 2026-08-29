@@ -47,3 +47,6 @@ supabase/.temp
 
 # claude code local session state
 .claude/
+
+.vercel
+.env*

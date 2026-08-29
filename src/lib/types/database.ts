@@ -3,6 +3,7 @@
 
 export type Role = "staff" | "admin";
 export type ResearchGroup = "top_stylist" | "stylist" | "junior_stylist";
+export type StaffStatus = "active" | "inactive";
 
 export type Profile = {
   id: string;
@@ -12,6 +13,11 @@ export type Profile = {
   position: string | null;
   stylist_years: number | null;
   research_group: ResearchGroup | null;
+  email: string | null;
+  employee_number: string | null;
+  joined_at: string | null;
+  notes: string | null;
+  status: StaffStatus;
   created_at: string;
 };
 
