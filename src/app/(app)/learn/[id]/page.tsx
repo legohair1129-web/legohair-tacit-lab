@@ -16,7 +16,7 @@ export default async function LearnArticlePage({ params }: PageProps<"/learn/[id
     supabase.from("strength_types").select("key,name_ja"),
     supabase
       .from("master_knowledge_responses")
-      .select("response_text")
+      .select("response_text,reflection_text")
       .eq("master_knowledge_id", id)
       .eq("staff_id", user.id)
       .maybeSingle(),
@@ -29,6 +29,7 @@ export default async function LearnArticlePage({ params }: PageProps<"/learn/[id
       article={article}
       strengthTypeNames={Object.fromEntries((strengthTypes ?? []).map((t) => [t.key, t.name_ja]))}
       initialResponseText={ownResponse?.response_text ?? null}
+      initialReflectionText={ownResponse?.reflection_text ?? null}
       userId={user.id}
     />
   );

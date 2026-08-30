@@ -175,6 +175,7 @@ export type MasterKnowledge = {
   benchmark_reference: BenchmarkReference[] | null;
   legohair_interpretation: string;
   related_strength_keys: StrengthTypeKey[];
+  answer_placeholder: string | null;
   sort_order: number;
   created_at: string;
 };
@@ -185,6 +186,10 @@ export type MasterKnowledgeResponse = {
   staff_id: string;
   response_text: string;
   is_anonymous: boolean;
+  // AFTER VIEW: filled in once the staff member revisits the CASE after
+  // reading MASTER'S VIEW. Null until they save a reflection.
+  reflection_text: string | null;
+  reflection_at: string | null;
   created_at: string;
 };
 

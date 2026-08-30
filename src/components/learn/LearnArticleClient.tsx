@@ -13,11 +13,13 @@ export function LearnArticleClient({
   article,
   strengthTypeNames,
   initialResponseText,
+  initialReflectionText,
   userId,
 }: {
   article: MasterKnowledge;
   strengthTypeNames: Partial<Record<StrengthTypeKey, string>>;
   initialResponseText: string | null;
+  initialReflectionText: string | null;
   userId: string;
 }) {
   const [draft, setDraft] = useState(initialResponseText ?? "");
@@ -25,6 +27,11 @@ export function LearnArticleClient({
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [otherViews, setOtherViews] = useState<OtherView[] | null>(null);
+
+  const [reflectionDraft, setReflectionDraft] = useState(initialReflectionText ?? "");
+  const [reflectionSaved, setReflectionSaved] = useState(initialReflectionText !== null);
+  const [reflectionSaving, setReflectionSaving] = useState(false);
+  const [reflectionError, setReflectionError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!revealed) return;
@@ -67,6 +74,27 @@ export function LearnArticleClient({
     setRevealed(true);
   }
 
+  async function handleSaveReflection() {
+    if (!reflectionDraft.trim()) return;
+    setReflectionSaving(true);
+    setReflectionError(null);
+    const supabase = createClient();
+    const { error: submitError } = await supabase
+      .from("master_knowledge_responses")
+      .update({
+        reflection_text: reflectionDraft.trim(),
+        reflection_at: new Date().toISOString(),
+      })
+      .eq("master_knowledge_id", article.id)
+      .eq("staff_id", userId);
+    setReflectionSaving(false);
+    if (submitError) {
+      setReflectionError("保存に失敗しました。もう一度お試しください。");
+      return;
+    }
+    setReflectionSaved(true);
+  }
+
   return (
     <div className="px-6 py-8" style={{ paddingBottom: "calc(2rem + var(--bottom-nav-total))" }}>
       <p className="text-xs tracking-[0.2em] text-muted">
@@ -81,11 +109,12 @@ export function LearnArticleClient({
 
       <div className="mt-4">
         <p className="text-base font-medium leading-snug">{article.question}</p>
+        {revealed && <p className="mt-3 text-xs font-medium tracking-[0.15em] text-muted">あなたが見たもの</p>}
         <div className="mt-3">
           <TextArea
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
-            placeholder="あなたなら、最初に何を考えますか？"
+            placeholder={article.answer_placeholder ?? "あなたが見えたことを書いてください"}
             disabled={revealed}
           />
         </div>
@@ -138,6 +167,36 @@ export function LearnArticleClient({
               ))}
             </div>
           )}
+
+          <div className="rounded-xl border border-border bg-surface p-4">
+            <p className="text-xs font-medium tracking-[0.15em] text-muted">もう一度、CASEを見る</p>
+            <p className="mt-2 text-sm leading-relaxed text-muted">
+              MASTER&apos;S VIEWを知った今、最初には見えていなかったものはありますか？
+            </p>
+            {reflectionSaved ? (
+              <p className="mt-3 text-sm leading-relaxed">{reflectionDraft}</p>
+            ) : (
+              <>
+                <div className="mt-3">
+                  <TextArea
+                    value={reflectionDraft}
+                    onChange={(e) => setReflectionDraft(e.target.value)}
+                    placeholder="新しく見えたこと、気づいたことを書いてください"
+                  />
+                </div>
+                {reflectionError && <p className="mt-2 text-sm text-danger">{reflectionError}</p>}
+                <div className="mt-3">
+                  <Button
+                    variant="secondary"
+                    onClick={handleSaveReflection}
+                    disabled={reflectionSaving || !reflectionDraft.trim()}
+                  >
+                    {reflectionSaving ? "保存中…" : "気づきを残す"}
+                  </Button>
+                </div>
+              </>
+            )}
+          </div>
 
           <div>
             <p className="text-xs font-medium tracking-[0.15em] text-muted">他の美容師には、何が見えていた？</p>
