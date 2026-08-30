@@ -44,16 +44,23 @@ export async function proxy(request: NextRequest) {
   }
 
   if (user && pathname.startsWith("/admin")) {
-    const { data: profile } = await supabase
+    const { data: profile, error: profileError } = await supabase
       .from("profiles")
       .select("role")
       .eq("id", user.id)
       .single();
 
     if (profile?.role !== "admin") {
-      const url = request.nextUrl.clone();
-      url.pathname = "/home";
-      return NextResponse.redirect(url);
+      // TEMPORARY: pass through to the page instead of redirecting, so the
+      // page's own diagnostic (added alongside this) can render instead of
+      // the request being bounced before it's ever reached. The page still
+      // enforces the same admin check, so non-admins gain no new access —
+      // this only changes what a denied request sees while we track down
+      // why an admin account is being denied.
+      response.headers.set(
+        "x-admin-gate-debug",
+        JSON.stringify({ uid: user.id, profile, error: profileError?.message ?? null })
+      );
     }
   }
 

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { StaffGroupRow } from "@/components/admin/StaffGroupRow";
 import { StaffFilters } from "@/components/admin/StaffFilters";
@@ -14,8 +13,52 @@ export default async function AdminStaffPage({ searchParams }: PageProps<"/admin
   } = await supabase.auth.getUser();
   if (!user) return null;
 
-  const { data: profile } = await supabase.from("profiles").select("role").eq("id", user.id).single();
-  if (profile?.role !== "admin") redirect("/home");
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+
+  if (profile?.role !== "admin") {
+    // TEMPORARY diagnostic (to be removed once the access-control bug is
+    // confirmed) instead of a blind redirect("/home") — shows only the
+    // caller's own identity/role lookup, never another user's data.
+    const { data: isAdminRpc, error: rpcError } = await supabase.rpc("is_admin", {
+      uid: user.id,
+    });
+
+    return (
+      <div className="px-6 py-8 text-sm">
+        <p className="text-xs tracking-[0.2em] text-muted">管理者</p>
+        <h1 className="mt-1 text-xl font-medium">アクセス診断（一時表示）</h1>
+        <p className="mt-4 text-muted">
+          このアカウントはスタッフ管理画面へのアクセスが許可されませんでした。
+          以下の内容を開発者に伝えてください。
+        </p>
+        <pre className="mt-4 overflow-x-auto whitespace-pre-wrap rounded-lg border border-border bg-surface p-4 text-xs">
+          {JSON.stringify(
+            {
+              auth_uid: user.id,
+              auth_email: user.email,
+              profile_query_result: profile ?? null,
+              profile_query_error: profileError
+                ? {
+                    message: profileError.message,
+                    code: profileError.code,
+                    details: profileError.details,
+                    hint: profileError.hint,
+                  }
+                : null,
+              is_admin_rpc_result: isAdminRpc ?? null,
+              is_admin_rpc_error: rpcError ? { message: rpcError.message, code: rpcError.code } : null,
+            },
+            null,
+            2
+          )}
+        </pre>
+      </div>
+    );
+  }
 
   const { data: storeRows } = await supabase
     .from("profiles")
