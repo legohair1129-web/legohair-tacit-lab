@@ -6,8 +6,9 @@ import { usePathname } from "next/navigation";
 const STAFF_ITEMS = [
   { href: "/home", label: "ホーム" },
   { href: "/case", label: "CASE" },
-  { href: "/library", label: "学び" },
+  { href: "/learn", label: "学び" },
   { href: "/growth", label: "成長" },
+  { href: "/me", label: "ME" },
 ] as const;
 
 const ADMIN_ITEM = { href: "/admin/research", label: "リサーチ" } as const;

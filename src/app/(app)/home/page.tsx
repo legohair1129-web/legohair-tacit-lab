@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { labelFor, STATE_OPTIONS } from "@/lib/constants/options";
+import { OnboardingIntro } from "@/components/home/OnboardingIntro";
 
 function startOfWeek() {
   const now = new Date();
@@ -22,6 +23,23 @@ export default async function HomePage() {
   if (!user) return null;
 
   const weekStart = startOfWeek();
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("tacit_lab_intro_seen_at")
+    .eq("id", user.id)
+    .single();
+
+  if (!profile?.tacit_lab_intro_seen_at) {
+    return <OnboardingIntro userId={user.id} />;
+  }
+
+  const { data: tacitProfile } = await supabase
+    .from("tacit_profiles")
+    .select("core_type_key")
+    .eq("staff_id", user.id)
+    .maybeSingle();
+  const labStartHref = tacitProfile?.core_type_key ? "/learn" : "/strengths";
 
   const [{ count: weekCaseCount }, { data: recentCases }, { data: myCaseIds }, { data: pickupCases }] =
     await Promise.all([
@@ -72,12 +90,34 @@ export default async function HomePage() {
         私たちの仕事。
       </p>
 
+      <div className="mt-6 rounded-xl border border-accent-soft bg-accent-soft/30 px-5 py-4">
+        <p className="text-base font-medium leading-snug">あなたには、何が見えていますか？</p>
+      </div>
+
       <Link
-        href="/case/new"
-        className="mt-8 block rounded-lg bg-foreground py-4 text-center text-base font-medium text-background"
+        href={labStartHref}
+        className="mt-6 block rounded-lg bg-foreground py-4 text-center text-base font-medium text-background"
       >
-        ＋ 今日のCASEを記録する
+        今日のLABを始める
       </Link>
+
+      <div className="mt-6 grid grid-cols-1 gap-3">
+        <Link href="/learn" className="rounded-xl border border-border bg-surface p-4">
+          <p className="text-xs tracking-[0.15em] text-accent">LEARN</p>
+          <p className="mt-1 text-sm font-medium">MASTER KNOWLEDGE</p>
+          <p className="mt-0.5 text-xs text-muted">先輩たちの「見る・考える」を学ぶ</p>
+        </Link>
+        <Link href="/case/new" className="rounded-xl border border-border bg-surface p-4">
+          <p className="text-xs tracking-[0.15em] text-accent">CASE</p>
+          <p className="mt-1 text-sm font-medium">あなたなら何を見る？</p>
+          <p className="mt-0.5 text-xs text-muted">＋ 今日のCASEを記録する</p>
+        </Link>
+        <Link href="/me" className="rounded-xl border border-border bg-surface p-4">
+          <p className="text-xs tracking-[0.15em] text-accent">ME</p>
+          <p className="mt-1 text-sm font-medium">MY TACIT</p>
+          <p className="mt-0.5 text-xs text-muted">自分の強みを知る</p>
+        </Link>
+      </div>
 
       <div className="mt-8 grid grid-cols-2 gap-3">
         <div className="rounded-xl border border-border bg-surface p-4">
