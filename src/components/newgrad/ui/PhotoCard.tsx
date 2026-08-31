@@ -33,11 +33,11 @@ export function PhotoCard({
       className={`group block w-full text-left ${className}`}
     >
       <div
-        className={`relative rounded-[22px] transition-[box-shadow] duration-200 ${
+        className={`relative rounded-[4px] transition-[box-shadow] duration-200 ${
           selected ? "shadow-[0_0_0_3px_var(--ng-hotpink)]" : "shadow-[0_0_0_1px_var(--ng-line)]"
         }`}
       >
-        <Photo slot={slot} aspect={aspect} rounded="rounded-[20px]" />
+        <Photo slot={slot} aspect={aspect} rounded="rounded-[4px]" />
       </div>
       <p
         className={`mt-3 flex items-baseline gap-2 text-sm leading-snug font-medium transition-colors ${

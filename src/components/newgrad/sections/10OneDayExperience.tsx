@@ -1,16 +1,18 @@
 "use client";
 
+import { useRef } from "react";
 import { useNewGradState } from "@/lib/newgrad/StateProvider";
 import {
   ONE_DAY_TIMELINE,
   ONE_DAY_GROWTH_RESULT,
   ONE_DAY_FAVORITE_OPTIONS,
 } from "@/lib/newgrad/data/oneDay";
-import { NEWGRAD_IMAGES } from "@/lib/newgrad/data/images";
+import { NEWGRAD_IMAGES, type ImageSlot } from "@/lib/newgrad/data/images";
 import { trackEvent } from "@/lib/newgrad/track";
 import { Section } from "../ui/Section";
 import { ChoiceRow } from "../ui/ChoiceRow";
 import { Photo } from "../ui/Photo";
+import { useReveal } from "../hooks/useReveal";
 
 export function OneDayExperience() {
   const { state, update } = useNewGradState();
@@ -44,19 +46,12 @@ export function OneDayExperience() {
           return (
             <div key={moment.time}>
               {isPhotoBeat && (
-                <div className="-mx-6 relative mt-2 first:mt-0">
-                  <Photo
-                    slot={NEWGRAD_IMAGES.oneDay[pairIndex % NEWGRAD_IMAGES.oneDay.length]}
-                    aspect={pairIndex % 2 === 0 ? "aspect-[4/5]" : "aspect-video"}
-                    rounded="rounded-none"
-                  />
-                  <div className="absolute bottom-4 left-6 rounded-[18px] bg-[var(--ng-white)]/95 px-4 py-2.5 shadow-[0_2px_10px_rgba(22,22,22,0.08)]">
-                    <span className="ng-sans-en block text-2xl font-semibold tracking-tight text-[var(--ng-hotpink)]">
-                      {moment.time}
-                    </span>
-                    <span className="text-sm opacity-70">{moment.label}</span>
-                  </div>
-                </div>
+                <PhotoBeat
+                  time={moment.time}
+                  label={moment.label}
+                  aspect={pairIndex % 2 === 0 ? "aspect-[4/5]" : "aspect-video"}
+                  slot={NEWGRAD_IMAGES.oneDay[pairIndex % NEWGRAD_IMAGES.oneDay.length]}
+                />
               )}
               {!isPhotoBeat && (
                 <div className="flex items-baseline gap-4 border-b border-[var(--ng-line)] py-5">
@@ -103,5 +98,43 @@ export function OneDayExperience() {
         </div>
       </div>
     </Section>
+  );
+}
+
+function PhotoBeat({
+  time,
+  label,
+  aspect,
+  slot,
+}: {
+  time: string;
+  label: string;
+  aspect: string;
+  slot: ImageSlot;
+}) {
+  const revealRef = useRef<HTMLDivElement>(null);
+  const revealInView = useReveal(revealRef, 0.15);
+
+  return (
+    <div
+      ref={revealRef}
+      className={`-mx-6 relative mt-2 overflow-hidden first:mt-0 ng-io-clip ${revealInView ? "ng-in" : ""}`}
+    >
+      <Photo slot={slot} aspect={aspect} rounded="rounded-none" />
+      {/* Layer: the time sits as giant, faint typography deep behind the
+          frame - the photo itself stays the loudest thing on screen. */}
+      <span
+        aria-hidden
+        className="ng-sans-en pointer-events-none absolute top-2 right-3 text-[3.5rem] leading-none font-bold text-[var(--ng-white)]/40 select-none"
+      >
+        {time}
+      </span>
+      <div className="absolute bottom-4 left-6 rounded-[4px] bg-[var(--ng-white)]/95 px-4 py-2.5 shadow-[0_2px_10px_rgba(22,22,22,0.08)]">
+        <span className="ng-sans-en block text-2xl font-semibold tracking-tight text-[var(--ng-hotpink)]">
+          {time}
+        </span>
+        <span className="text-sm opacity-70">{label}</span>
+      </div>
+    </div>
   );
 }

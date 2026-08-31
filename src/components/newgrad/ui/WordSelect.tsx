@@ -3,13 +3,23 @@ interface WordSelectProps {
   caption: string; // small JP caption underneath
   selected?: boolean;
   onClick?: () => void;
+  /** Unselected font-size class - lets a list of rows "float" at varied
+   * sizes instead of all starting identical (Phase 4 only; default keeps
+   * every existing caller's look unchanged). */
+  baseSize?: string;
 }
 
 /**
  * One big word per row. Selecting doesn't add a box or border - the word
  * itself grows, gains an underline, and shifts slightly.
  */
-export function WordSelect({ word, caption, selected = false, onClick }: WordSelectProps) {
+export function WordSelect({
+  word,
+  caption,
+  selected = false,
+  onClick,
+  baseSize = "text-2xl",
+}: WordSelectProps) {
   return (
     <button
       type="button"
@@ -22,7 +32,7 @@ export function WordSelect({ word, caption, selected = false, onClick }: WordSel
       <span>
         <span
           className={`ng-sans-en block font-semibold tracking-tight transition-[font-size] duration-300 ${
-            selected ? "text-4xl" : "text-2xl opacity-55"
+            selected ? "text-4xl" : `${baseSize} opacity-55`
           }`}
         >
           {word}

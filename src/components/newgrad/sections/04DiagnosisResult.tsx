@@ -1,13 +1,17 @@
 "use client";
 
+import { useRef } from "react";
 import { useNewGradState } from "@/lib/newgrad/StateProvider";
 import { TYPE_PROFILES, getCombinationMessage } from "@/lib/newgrad/data/typeProfiles";
 import { NEWGRAD_IMAGES } from "@/lib/newgrad/data/images";
 import { Section } from "../ui/Section";
 import { Photo } from "../ui/Photo";
+import { useReveal } from "../hooks/useReveal";
 
 export function DiagnosisResult() {
   const { state } = useNewGradState();
+  const photoRef = useRef<HTMLDivElement>(null);
+  const photoInView = useReveal(photoRef, 0.15);
 
   if (!state.diagnosisCompleted || !state.primaryType || !state.secondaryType) {
     return (
@@ -53,7 +57,10 @@ export function DiagnosisResult() {
           {primary.nameEn} × {secondary.nameEn}
         </p>
 
-        <div className="mt-8 w-[78%] rotate-1">
+        <div
+          ref={photoRef}
+          className={`mt-8 w-[78%] rotate-1 ng-io-clip ${photoInView ? "ng-in" : ""}`}
+        >
           <Photo
             slot={NEWGRAD_IMAGES.strength}
             aspect="aspect-[4/5]"

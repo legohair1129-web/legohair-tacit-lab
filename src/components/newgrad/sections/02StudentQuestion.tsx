@@ -1,13 +1,17 @@
 "use client";
 
+import { useRef } from "react";
 import { useNewGradState } from "@/lib/newgrad/StateProvider";
 import { IDEAL_DAY_OPTIONS } from "@/lib/newgrad/data/studentQuestion";
 import { NEWGRAD_IMAGES } from "@/lib/newgrad/data/images";
 import { Section } from "../ui/Section";
 import { PhotoCard } from "../ui/PhotoCard";
+import { useReveal } from "../hooks/useReveal";
 
 export function StudentQuestion() {
   const { state, update } = useNewGradState();
+  const gridRef = useRef<HTMLDivElement>(null);
+  const gridInView = useReveal(gridRef, 0.1);
 
   return (
     <Section
@@ -26,9 +30,15 @@ export function StudentQuestion() {
         </>
       }
     >
-      <div className="grid grid-cols-2 gap-x-4 gap-y-7">
+      <div
+        ref={gridRef}
+        className={`grid grid-cols-2 gap-x-4 gap-y-7 ng-io-fade ${gridInView ? "ng-in" : ""}`}
+      >
         {IDEAL_DAY_OPTIONS.map((option, i) => {
           const isFeature = i === IDEAL_DAY_OPTIONS.length - 1;
+          // Editorial grid rhythm: every other card sits a little lower,
+          // so the row reads as a laid-out spread rather than a flat grid.
+          const offset = !isFeature && i % 2 === 1 ? "mt-8" : "";
           return (
             <PhotoCard
               key={option}
@@ -37,7 +47,7 @@ export function StudentQuestion() {
               label={option}
               selected={state.idealDay === option}
               aspect={isFeature ? "aspect-[16/10]" : "aspect-[4/5]"}
-              className={isFeature ? "col-span-2" : undefined}
+              className={isFeature ? "col-span-2" : offset}
               onClick={() =>
                 update({ idealDay: state.idealDay === option ? null : option })
               }

@@ -15,41 +15,52 @@ import { Photo } from "../ui/Photo";
 
 type Phase = "intro" | number | "done";
 
+// Selection pauses here before the next question slides in - long enough to
+// register the HOT PINK fill and the dimmed siblings, short enough to still
+// feel like one continuous gesture.
+const SELECTION_PAUSE_MS = 280;
+
 export function Diagnosis() {
   const { state, update } = useNewGradState();
   const [phase, setPhase] = useState<Phase>("intro");
   const [localAnswers, setLocalAnswers] = useState<TypeKey[]>([]);
+  const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
 
   const alreadyDone = state.diagnosisCompleted && phase === "intro";
 
   function start() {
     trackEvent("diagnosis_start", { section: "diagnosis" });
     setLocalAnswers([]);
+    setSelectedLabel(null);
     setPhase(0);
   }
 
-  function answer(type: TypeKey) {
-    const next = [...localAnswers, type];
-    setLocalAnswers(next);
+  function answer(type: TypeKey, label: string) {
+    setSelectedLabel(label);
+    window.setTimeout(() => {
+      const next = [...localAnswers, type];
+      setLocalAnswers(next);
+      setSelectedLabel(null);
 
-    if (next.length < DIAGNOSIS_QUESTIONS.length) {
-      setPhase(next.length);
-      return;
-    }
+      if (next.length < DIAGNOSIS_QUESTIONS.length) {
+        setPhase(next.length);
+        return;
+      }
 
-    const result = scoreDiagnosis(next);
-    update({
-      answers: next,
-      diagnosisCompleted: true,
-      primaryType: result.primaryType,
-      secondaryType: result.secondaryType,
-    });
-    trackEvent("diagnosis_complete", {
-      primaryType: result.primaryType,
-      secondaryType: result.secondaryType,
-      section: "diagnosis",
-    });
-    setPhase("done");
+      const result = scoreDiagnosis(next);
+      update({
+        answers: next,
+        diagnosisCompleted: true,
+        primaryType: result.primaryType,
+        secondaryType: result.secondaryType,
+      });
+      trackEvent("diagnosis_complete", {
+        primaryType: result.primaryType,
+        secondaryType: result.secondaryType,
+        section: "diagnosis",
+      });
+      setPhase("done");
+    }, SELECTION_PAUSE_MS);
   }
 
   return (
@@ -88,9 +99,10 @@ export function Diagnosis() {
           <button
             type="button"
             onClick={start}
-            className="w-full rounded-full bg-[var(--ng-hotpink)] px-6 py-4 text-sm font-bold text-white"
+            className="ng-sans-en flex w-full items-center justify-between border border-[var(--ng-hotpink)] bg-[var(--ng-hotpink)] px-6 py-4 text-sm font-bold tracking-wide text-white hover:opacity-85"
           >
             {alreadyDone ? "もう一度診断する" : "診断スタート！"}
+            <span aria-hidden>→</span>
           </button>
           {alreadyDone && (
             <a
@@ -108,19 +120,36 @@ export function Diagnosis() {
           <div className="mb-12">
             <ProgressLine total={DIAGNOSIS_QUESTIONS.length} current={phase} accent="pink" />
           </div>
-          <h3 className="mb-10 text-2xl leading-snug font-bold">
-            {DIAGNOSIS_QUESTIONS[phase].question}
-          </h3>
+          <div className="mb-10 flex gap-4">
+            <span className="ng-line-grow-v w-[2px] shrink-0 bg-[var(--ng-hotpink)]" />
+            <div>
+              <span className="ng-sans-en block text-xs font-semibold tracking-[0.2em] text-[var(--ng-hotpink)]">
+                Q{String(phase + 1).padStart(2, "0")}
+              </span>
+              <h3 className="mt-2 text-2xl leading-snug font-bold">
+                {DIAGNOSIS_QUESTIONS[phase].question}
+              </h3>
+            </div>
+          </div>
           <div>
             {DIAGNOSIS_QUESTIONS[phase].options.map((option) => (
-              <ChoiceRow
+              <div
                 key={option.label}
-                index={option.label}
-                label={option.text}
-                size="lg"
-                accent="pink"
-                onClick={() => answer(option.key)}
-              />
+                className="ng-select-transition"
+                style={{
+                  opacity:
+                    selectedLabel && selectedLabel !== option.label ? 0.35 : 1,
+                }}
+              >
+                <ChoiceRow
+                  index={option.label}
+                  label={option.text}
+                  size="lg"
+                  accent="pink"
+                  selected={selectedLabel === option.label}
+                  onClick={() => answer(option.key, option.label)}
+                />
+              </div>
             ))}
           </div>
         </div>

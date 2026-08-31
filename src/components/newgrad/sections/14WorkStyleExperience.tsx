@@ -1,15 +1,21 @@
 "use client";
 
+import { useRef } from "react";
 import { useNewGradState } from "@/lib/newgrad/StateProvider";
 import { WORK_STYLE_FACTS, JOB_PRIORITY_OPTIONS } from "@/lib/newgrad/data/workStyle";
 import { Section } from "../ui/Section";
 import { ChoiceRow } from "../ui/ChoiceRow";
+import { useReveal } from "../hooks/useReveal";
 
 // The two numbers most likely to matter to a student, called out bigger.
 const FEATURED_KEYS = ["holidays", "startingSalary"];
 
 export function WorkStyleExperience() {
   const { state, update } = useNewGradState();
+  const featuredRef = useRef<HTMLDivElement>(null);
+  const restRef = useRef<HTMLDivElement>(null);
+  const featuredInView = useReveal(featuredRef, 0.15);
+  const restInView = useReveal(restRef, 0.1);
 
   return (
     <Section
@@ -28,8 +34,20 @@ export function WorkStyleExperience() {
         </>
       }
     >
-      <div className="mb-16">
-        <div className="mb-10 grid grid-cols-2 gap-x-6">
+      <div className="relative mb-16">
+        {/* Layer: the section's own numeral sits huge and faint behind the
+            featured facts, reinforcing "big numbers" without adding ink. */}
+        <span
+          aria-hidden
+          className="ng-sans-en pointer-events-none absolute -top-10 right-0 text-[9rem] leading-none font-bold text-[var(--ng-hotpink)]/[0.06] select-none"
+        >
+          14
+        </span>
+
+        <div
+          ref={featuredRef}
+          className={`relative mb-10 grid grid-cols-2 gap-x-6 ng-io-fade ${featuredInView ? "ng-in" : ""}`}
+        >
           {WORK_STYLE_FACTS.filter((f) => FEATURED_KEYS.includes(f.key)).map(
             (fact) => (
               <div key={fact.key}>
@@ -50,9 +68,15 @@ export function WorkStyleExperience() {
           )}
         </div>
 
-        <div className="mb-10 h-px w-full bg-[var(--ng-hotpink)]" aria-hidden />
+        <div
+          className={`ng-io-line-h relative mb-10 h-px bg-[var(--ng-hotpink)] ${featuredInView ? "ng-in" : ""}`}
+          aria-hidden
+        />
 
-        <div className="grid grid-cols-2 gap-x-6 gap-y-9">
+        <div
+          ref={restRef}
+          className={`relative grid grid-cols-2 gap-x-6 gap-y-9 ng-io-fade ${restInView ? "ng-in" : ""}`}
+        >
           {WORK_STYLE_FACTS.filter((f) => !FEATURED_KEYS.includes(f.key)).map(
             (fact) => (
               <div key={fact.key}>

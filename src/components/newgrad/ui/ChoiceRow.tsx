@@ -39,7 +39,7 @@ export function ChoiceRow({
       onClick={onClick}
       disabled={disabled}
       aria-pressed={selected}
-      className={`flex w-full items-baseline gap-4 border-b border-[var(--ng-line)] px-1 text-left transition-colors first:border-t disabled:cursor-not-allowed disabled:opacity-35 ${
+      className={`ng-select-transition flex w-full items-baseline gap-4 border-b border-[var(--ng-line)] px-1 text-left first:border-t disabled:cursor-not-allowed disabled:opacity-35 ${
         size === "lg" ? "py-7" : "py-5"
       } ${selected ? selectedClass : `bg-transparent text-[var(--ng-ink)] ${hoverClass}`}`}
     >

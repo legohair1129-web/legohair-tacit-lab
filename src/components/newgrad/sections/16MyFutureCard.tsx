@@ -11,11 +11,16 @@ import { trackEvent } from "@/lib/newgrad/track";
 import { Section } from "../ui/Section";
 import { Legon } from "../ui/Legon";
 import { Photo } from "../ui/Photo";
+import { useReveal } from "../hooks/useReveal";
 
 export function MyFutureCard() {
   const { state } = useNewGradState();
   const cardRef = useRef<HTMLDivElement | null>(null);
   const firedRef = useRef(false);
+  // A second, purely visual observer - the "completing" build-up below is
+  // independent of the analytics-only observer above.
+  const buildRef = useRef<HTMLDivElement | null>(null);
+  const buildInView = useReveal(buildRef, 0.2);
 
   useEffect(() => {
     if (!state.diagnosisCompleted || !cardRef.current) return;
@@ -77,14 +82,19 @@ export function MyFutureCard() {
       title="MY FUTURE CARD"
     >
       <div
-        ref={cardRef}
+        ref={(el) => {
+          cardRef.current = el;
+          buildRef.current = el;
+        }}
         className="ng-reveal border border-[var(--ng-line)] bg-[var(--ng-white)]"
       >
-        <Photo
-          slot={NEWGRAD_IMAGES.futureCardAccent}
-          aspect="aspect-[3/1]"
-          rounded="rounded-none"
-        />
+        <div className={`ng-io-clip ${buildInView ? "ng-in" : ""}`}>
+          <Photo
+            slot={NEWGRAD_IMAGES.futureCardAccent}
+            aspect="aspect-[3/1]"
+            rounded="rounded-none"
+          />
+        </div>
 
         <div className="px-7 py-8">
           <div className="flex items-baseline justify-between">
@@ -104,10 +114,27 @@ export function MyFutureCard() {
           </p>
 
           <div className="mt-8 flex flex-col">
-            <CardRow label="YOUR STRENGTH" value={strengthText} />
-            <CardRow label="YOU CARE ABOUT" value={state.jobPriority ?? "-"} />
-            <CardRow label="INTEREST" value={interestText} />
-            <CardRow label="SENPAI" value={senpai ? senpai.name : "-"} last />
+            <CardRow
+              label="YOUR STRENGTH"
+              value={strengthText}
+              className={buildInView ? "ng-in" : ""}
+            />
+            <CardRow
+              label="YOU CARE ABOUT"
+              value={state.jobPriority ?? "-"}
+              className={`ng-io-d1 ${buildInView ? "ng-in" : ""}`}
+            />
+            <CardRow
+              label="INTEREST"
+              value={interestText}
+              className={`ng-io-d2 ${buildInView ? "ng-in" : ""}`}
+            />
+            <CardRow
+              label="SENPAI"
+              value={senpai ? senpai.name : "-"}
+              last
+              className={`ng-io-d3 ${buildInView ? "ng-in" : ""}`}
+            />
           </div>
 
           <p className="mt-8 text-sm leading-relaxed opacity-70">
@@ -125,16 +152,18 @@ function CardRow({
   label,
   value,
   last = false,
+  className = "",
 }: {
   label: string;
   value: string;
   last?: boolean;
+  className?: string;
 }) {
   return (
     <div
-      className={`flex items-baseline justify-between border-t border-[var(--ng-line)] py-3 ${
+      className={`ng-io-fade flex items-baseline justify-between border-t border-[var(--ng-line)] py-3 ${
         last ? "border-b" : ""
-      }`}
+      } ${className}`}
     >
       <span className="ng-sans-en text-[10px] tracking-[0.14em] uppercase opacity-45">
         {label}

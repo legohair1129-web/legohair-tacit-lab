@@ -22,7 +22,9 @@ interface PhotoProps {
 export function Photo({
   slot,
   aspect = "aspect-[4/5]",
-  rounded = "rounded-[28px]",
+  // Phase 4 (mode refinement): a small hint of softness, not a rounded
+  // "card" - the site reads rectangular/editorial rather than soft/app-like.
+  rounded = "rounded-[4px]",
   className = "",
   sizes = "(min-width: 768px) 50vw, 100vw",
 }: PhotoProps) {

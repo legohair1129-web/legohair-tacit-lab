@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNewGradState } from "@/lib/newgrad/StateProvider";
 import {
   GROWTH_CONCERN_OPTIONS,
@@ -17,10 +17,16 @@ import { Section } from "../ui/Section";
 import { ChoiceRow } from "../ui/ChoiceRow";
 import { Legon } from "../ui/Legon";
 import { Photo } from "../ui/Photo";
+import { useReveal } from "../hooks/useReveal";
+import { useParallax } from "../hooks/useParallax";
 
 export function GrowthExperience() {
   const { state, update } = useNewGradState();
   const [troubleAction, setTroubleAction] = useState<string | null>(null);
+  const photoRef = useRef<HTMLDivElement>(null);
+  const learnRef = useRef<HTMLDivElement>(null);
+  const photoInView = useReveal(photoRef, 0.15);
+  const learnInView = useReveal(learnRef, 0.15);
 
   const pickedOption = GROWTH_CONCERN_OPTIONS.find(
     (o) => o.key === state.growthConcern
@@ -48,15 +54,16 @@ export function GrowthExperience() {
         </>
       }
     >
-      <Photo
-        slot={NEWGRAD_IMAGES.education}
-        aspect="aspect-video"
-        className="mb-10"
-      />
+      <div
+        ref={photoRef}
+        className={`mb-10 ng-io-clip ${photoInView ? "ng-in" : ""}`}
+      >
+        <Photo slot={NEWGRAD_IMAGES.education} aspect="aspect-video" />
+      </div>
 
       <Legon text={getLegonComment("growthIntro")} className="mb-14" />
 
-      <div className="mb-16 rounded-[20px] border border-[var(--ng-line)] p-5">
+      <div className="mb-16 rounded-[4px] border border-[var(--ng-line)] p-5">
         <SubKicker>MONTH 01 — 最初に不安なのは？</SubKicker>
         <div>
           {GROWTH_CONCERN_OPTIONS.map((option) => (
@@ -76,11 +83,16 @@ export function GrowthExperience() {
       </div>
 
       <SubKicker>WHAT YOU LEARN</SubKicker>
-      <div className="mb-16 grid grid-cols-2 gap-3">
+      <div
+        ref={learnRef}
+        className="mb-16 grid grid-cols-2 gap-3"
+      >
         {GROWTH_ELEMENTS.map((el, i) => (
           <div
             key={el.key}
-            className="rounded-[16px] border border-[var(--ng-line)] p-4"
+            className={`ng-io-fade rounded-[4px] border border-[var(--ng-line)] p-4 ${
+              i % 2 === 1 ? "ng-io-d1" : ""
+            } ${learnInView ? "ng-in" : ""}`}
           >
             <span className="ng-sans-en text-[10px] font-semibold tracking-widest text-[var(--ng-hotpink)]">
               {String(i + 1).padStart(2, "0")}
@@ -93,7 +105,7 @@ export function GrowthExperience() {
         ))}
       </div>
 
-      <div className="mb-16 rounded-[20px] border border-[var(--ng-line)] p-5">
+      <div className="mb-16 rounded-[4px] border border-[var(--ng-line)] p-5">
         <SubKicker>SIX MONTHS IN</SubKicker>
         <div className="flex flex-col gap-5">
           {GROWTH_METER.map((meter) => (
@@ -143,33 +155,67 @@ export function GrowthExperience() {
 
       <div className="mt-20 flex flex-col gap-16">
         {GROWTH_TIMELINE.map((item, i) => (
-          <div
-            key={item.year}
-            className={`flex items-center gap-5 ${i % 2 === 1 ? "flex-row-reverse" : ""}`}
-          >
-            <Photo
-              slot={NEWGRAD_IMAGES.growthMilestones[i % NEWGRAD_IMAGES.growthMilestones.length]}
-              aspect="aspect-square"
-              rounded="rounded-[18px]"
-              className="w-[34%] shrink-0"
-            />
-            <div className={i % 2 === 1 ? "text-right" : ""}>
-              <div
-                className={`flex items-baseline gap-3 ${i % 2 === 1 ? "flex-row-reverse" : ""}`}
-              >
-                <span className="ng-serif text-5xl font-medium opacity-90">
-                  {item.year}
-                </span>
-                <span className="ng-sans-en text-xs tracking-[0.2em] uppercase opacity-40">
-                  year
-                </span>
-              </div>
-              <p className="mt-3 text-lg leading-relaxed">{item.line}</p>
-            </div>
-          </div>
+          <YearRow key={item.year} item={item} index={i} />
         ))}
       </div>
     </Section>
+  );
+}
+
+function YearRow({
+  item,
+  index: i,
+}: {
+  item: (typeof GROWTH_TIMELINE)[number];
+  index: number;
+}) {
+  const rowRef = useRef<HTMLDivElement>(null);
+  const bgRef = useRef<HTMLSpanElement>(null);
+  const rowInView = useReveal(rowRef, 0.2);
+  const bgOffset = useParallax(bgRef, 6);
+
+  return (
+    <div ref={rowRef} className="relative overflow-hidden">
+      {/* Layer: a giant, near-invisible numeral sits behind the row as a
+          quiet background instead of only living in the small timeline
+          text - drifts a few px on scroll. */}
+      <span
+        ref={bgRef}
+        aria-hidden
+        className={`ng-sans-en pointer-events-none absolute top-1/2 text-[7rem] leading-none font-bold text-[var(--ng-ink)]/5 select-none ${
+          i % 2 === 1 ? "right-0" : "left-0"
+        }`}
+        style={{ transform: `translateY(calc(-50% + ${bgOffset}px))` }}
+      >
+        {item.year}
+      </span>
+
+      <div
+        className={`ng-io-fade relative flex items-center gap-5 ${
+          i % 2 === 1 ? "flex-row-reverse" : ""
+        } ${rowInView ? "ng-in" : ""}`}
+      >
+        <Photo
+          slot={NEWGRAD_IMAGES.growthMilestones[i % NEWGRAD_IMAGES.growthMilestones.length]}
+          aspect="aspect-square"
+          rounded="rounded-[4px]"
+          className="w-[34%] shrink-0"
+        />
+        <div className={i % 2 === 1 ? "text-right" : ""}>
+          <div
+            className={`flex items-baseline gap-3 ${i % 2 === 1 ? "flex-row-reverse" : ""}`}
+          >
+            <span className="ng-serif text-5xl font-medium opacity-90">
+              {item.year}
+            </span>
+            <span className="ng-sans-en text-xs tracking-[0.2em] uppercase opacity-40">
+              year
+            </span>
+          </div>
+          <p className="mt-3 text-lg leading-relaxed">{item.line}</p>
+        </div>
+      </div>
+    </div>
   );
 }
 

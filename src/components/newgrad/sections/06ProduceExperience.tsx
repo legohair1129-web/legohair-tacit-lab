@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNewGradState } from "@/lib/newgrad/StateProvider";
 import {
   FIRST_IMPRESSION_OPTIONS,
@@ -20,6 +20,7 @@ import { Button } from "../ui/Button";
 import { Legon } from "../ui/Legon";
 import { ProgressLine } from "../ui/ProgressLine";
 import { Photo } from "../ui/Photo";
+import { useReveal } from "../hooks/useReveal";
 
 const STEP_COUNT = 6;
 
@@ -32,6 +33,8 @@ export function ProduceExperience() {
   const { state, update } = useNewGradState();
   const [step, setStep] = useState(0); // 0 = intro, 1-6 = STEP 1-6
   const [revealed, setRevealed] = useState(false);
+  const photoRef = useRef<HTMLDivElement>(null);
+  const photoInView = useReveal(photoRef, 0.1);
 
   function beginProduce() {
     trackEvent("produce_start", { section: "produce-experience" });
@@ -59,15 +62,27 @@ export function ProduceExperience() {
       tone="beige-tint"
       pad="l"
     >
-      <div className="-mx-6 relative">
+      <div
+        ref={photoRef}
+        className={`-mx-6 relative ng-io-clip ${photoInView ? "ng-in" : ""}`}
+      >
         <Photo
           slot={NEWGRAD_IMAGES.beforeModel}
           aspect="aspect-[3/4]"
           rounded="rounded-none"
         />
-        <span className="ng-sans-en absolute top-5 left-6 rounded-full bg-[var(--ng-white)]/90 px-3 py-1.5 text-[10px] font-semibold tracking-[0.18em] uppercase">
+        <span className="ng-sans-en absolute top-5 left-6 bg-[var(--ng-white)]/90 px-3 py-1.5 text-[10px] font-semibold tracking-[0.18em] uppercase">
           PRODUCE EXPERIENCE
         </span>
+        {/* Layer: the thought-process chain sits directly on the photo. */}
+        <div className="absolute right-0 bottom-0 left-0 flex flex-wrap items-center gap-x-2 gap-y-1 bg-gradient-to-t from-[var(--ng-white)] to-transparent px-6 pt-10 pb-4">
+          {PROCESS_CHAIN.map((verb, i) => (
+            <span key={verb} className="flex items-center gap-2">
+              {i > 0 && <span className="text-[var(--ng-hotpink)]">→</span>}
+              <span className="ng-hand text-lg -rotate-1">{verb}</span>
+            </span>
+          ))}
+        </div>
       </div>
 
       <h2 className="ng-reveal mt-8 mb-6 text-[2rem] leading-[1.15] font-medium tracking-tight">
@@ -77,19 +92,9 @@ export function ProduceExperience() {
       </h2>
 
       {step === 0 && (
-        <>
-          <div className="mb-10 flex flex-wrap items-center gap-x-2 gap-y-1">
-            {PROCESS_CHAIN.map((verb, i) => (
-              <span key={verb} className="flex items-center gap-2">
-                {i > 0 && <span className="text-[var(--ng-hotpink)]">→</span>}
-                <span className="ng-hand text-lg -rotate-1">{verb}</span>
-              </span>
-            ))}
-          </div>
-          <Button variant="pink" onClick={beginProduce}>
-            プロデュースをはじめる
-          </Button>
-        </>
+        <Button variant="pink" onClick={beginProduce}>
+          プロデュースをはじめる
+        </Button>
       )}
 
       {step >= 1 && step <= 6 && (
@@ -320,7 +325,7 @@ function StepBlock({
         <span className="ng-sans-en text-xs font-semibold tracking-[0.2em] uppercase opacity-45">
           {kicker}
         </span>
-        <span className="rounded-full bg-[var(--ng-hotpink-soft)] px-2.5 py-0.5 text-xs font-semibold text-[var(--ng-hotpink)]">
+        <span className="bg-[var(--ng-hotpink-soft)] px-2.5 py-0.5 text-xs font-semibold text-[var(--ng-hotpink)]">
           {verb}
         </span>
       </div>

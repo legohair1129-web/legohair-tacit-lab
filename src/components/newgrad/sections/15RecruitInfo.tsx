@@ -1,12 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { RECRUIT_INFO_ITEMS } from "@/lib/newgrad/data/recruitInfo";
 import { Section } from "../ui/Section";
 import { IndexRow } from "../ui/IndexRow";
+import { useReveal } from "../hooks/useReveal";
 
 export function RecruitInfo() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  // Deliberately restrained here per brief - a single quiet fade, no
+  // stagger or background layer, so the information itself reads plainly.
+  const listRef = useRef<HTMLDivElement>(null);
+  const listInView = useReveal(listRef, 0.1);
 
   return (
     <Section
@@ -19,7 +24,7 @@ export function RecruitInfo() {
       kicker="recruit info"
       title="採用情報"
     >
-      <div>
+      <div ref={listRef} className={`ng-io-fade ${listInView ? "ng-in" : ""}`}>
         {RECRUIT_INFO_ITEMS.map((item, i) => (
           <IndexRow
             key={item.title}

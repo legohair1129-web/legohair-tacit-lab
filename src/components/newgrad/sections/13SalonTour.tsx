@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import { useNewGradState } from "@/lib/newgrad/StateProvider";
 import {
   SALON_TOUR_SPOTS,
@@ -10,9 +11,12 @@ import { trackEvent } from "@/lib/newgrad/track";
 import { Section } from "../ui/Section";
 import { ChoiceRow } from "../ui/ChoiceRow";
 import { MediaPlaceholder } from "../ui/MediaPlaceholder";
+import { useReveal } from "../hooks/useReveal";
 
 export function SalonTour() {
   const { state, update } = useNewGradState();
+  const stripRef = useRef<HTMLDivElement>(null);
+  const stripInView = useReveal(stripRef, 0.1);
 
   function pickInterest(option: string) {
     update({ salonInterest: option });
@@ -36,10 +40,24 @@ export function SalonTour() {
         </>
       }
     >
-      <div className="-mx-6 mb-3 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2">
+      <div
+        ref={stripRef}
+        className={`-mx-6 mb-3 flex snap-x snap-mandatory overflow-x-auto px-6 pb-2 ng-io-fade ${stripInView ? "ng-in" : ""}`}
+      >
         {SALON_TOUR_SPOTS.map((spot, i) => (
-          <div key={spot} className="w-[70%] shrink-0 snap-start">
-            <MediaPlaceholder label={spot} kind="photo" aspect="editorial" />
+          <div
+            key={spot}
+            className={`w-[68%] shrink-0 snap-start ${i > 0 ? "-ml-4" : ""} ${
+              i % 2 === 1 ? "mt-4" : ""
+            }`}
+            style={{ zIndex: SALON_TOUR_SPOTS.length - i }}
+          >
+            {/* Layer: frames overlap slightly, contact-sheet style, framed
+                in white so the overlap reads even where photos are similar
+                tones. */}
+            <div className="ring-4 ring-[var(--ng-white)]">
+              <MediaPlaceholder label={spot} kind="photo" aspect="editorial" />
+            </div>
             <p className="mt-3 flex items-baseline gap-3">
               <span className="ng-sans-en text-xs text-[var(--ng-hotpink)]">
                 {String(i + 1).padStart(2, "0")}

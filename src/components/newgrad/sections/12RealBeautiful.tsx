@@ -65,7 +65,20 @@ export function RealBeautiful() {
       </div>
 
       <div key={side} className="ng-reveal">
-        <div className="-mx-6 mb-6">
+        <div className="-mx-6 relative mb-6">
+          {/* Layer: a ghost of the other side peeks out behind the current
+              photo - a quiet visual tension between REAL and BEAUTIFUL. */}
+          <div
+            aria-hidden
+            className="absolute top-3 right-3 left-3 -z-10 rotate-1 opacity-35"
+          >
+            <MediaPlaceholder
+              label={side === "beautiful" ? REAL_SIDE_ITEMS[0] : BEAUTIFUL_SIDE_ITEMS[0]}
+              kind={side === "beautiful" ? "video" : "photo"}
+              aspect="editorial"
+              className="border-x-0"
+            />
+          </div>
           <MediaPlaceholder
             label={items[0]}
             kind={side === "beautiful" ? "photo" : "video"}

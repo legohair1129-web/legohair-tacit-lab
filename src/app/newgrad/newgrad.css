@@ -107,3 +107,126 @@
     transform: scale(1);
   }
 }
+
+/* Mount-triggered (not scroll-triggered) vertical line draw, for elements
+   that remount on their own - e.g. a per-question React `key` - so a plain
+   CSS `animation` already replays on every question without needing an
+   observer. */
+@media (prefers-reduced-motion: no-preference) {
+  .ng-line-grow-v {
+    animation: ng-line-grow-v 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+@keyframes ng-line-grow-v {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--ng-line-target, 3.5rem);
+  }
+}
+
+/*
+ * Phase 4: scroll-triggered reveal primitives, paired with the useReveal()
+ * hook (adds "ng-in" once an element enters the viewport - see
+ * hooks/useReveal.ts). Each element starts in its "before" state ONLY
+ * inside this prefers-reduced-motion guard, so a user with reduced motion
+ * (or a client where JS never adds "ng-in") always sees final, fully
+ * visible content - the hidden/offset state simply never applies outside
+ * this media query. transform/opacity/clip-path/width/height only, so
+ * these stay on the compositor and never trigger layout thrash.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .ng-io-fade {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ng-io-fade.ng-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Image reveal: a horizontal curtain lifts off the photo. */
+  .ng-io-clip {
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ng-io-clip.ng-in {
+    clip-path: inset(0 0 0% 0);
+  }
+
+  /* Text mask reveal: rises + fades, slightly slower than ng-io-fade so
+     copy feels typeset rather than bounced in. */
+  .ng-io-mask {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.5s ease-out,
+      transform 0.5s ease-out;
+  }
+  .ng-io-mask.ng-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* HOT PINK line draw - horizontal. Set --ng-line-w on the element for a
+     value other than 100%. */
+  .ng-io-line-h {
+    width: 0;
+    transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ng-io-line-h.ng-in {
+    width: var(--ng-line-w, 100%);
+  }
+
+  /* HOT PINK line draw - vertical. Set --ng-line-h on the element for a
+     value other than 100%. */
+  .ng-io-line-v {
+    height: 0;
+    transition: height 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ng-io-line-v.ng-in {
+    height: var(--ng-line-h, 100%);
+  }
+
+  /* Quiet photo scale-settle - never more than a 1.02 zoom. */
+  .ng-io-scale {
+    opacity: 0;
+    transform: scale(1.025);
+    transition:
+      opacity 0.6s ease-out,
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ng-io-scale.ng-in {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Staggering helpers for a group revealed by one observer - apply
+     alongside ng-io-fade/ng-io-mask. */
+  .ng-io-d1 {
+    transition-delay: 0.08s;
+  }
+  .ng-io-d2 {
+    transition-delay: 0.16s;
+  }
+  .ng-io-d3 {
+    transition-delay: 0.24s;
+  }
+  .ng-io-d4 {
+    transition-delay: 0.32s;
+  }
+
+  /* Diagnosis / choice selection emphasis - the row itself eases into its
+     selected fill instead of snapping. */
+  .ng-select-transition {
+    transition:
+      background-color 0.25s ease-out,
+      opacity 0.25s ease-out,
+      color 0.25s ease-out;
+  }
+}

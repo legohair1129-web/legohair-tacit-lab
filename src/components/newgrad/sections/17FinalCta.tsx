@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import { useNewGradState } from "@/lib/newgrad/StateProvider";
 import { LINE_URL } from "@/lib/newgrad/data/config";
 import { SENPAI_LIST } from "@/lib/newgrad/data/senpai";
@@ -7,6 +8,7 @@ import { trackEvent } from "@/lib/newgrad/track";
 import { Section } from "../ui/Section";
 import { ChoiceRow } from "../ui/ChoiceRow";
 import { Button } from "../ui/Button";
+import { useReveal } from "../hooks/useReveal";
 
 const FINAL_INTEREST_OPTIONS = [
   "ちょっと気になる",
@@ -19,6 +21,8 @@ const isRealLineUrl = LINE_URL.startsWith("http");
 export function FinalCta() {
   const { state, update } = useNewGradState();
   const senpai = SENPAI_LIST.find((s) => s.id === state.matchedSenpai);
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const ctaInView = useReveal(ctaRef, 0.2);
 
   function pickInterest(option: string) {
     update({ finalInterest: option });
@@ -96,10 +100,19 @@ export function FinalCta() {
         </p>
       </div>
 
-      <div className="mt-12 flex flex-col gap-4">
-        <Button variant="pink" onClick={handleVisitClick}>
-          SALON TOUR
-        </Button>
+      <div ref={ctaRef}>
+        {/* Layer: one short HOT PINK line right before the CTA - not
+            another paragraph, a single beat. */}
+        <p
+          className={`ng-hand mb-6 -rotate-1 text-xl ng-io-mask ${ctaInView ? "ng-in" : ""}`}
+        >
+          まずは、覗いてみるだけでも。
+        </p>
+
+        <div className="flex flex-col gap-4">
+          <Button variant="pink" onClick={handleVisitClick}>
+            SALON TOUR
+          </Button>
         <a
           href={isRealLineUrl ? LINE_URL : "#final-cta"}
           onClick={handleLineClick}
@@ -123,6 +136,7 @@ export function FinalCta() {
             <span aria-hidden>→</span>
           </a>
         )}
+        </div>
       </div>
 
       <p className="mt-10 text-xs leading-relaxed opacity-45">
