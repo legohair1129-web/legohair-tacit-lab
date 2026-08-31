@@ -6,6 +6,8 @@ interface ChoiceRowProps {
   onClick?: () => void;
   disabled?: boolean;
   size?: "sm" | "lg";
+  /** "ink" (default, unchanged) or "pink" - Phase 1 sections (01-04) only. */
+  accent?: "ink" | "pink";
 }
 
 /**
@@ -21,7 +23,16 @@ export function ChoiceRow({
   onClick,
   disabled = false,
   size = "sm",
+  accent = "ink",
 }: ChoiceRowProps) {
+  const selectedClass =
+    accent === "pink"
+      ? "bg-[var(--ng-hotpink-soft)] text-[var(--ng-ink)]"
+      : "bg-[var(--ng-ink)] text-[var(--ng-ivory)]";
+  const hoverClass =
+    accent === "pink" ? "hover:bg-[var(--ng-hotpink-soft)]" : "hover:bg-[var(--ng-line-soft)]";
+  const indexClass = accent === "pink" ? "text-[var(--ng-hotpink)] opacity-100" : "opacity-50";
+
   return (
     <button
       type="button"
@@ -30,14 +41,12 @@ export function ChoiceRow({
       aria-pressed={selected}
       className={`flex w-full items-baseline gap-4 border-b border-[var(--ng-line)] px-1 text-left transition-colors first:border-t disabled:cursor-not-allowed disabled:opacity-35 ${
         size === "lg" ? "py-7" : "py-5"
-      } ${
-        selected
-          ? "bg-[var(--ng-ink)] text-[var(--ng-ivory)]"
-          : "bg-transparent text-[var(--ng-ink)] hover:bg-[var(--ng-line-soft)]"
-      }`}
+      } ${selected ? selectedClass : `bg-transparent text-[var(--ng-ink)] ${hoverClass}`}`}
     >
       {index && (
-        <span className="ng-sans-en w-6 shrink-0 text-xs font-semibold tracking-widest opacity-50">
+        <span
+          className={`ng-sans-en w-6 shrink-0 text-xs font-semibold tracking-widest ${indexClass}`}
+        >
           {index}
         </span>
       )}

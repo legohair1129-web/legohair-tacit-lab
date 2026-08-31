@@ -2,8 +2,9 @@
 
 import { useNewGradState } from "@/lib/newgrad/StateProvider";
 import { IDEAL_DAY_OPTIONS } from "@/lib/newgrad/data/studentQuestion";
+import { NEWGRAD_IMAGES } from "@/lib/newgrad/data/images";
 import { Section } from "../ui/Section";
-import { ChoiceRow } from "../ui/ChoiceRow";
+import { PhotoCard } from "../ui/PhotoCard";
 
 export function StudentQuestion() {
   const { state, update } = useNewGradState();
@@ -20,10 +21,11 @@ export function StudentQuestion() {
         </>
       }
     >
-      <div>
+      <div className="grid grid-cols-2 gap-x-4 gap-y-8">
         {IDEAL_DAY_OPTIONS.map((option, i) => (
-          <ChoiceRow
+          <PhotoCard
             key={option}
+            slot={NEWGRAD_IMAGES.question[i] ?? NEWGRAD_IMAGES.question[0]}
             index={String(i + 1).padStart(2, "0")}
             label={option}
             selected={state.idealDay === option}

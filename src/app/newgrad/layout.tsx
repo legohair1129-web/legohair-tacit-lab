@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Fraunces, Inter, Yomogi } from "next/font/google";
 import "./newgrad.css";
 import { NewGradProvider } from "@/lib/newgrad/StateProvider";
 import { ScrollSmooth } from "@/components/newgrad/ui/ScrollSmooth";
@@ -19,6 +19,13 @@ const inter = Inter({
   weight: ["400", "500", "600", "700"],
 });
 
+// Casual JP handwriting face for Phase 1's HOT PINK emphasis words (01-04).
+const yomogi = Yomogi({
+  variable: "--ng-font-hand",
+  subsets: ["latin"],
+  weight: "400",
+});
+
 export const metadata: Metadata = {
   title: "LEGOHAIR NEW GRAD | FUTURE EXPERIENCE",
   description: "就職先を探すページではない。未来の自分を見つけるページ。",
@@ -35,7 +42,7 @@ export default function NewGradLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className={`ng-scope ${fraunces.variable} ${inter.variable}`}>
+    <div className={`ng-scope ${fraunces.variable} ${inter.variable} ${yomogi.variable}`}>
       <ScrollSmooth />
       <NewGradProvider>{children}</NewGradProvider>
     </div>

@@ -9,8 +9,6 @@ import { trackEvent } from "@/lib/newgrad/track";
 import type { TypeKey } from "@/lib/newgrad/types";
 import { Section } from "../ui/Section";
 import { ChoiceRow } from "../ui/ChoiceRow";
-import { Button } from "../ui/Button";
-import { Legon } from "../ui/Legon";
 import { ProgressLine } from "../ui/ProgressLine";
 
 type Phase = "intro" | number | "done";
@@ -56,20 +54,29 @@ export function Diagnosis() {
     <Section id="diagnosis" index="03" pad={typeof phase === "number" ? "s" : "m"}>
       {phase === "intro" && (
         <div>
-          <div className="ng-sans-en mb-4 text-xs font-semibold tracking-[0.22em] uppercase opacity-60">
-            find your style.
+          <div className="ng-sans-en mb-4 text-xs font-semibold tracking-[0.22em] uppercase opacity-55">
+            30秒診断
           </div>
-          <h2 className="ng-reveal mb-6 text-[2rem] leading-[1.15] font-medium tracking-tight">
+          <h2 className="ng-reveal mb-2 text-[2rem] leading-[1.15] font-bold tracking-tight">
+            自分を知る。
+          </h2>
+          <p className="mb-8 text-sm leading-relaxed opacity-65">
             30秒で、
             <br />
             あなたの中にある
             <br />
             美容師としての強みを探す。
-          </h2>
-          <Legon text={getLegonComment("diagnosisIntro")} className="mb-10" />
-          <Button onClick={start} variant="solid">
-            {alreadyDone ? "もう一度診断する" : "START"}
-          </Button>
+          </p>
+          <p className="mb-10 text-sm font-medium text-[var(--ng-hotpink)]">
+            {getLegonComment("diagnosisIntro")}
+          </p>
+          <button
+            type="button"
+            onClick={start}
+            className="w-full rounded-full bg-[var(--ng-hotpink)] px-6 py-4 text-sm font-bold text-white"
+          >
+            {alreadyDone ? "もう一度診断する" : "診断スタート！"}
+          </button>
           {alreadyDone && (
             <a
               href="#diagnosis-result"
@@ -84,9 +91,9 @@ export function Diagnosis() {
       {typeof phase === "number" && (
         <div key={phase} className="ng-reveal">
           <div className="mb-10">
-            <ProgressLine total={DIAGNOSIS_QUESTIONS.length} current={phase} />
+            <ProgressLine total={DIAGNOSIS_QUESTIONS.length} current={phase} accent="pink" />
           </div>
-          <h3 className="mb-8 text-2xl leading-snug font-medium">
+          <h3 className="mb-8 text-2xl leading-snug font-bold">
             {DIAGNOSIS_QUESTIONS[phase].question}
           </h3>
           <div>
@@ -96,6 +103,7 @@ export function Diagnosis() {
                 index={option.label}
                 label={option.text}
                 size="lg"
+                accent="pink"
                 onClick={() => answer(option.key)}
               />
             ))}
@@ -108,7 +116,7 @@ export function Diagnosis() {
           <p className="mb-8 text-sm opacity-65">診断が完了しました。</p>
           <a
             href="#diagnosis-result"
-            className="ng-sans-en flex items-center justify-between border-b border-[var(--ng-ink)] pb-3 text-xs font-semibold tracking-[0.18em] uppercase"
+            className="ng-sans-en flex items-center justify-between border-b border-[var(--ng-hotpink)] pb-3 text-xs font-semibold tracking-[0.18em] text-[var(--ng-hotpink)] uppercase"
           >
             結果を見る
             <span aria-hidden>→</span>

@@ -28,6 +28,12 @@
   --ng-sage: #7c8a66;
   --ng-gray-warm: #9c9186;
 
+  /* Phase 1 (01-04 only): a single vivid HOT PINK accent for the warmer,
+     more playful "magazine x recruit" direction - handwritten emphasis,
+     underlines, selection state, small CTAs. Kept ~5-10% of any screen. */
+  --ng-hotpink: #ff2d78;
+  --ng-hotpink-soft: #ffe1ec;
+
   /* Diagnosis type -> accent (display only; scoring keys are unaffected). */
   --ng-type-creator: var(--ng-coral);
   --ng-type-connector: var(--ng-blue);
@@ -56,6 +62,12 @@
 
 .ng-sans-en {
   font-family: var(--ng-font-sans-en), Helvetica, Arial, sans-serif;
+}
+
+/* Phase 1: short handwritten-style pink emphasis within a JP headline. */
+.ng-hand {
+  font-family: var(--ng-font-hand), var(--font-noto-sans-jp), sans-serif;
+  color: var(--ng-hotpink);
 }
 
 @media (prefers-reduced-motion: no-preference) {
