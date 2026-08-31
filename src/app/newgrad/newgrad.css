@@ -1,0 +1,41 @@
+/*
+ * Scoped design tokens for the FUTURE EXPERIENCE new-grad LP.
+ * Everything lives under .ng-scope so it can never bleed into, or be
+ * affected by, the existing TACIT LAB styles in src/app/globals.css.
+ */
+.ng-scope {
+  --ng-bg: #ffffff;
+  --ng-surface: #f7f5f0;
+  --ng-ink: #17140f;
+  --ng-muted: #78746c;
+  --ng-border: #e9e5db;
+  --ng-accent: #b5794f;
+  --ng-accent-soft: #fbe9db;
+  --ng-pop: #ff5a36;
+  --ng-pop-soft: #ffe6dd;
+
+  background: var(--ng-bg);
+  color: var(--ng-ink);
+  font-family: var(--font-noto-sans-jp), ui-sans-serif, system-ui, sans-serif;
+}
+
+.ng-scope * {
+  box-sizing: border-box;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ng-scope .ng-animate-in {
+    animation: ng-fade-up 0.5s ease-out both;
+  }
+}
+
+@keyframes ng-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

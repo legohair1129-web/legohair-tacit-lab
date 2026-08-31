@@ -3,6 +3,12 @@ import { NextResponse, type NextRequest } from "next/server";
 import type { Database } from "@/lib/types/database";
 
 export async function proxy(request: NextRequest) {
+  // LEGOHAIR NEW GRAD (/newgrad) is a public recruiting LP, independent
+  // from this authenticated app - skip the auth check entirely for it.
+  if (request.nextUrl.pathname.startsWith("/newgrad")) {
+    return NextResponse.next({ request });
+  }
+
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient<Database>(
