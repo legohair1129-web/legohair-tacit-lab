@@ -68,11 +68,9 @@ export function SenpaiMatch() {
             className="rounded-2xl border border-[var(--ng-border)] p-5"
           >
             <div className="mb-4 flex items-center gap-4">
-              <MediaPlaceholder
-                label="STAFF PHOTO"
-                aspect="square"
-                className="w-20 shrink-0"
-              />
+              <div className="w-20 shrink-0">
+                <MediaPlaceholder label="STAFF PHOTO" aspect="square" />
+              </div>
               <div className="flex-1">
                 <div className="flex items-center justify-between">
                   <span className="font-bold">{senpai.name}</span>
