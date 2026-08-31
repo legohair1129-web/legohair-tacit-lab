@@ -5,10 +5,12 @@ import { useNewGradState } from "@/lib/newgrad/StateProvider";
 import { TYPE_PROFILES } from "@/lib/newgrad/data/typeProfiles";
 import { STRENGTH_EN } from "@/lib/newgrad/data/strengths";
 import { SENPAI_LIST } from "@/lib/newgrad/data/senpai";
+import { NEWGRAD_IMAGES } from "@/lib/newgrad/data/images";
 import { getLegonComment } from "@/lib/newgrad/legon";
 import { trackEvent } from "@/lib/newgrad/track";
 import { Section } from "../ui/Section";
 import { Legon } from "../ui/Legon";
+import { Photo } from "../ui/Photo";
 
 export function MyFutureCard() {
   const { state } = useNewGradState();
@@ -76,34 +78,42 @@ export function MyFutureCard() {
     >
       <div
         ref={cardRef}
-        className="ng-reveal border border-[var(--ng-line)] bg-[var(--ng-white)] px-7 py-8"
+        className="ng-reveal border border-[var(--ng-line)] bg-[var(--ng-white)]"
       >
-        <div className="flex items-baseline justify-between">
-          <span className="ng-sans-en text-xs font-bold tracking-[0.2em]">
-            LEGOHAIR
-          </span>
-          <span className="ng-sans-en text-[10px] tracking-[0.2em] opacity-45">
-            FUTURE ID
-          </span>
+        <Photo
+          slot={NEWGRAD_IMAGES.futureCardAccent}
+          aspect="aspect-[3/1]"
+          rounded="rounded-none"
+        />
+
+        <div className="px-7 py-8">
+          <div className="flex items-baseline justify-between">
+            <span className="ng-sans-en text-xs font-bold tracking-[0.2em]">
+              LEGOHAIR
+            </span>
+            <span className="ng-sans-en text-[10px] tracking-[0.2em] opacity-45">
+              FUTURE ID
+            </span>
+          </div>
+
+          <div className="my-6 h-[2px] w-10 bg-[var(--ng-hotpink)]" aria-hidden />
+
+          <p className="ng-serif text-3xl leading-[1.2] font-medium break-words">
+            {primary.nameEn}{" "}
+            <span className="mx-1 text-lg opacity-40">×</span> {secondary.nameEn}
+          </p>
+
+          <div className="mt-8 flex flex-col">
+            <CardRow label="YOUR STRENGTH" value={strengthText} />
+            <CardRow label="YOU CARE ABOUT" value={state.jobPriority ?? "-"} />
+            <CardRow label="INTEREST" value={interestText} />
+            <CardRow label="SENPAI" value={senpai ? senpai.name : "-"} last />
+          </div>
+
+          <p className="mt-8 text-sm leading-relaxed opacity-70">
+            {primary.headline}
+          </p>
         </div>
-
-        <div className="my-6 h-[2px] w-10 bg-[var(--ng-hotpink)]" aria-hidden />
-
-        <p className="ng-serif text-3xl leading-[1.2] font-medium break-words">
-          {primary.nameEn}{" "}
-          <span className="mx-1 text-lg opacity-40">×</span> {secondary.nameEn}
-        </p>
-
-        <div className="mt-8 flex flex-col">
-          <CardRow label="YOUR STRENGTH" value={strengthText} />
-          <CardRow label="YOU CARE ABOUT" value={state.jobPriority ?? "-"} />
-          <CardRow label="INTEREST" value={interestText} />
-          <CardRow label="SENPAI" value={senpai ? senpai.name : "-"} last />
-        </div>
-
-        <p className="mt-8 text-sm leading-relaxed opacity-70">
-          {primary.headline}
-        </p>
       </div>
 
       <Legon text={getLegonComment("futureCard")} className="mt-8" />

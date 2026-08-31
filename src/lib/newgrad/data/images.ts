@@ -42,6 +42,8 @@ export interface NewGradImageConfig {
   senpai: ImageSlot;
   /** One photo per displayed 11 SENPAI MATCH card, cycled by rank position. */
   senpaiPhotos: ImageSlot[];
+  /** 15 MY FUTURE CARD - a small masthead strip above the printed card. */
+  futureCardAccent: ImageSlot;
   /** ENDING - a single quiet photo, not a call-to-action visual. */
   ending: ImageSlot;
 }
@@ -81,5 +83,6 @@ export const NEWGRAD_IMAGES: NewGradImageConfig = {
     { src: null, alt: "先輩スタッフのポートレート", objectPosition: "top" },
     { src: null, alt: "先輩スタッフのポートレート", objectPosition: "top" },
   ],
+  futureCardAccent: { src: null, alt: "サロンの雰囲気が伝わる一枚", objectPosition: "center" },
   ending: { src: null, alt: "落ち着いた雰囲気のサロンスタッフ", objectPosition: "center" },
 };

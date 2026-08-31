@@ -36,12 +36,12 @@ export function SalonTour() {
         </>
       }
     >
-      <div className="-mx-6 mb-3 flex snap-x snap-mandatory gap-3 overflow-x-auto px-6 pb-2">
+      <div className="-mx-6 mb-3 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2">
         {SALON_TOUR_SPOTS.map((spot, i) => (
-          <div key={spot} className="w-[78%] shrink-0 snap-start">
-            <MediaPlaceholder label="SALON TOUR VIDEO" kind="video" aspect="portrait" />
+          <div key={spot} className="w-[70%] shrink-0 snap-start">
+            <MediaPlaceholder label={spot} kind="photo" aspect="editorial" />
             <p className="mt-3 flex items-baseline gap-3">
-              <span className="ng-sans-en text-xs opacity-40">
+              <span className="ng-sans-en text-xs text-[var(--ng-hotpink)]">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <span className="text-sm font-medium">{spot}</span>

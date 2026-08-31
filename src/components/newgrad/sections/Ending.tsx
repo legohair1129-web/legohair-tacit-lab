@@ -4,7 +4,7 @@ import { Photo } from "../ui/Photo";
 
 export function Ending() {
   return (
-    <Section id="ending" tone="ivory" pad="l" align="center" topLine>
+    <Section id="ending" tone="pink-tint" pad="l" align="center" topLine>
       <div className="ng-reveal flex flex-col items-center gap-8">
         <div className="ng-sans-en text-xs tracking-[0.3em] opacity-50">
           LEGOHAIR
@@ -21,11 +21,14 @@ export function Ending() {
           <br />
           自信を創る。
         </p>
-        <p className="ng-serif max-w-[16ch] text-3xl leading-[1.25] font-medium">
-          NEXT,
+        <p className="ng-serif max-w-[12ch] text-4xl leading-[1.3] font-medium">
+          次は、
           <br />
-          IT&apos;S YOUR TURN.
+          あなたの番。
         </p>
+        <span className="ng-sans-en text-[11px] tracking-[0.25em] opacity-35">
+          NEXT, IT&apos;S YOUR TURN.
+        </span>
         <span className="h-1.5 w-1.5 rounded-full bg-[var(--ng-hotpink)]" aria-hidden />
         <div className="ng-sans-en text-[11px] tracking-[0.3em] opacity-40">
           LEGOHAIR NEW GRAD

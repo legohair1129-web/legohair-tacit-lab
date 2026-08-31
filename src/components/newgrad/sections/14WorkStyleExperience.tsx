@@ -50,6 +50,8 @@ export function WorkStyleExperience() {
           )}
         </div>
 
+        <div className="mb-10 h-px w-full bg-[var(--ng-hotpink)]" aria-hidden />
+
         <div className="grid grid-cols-2 gap-x-6 gap-y-9">
           {WORK_STYLE_FACTS.filter((f) => !FEATURED_KEYS.includes(f.key)).map(
             (fact) => (

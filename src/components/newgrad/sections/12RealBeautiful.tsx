@@ -64,17 +64,29 @@ export function RealBeautiful() {
         </button>
       </div>
 
-      <div key={side} className="ng-reveal grid grid-cols-2 gap-2">
-        {items.map((item) => (
-          <div key={item}>
-            <MediaPlaceholder
-              label={side === "beautiful" ? "STAFF PHOTO" : "STAFF VIDEO"}
-              kind={side === "beautiful" ? "photo" : "video"}
-              aspect="square"
-            />
-            <p className="mt-2 text-xs opacity-55">{item}</p>
-          </div>
-        ))}
+      <div key={side} className="ng-reveal">
+        <div className="-mx-6 mb-6">
+          <MediaPlaceholder
+            label={items[0]}
+            kind={side === "beautiful" ? "photo" : "video"}
+            aspect="editorial"
+            className="border-x-0"
+          />
+        </div>
+
+        <div>
+          {items.slice(1).map((item, i) => (
+            <div
+              key={item}
+              className="flex items-baseline gap-4 border-t border-[var(--ng-line)] py-4 text-sm last:border-b"
+            >
+              <span className="ng-sans-en w-6 shrink-0 text-xs opacity-40">
+                {String(i + 2).padStart(2, "0")}
+              </span>
+              <span>{item}</span>
+            </div>
+          ))}
+        </div>
       </div>
 
       {bothViewed && (
