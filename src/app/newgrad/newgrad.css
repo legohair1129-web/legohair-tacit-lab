@@ -33,10 +33,13 @@
      underlines, selection state, small CTAs. Kept ~5-10% of any screen. */
   --ng-hotpink: #ff2d78;
   --ng-hotpink-soft: #ffe1ec;
-  /* Very washed background tint (not a UI fill) - one of the "warm ivory
-     / light beige / light pink / light greige" options for marking a new
-     section without a strong color field. */
-  --ng-pink-tint: #fdf1f4;
+  /* Very washed background tints (not UI fills) - the "warm ivory / light
+     beige / light pink / light greige" options for marking a new section
+     without a strong color field. Own tokens, not shared with --ng-ivory-2
+     (which MediaPlaceholder and 05+ sections already rely on), so tuning
+     these can never shift how any existing section looks. */
+  --ng-pink-tint: #fbe8ee;
+  --ng-beige-tint: #f0e7da;
 
   /* Diagnosis type -> accent (display only; scoring keys are unaffected). */
   --ng-type-creator: var(--ng-coral);

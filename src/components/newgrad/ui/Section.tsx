@@ -4,11 +4,14 @@ interface SectionProps {
   kicker?: string; // small EN uppercase line above the headline
   title?: React.ReactNode; // headline content - sections compose their own EN/JP mix
   lead?: React.ReactNode; // optional supporting paragraph under the headline
-  tone?: "ivory" | "ivory-2" | "ink" | "pink-tint";
+  tone?: "ivory" | "ivory-2" | "ink" | "pink-tint" | "beige-tint";
   pad?: "s" | "m" | "l";
   align?: "left" | "center";
   /** Small HOT PINK dot beside the chapter numeral - opt-in (Phase 1 only). */
   accentIndex?: boolean;
+  /** Short HOT PINK tick mark at the very top of the content column -
+   * opt-in (Phase 1 only), an unmistakable "new chapter" mark. */
+  topLine?: boolean;
   className?: string;
   children?: React.ReactNode;
 }
@@ -18,6 +21,7 @@ const TONE_CLASSES: Record<NonNullable<SectionProps["tone"]>, string> = {
   "ivory-2": "bg-[var(--ng-ivory-2)] text-[var(--ng-ink)]",
   ink: "bg-[var(--ng-ink)] text-[var(--ng-ivory)]",
   "pink-tint": "bg-[var(--ng-pink-tint)] text-[var(--ng-ink)]",
+  "beige-tint": "bg-[var(--ng-beige-tint)] text-[var(--ng-ink)]",
 };
 
 const PAD_CLASSES: Record<NonNullable<SectionProps["pad"]>, string> = {
@@ -42,6 +46,7 @@ export function Section({
   pad = "m",
   align = "left",
   accentIndex = false,
+  topLine = false,
   className = "",
   children,
 }: SectionProps) {
@@ -54,6 +59,14 @@ export function Section({
       <div
         className={`mx-auto max-w-md ${align === "center" ? "text-center" : ""}`}
       >
+        {topLine && (
+          <div
+            aria-hidden
+            className={`mb-10 h-[2px] w-10 bg-[var(--ng-hotpink)] ${
+              align === "center" ? "mx-auto" : ""
+            }`}
+          />
+        )}
         {index && (
           <div aria-hidden className="mb-6 flex items-center gap-2">
             {accentIndex && (

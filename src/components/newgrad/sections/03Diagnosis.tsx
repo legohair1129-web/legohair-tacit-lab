@@ -57,6 +57,7 @@ export function Diagnosis() {
       id="diagnosis"
       index="03"
       accentIndex
+      topLine
       pad={typeof phase === "number" ? "s" : "l"}
     >
       {phase === "intro" && (

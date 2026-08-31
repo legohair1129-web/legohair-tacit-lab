@@ -14,7 +14,8 @@ export function StudentQuestion() {
       id="student-question"
       index="02"
       accentIndex
-      tone="ivory-2"
+      topLine
+      tone="beige-tint"
       pad="l"
       kicker="question"
       title={
@@ -25,7 +26,7 @@ export function StudentQuestion() {
         </>
       }
     >
-      <div className="grid grid-cols-2 gap-x-4 gap-y-9">
+      <div className="grid grid-cols-2 gap-x-4 gap-y-7">
         {IDEAL_DAY_OPTIONS.map((option, i) => {
           const isFeature = i === IDEAL_DAY_OPTIONS.length - 1;
           return (
@@ -35,7 +36,7 @@ export function StudentQuestion() {
               index={String(i + 1).padStart(2, "0")}
               label={option}
               selected={state.idealDay === option}
-              aspect={isFeature ? "aspect-[16/10]" : "aspect-[3/4]"}
+              aspect={isFeature ? "aspect-[16/10]" : "aspect-[4/5]"}
               className={isFeature ? "col-span-2" : undefined}
               onClick={() =>
                 update({ idealDay: state.idealDay === option ? null : option })

@@ -11,7 +11,15 @@ export function DiagnosisResult() {
 
   if (!state.diagnosisCompleted || !state.primaryType || !state.secondaryType) {
     return (
-      <Section id="diagnosis-result" index="04" kicker="診断結果">
+      <Section
+        id="diagnosis-result"
+        index="04"
+        accentIndex
+        topLine
+        tone="pink-tint"
+        pad="l"
+        kicker="診断結果"
+      >
         <p className="text-sm opacity-55">
           上の診断に答えると、ここにあなたの結果が表示されます。
         </p>
@@ -28,6 +36,7 @@ export function DiagnosisResult() {
       id="diagnosis-result"
       index="04"
       accentIndex
+      topLine
       tone="pink-tint"
       pad="l"
       kicker="診断結果"
