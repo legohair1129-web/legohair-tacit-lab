@@ -33,6 +33,10 @@
      underlines, selection state, small CTAs. Kept ~5-10% of any screen. */
   --ng-hotpink: #ff2d78;
   --ng-hotpink-soft: #ffe1ec;
+  /* Very washed background tint (not a UI fill) - one of the "warm ivory
+     / light beige / light pink / light greige" options for marking a new
+     section without a strong color field. */
+  --ng-pink-tint: #fdf1f4;
 
   /* Diagnosis type -> accent (display only; scoring keys are unaffected). */
   --ng-type-creator: var(--ng-coral);

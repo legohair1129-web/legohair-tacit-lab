@@ -13,6 +13,10 @@ export function StudentQuestion() {
     <Section
       id="student-question"
       index="02"
+      accentIndex
+      tone="ivory-2"
+      pad="l"
+      kicker="question"
       title={
         <>
           美容師になったら、
@@ -21,21 +25,26 @@ export function StudentQuestion() {
         </>
       }
     >
-      <div className="grid grid-cols-2 gap-x-4 gap-y-8">
-        {IDEAL_DAY_OPTIONS.map((option, i) => (
-          <PhotoCard
-            key={option}
-            slot={NEWGRAD_IMAGES.question[i] ?? NEWGRAD_IMAGES.question[0]}
-            index={String(i + 1).padStart(2, "0")}
-            label={option}
-            selected={state.idealDay === option}
-            onClick={() =>
-              update({ idealDay: state.idealDay === option ? null : option })
-            }
-          />
-        ))}
+      <div className="grid grid-cols-2 gap-x-4 gap-y-9">
+        {IDEAL_DAY_OPTIONS.map((option, i) => {
+          const isFeature = i === IDEAL_DAY_OPTIONS.length - 1;
+          return (
+            <PhotoCard
+              key={option}
+              slot={NEWGRAD_IMAGES.question[i] ?? NEWGRAD_IMAGES.question[0]}
+              index={String(i + 1).padStart(2, "0")}
+              label={option}
+              selected={state.idealDay === option}
+              aspect={isFeature ? "aspect-[16/10]" : "aspect-[3/4]"}
+              className={isFeature ? "col-span-2" : undefined}
+              onClick={() =>
+                update({ idealDay: state.idealDay === option ? null : option })
+              }
+            />
+          );
+        })}
       </div>
-      <p className="mt-10 max-w-[30ch] text-sm leading-relaxed opacity-55">
+      <p className="mt-12 max-w-[30ch] text-sm leading-relaxed opacity-55">
         まだ答えが決まっていなくても大丈夫。
         <br />
         ここから一緒に考えてみよう。

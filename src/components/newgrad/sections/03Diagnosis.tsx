@@ -7,9 +7,11 @@ import { scoreDiagnosis } from "@/lib/newgrad/scoring";
 import { getLegonComment } from "@/lib/newgrad/legon";
 import { trackEvent } from "@/lib/newgrad/track";
 import type { TypeKey } from "@/lib/newgrad/types";
+import { NEWGRAD_IMAGES } from "@/lib/newgrad/data/images";
 import { Section } from "../ui/Section";
 import { ChoiceRow } from "../ui/ChoiceRow";
 import { ProgressLine } from "../ui/ProgressLine";
+import { Photo } from "../ui/Photo";
 
 type Phase = "intro" | number | "done";
 
@@ -51,22 +53,34 @@ export function Diagnosis() {
   }
 
   return (
-    <Section id="diagnosis" index="03" pad={typeof phase === "number" ? "s" : "m"}>
+    <Section
+      id="diagnosis"
+      index="03"
+      accentIndex
+      pad={typeof phase === "number" ? "s" : "l"}
+    >
       {phase === "intro" && (
         <div>
-          <div className="ng-sans-en mb-4 text-xs font-semibold tracking-[0.22em] uppercase opacity-55">
+          <div className="ng-sans-en mb-5 text-xs font-semibold tracking-[0.22em] uppercase opacity-55">
             30秒診断
           </div>
-          <h2 className="ng-reveal mb-2 text-[2rem] leading-[1.15] font-bold tracking-tight">
+          <h2 className="ng-reveal mb-4 text-[2rem] leading-[1.15] font-bold tracking-tight">
             自分を知る。
           </h2>
-          <p className="mb-8 text-sm leading-relaxed opacity-65">
+          <p className="mb-10 text-sm leading-relaxed opacity-65">
             30秒で、
             <br />
             あなたの中にある
             <br />
             美容師としての強みを探す。
           </p>
+
+          <Photo
+            slot={NEWGRAD_IMAGES.diagnosis}
+            aspect="aspect-[4/3]"
+            className="mb-10"
+          />
+
           <p className="mb-10 text-sm font-medium text-[var(--ng-hotpink)]">
             {getLegonComment("diagnosisIntro")}
           </p>
@@ -90,10 +104,10 @@ export function Diagnosis() {
 
       {typeof phase === "number" && (
         <div key={phase} className="ng-reveal">
-          <div className="mb-10">
+          <div className="mb-12">
             <ProgressLine total={DIAGNOSIS_QUESTIONS.length} current={phase} accent="pink" />
           </div>
-          <h3 className="mb-8 text-2xl leading-snug font-bold">
+          <h3 className="mb-10 text-2xl leading-snug font-bold">
             {DIAGNOSIS_QUESTIONS[phase].question}
           </h3>
           <div>

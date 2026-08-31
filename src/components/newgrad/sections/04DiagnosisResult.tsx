@@ -2,7 +2,9 @@
 
 import { useNewGradState } from "@/lib/newgrad/StateProvider";
 import { TYPE_PROFILES, getCombinationMessage } from "@/lib/newgrad/data/typeProfiles";
+import { NEWGRAD_IMAGES } from "@/lib/newgrad/data/images";
 import { Section } from "../ui/Section";
+import { Photo } from "../ui/Photo";
 
 export function DiagnosisResult() {
   const { state } = useNewGradState();
@@ -22,7 +24,14 @@ export function DiagnosisResult() {
   const combination = getCombinationMessage(state.primaryType, state.secondaryType);
 
   return (
-    <Section id="diagnosis-result" index="04" kicker="診断結果">
+    <Section
+      id="diagnosis-result"
+      index="04"
+      accentIndex
+      tone="pink-tint"
+      pad="l"
+      kicker="診断結果"
+    >
       <div className="ng-reveal">
         <p className="text-2xl leading-[1.4] font-bold break-words">
           {primary.nameJa}{" "}
@@ -34,6 +43,14 @@ export function DiagnosisResult() {
         <p className="ng-sans-en mt-2 text-xs font-medium tracking-[0.16em] opacity-45 uppercase">
           {primary.nameEn} × {secondary.nameEn}
         </p>
+
+        <div className="mt-8 w-[78%] rotate-1">
+          <Photo
+            slot={NEWGRAD_IMAGES.strength}
+            aspect="aspect-[4/5]"
+            className="shadow-[0_10px_28px_rgba(22,22,22,0.12)]"
+          />
+        </div>
 
         <p className="mt-10 text-xl leading-relaxed font-bold">
           {primary.headline}

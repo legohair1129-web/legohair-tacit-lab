@@ -3,7 +3,7 @@ import { Photo } from "../ui/Photo";
 
 export function Hero() {
   return (
-    <section id="hero" data-section="hero" className="bg-[var(--ng-ivory)] px-6 pt-8 pb-14">
+    <section id="hero" data-section="hero" className="bg-[var(--ng-ivory)] px-6 pt-8 pb-20">
       <div className="mx-auto max-w-md">
         <div className="ng-sans-en mb-5 text-[11px] tracking-[0.24em] opacity-55 uppercase">
           LEGOHAIR — NEW GRAD 2027 — OSAKA
@@ -48,11 +48,12 @@ export function Hero() {
           </a>
         </div>
 
-        <div className="mt-12 flex items-center gap-3 opacity-45">
-          <span className="ng-sans-en text-[13px] font-medium tracking-[0.3em]">
+        <div className="mt-16 flex items-center gap-2">
+          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--ng-hotpink)]" />
+          <span className="ng-sans-en text-[13px] font-medium tracking-[0.3em] opacity-45">
             01
           </span>
-          <span className="h-px flex-1 bg-[var(--ng-line)]" />
+          <span className="h-px flex-1 bg-[var(--ng-line)] opacity-45" />
         </div>
       </div>
     </section>
