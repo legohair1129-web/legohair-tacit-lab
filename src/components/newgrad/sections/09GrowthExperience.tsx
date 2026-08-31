@@ -10,12 +10,14 @@ import {
   GROWTH_TROUBLE_ACTIONS,
   GROWTH_TIMELINE,
 } from "@/lib/newgrad/data/growth";
+import { NEWGRAD_IMAGES } from "@/lib/newgrad/data/images";
 import { getLegonComment } from "@/lib/newgrad/legon";
 import { trackEvent } from "@/lib/newgrad/track";
 import { Section } from "../ui/Section";
 import { ChoiceRow } from "../ui/ChoiceRow";
 import { IndexRow } from "../ui/IndexRow";
 import { Legon } from "../ui/Legon";
+import { Photo } from "../ui/Photo";
 
 export function GrowthExperience() {
   const { state, update } = useNewGradState();
@@ -34,6 +36,10 @@ export function GrowthExperience() {
     <Section
       id="growth-experience"
       index="09"
+      accentIndex
+      topLine
+      tone="beige-tint"
+      pad="l"
       kicker="growth experience"
       title={
         <>
@@ -43,6 +49,8 @@ export function GrowthExperience() {
         </>
       }
     >
+      <Photo slot={NEWGRAD_IMAGES.education} aspect="aspect-[4/5]" className="mb-10" />
+
       <Legon text={getLegonComment("growthIntro")} className="mb-14" />
 
       <SubKicker>MONTH 01 — 最初に不安なのは？</SubKicker>
@@ -52,6 +60,7 @@ export function GrowthExperience() {
             key={option.key}
             index={option.key}
             label={option.text}
+            accent="pink"
             selected={state.growthConcern === option.key}
             onClick={() => pickConcern(option.key)}
           />
@@ -69,6 +78,7 @@ export function GrowthExperience() {
             index={String(i + 1).padStart(2, "0")}
             label={el.label}
             detail={el.ja}
+            accent
           />
         ))}
       </div>
@@ -83,7 +93,7 @@ export function GrowthExperience() {
                 <span
                   key={i}
                   className={`h-px flex-1 ${
-                    i < meter.level ? "bg-[var(--ng-ink)]" : "bg-[var(--ng-line)]"
+                    i < meter.level ? "bg-[var(--ng-hotpink)]" : "bg-[var(--ng-line)]"
                   }`}
                 />
               ))}
@@ -105,8 +115,10 @@ export function GrowthExperience() {
             type="button"
             onClick={() => setTroubleAction(action)}
             aria-pressed={troubleAction === action}
-            className={`text-sm underline underline-offset-4 transition-opacity ${
-              troubleAction === action ? "opacity-100" : "opacity-45 hover:opacity-70"
+            className={`text-sm underline underline-offset-4 transition-colors ${
+              troubleAction === action
+                ? "text-[var(--ng-hotpink)] opacity-100"
+                : "opacity-45 hover:opacity-70"
             }`}
           >
             {action}
@@ -123,7 +135,8 @@ export function GrowthExperience() {
             key={item.year}
             className="border-t border-[var(--ng-line)] py-10 first:border-t"
           >
-            <div className="flex items-baseline gap-4">
+            <div className="flex items-baseline gap-3">
+              <span className="h-1.5 w-1.5 shrink-0 self-center rounded-full bg-[var(--ng-hotpink)]" />
               <span className="ng-serif text-5xl font-medium opacity-90">
                 {item.year}
               </span>

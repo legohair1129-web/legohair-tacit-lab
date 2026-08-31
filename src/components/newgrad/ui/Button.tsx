@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "solid" | "outline" | "text";
+  variant?: "solid" | "outline" | "text" | "pink" | "pink-outline";
   fullWidth?: boolean;
 }
 
@@ -11,6 +11,10 @@ const VARIANT_CLASSES: Record<NonNullable<ButtonProps["variant"]>, string> = {
   outline:
     "border border-[var(--ng-ink)] text-[var(--ng-ink)] hover:bg-[var(--ng-ink)] hover:text-[var(--ng-ivory)]",
   text: "border-b border-[var(--ng-ink)] text-[var(--ng-ink)] px-0 hover:opacity-60",
+  // Phase 2 (05-10): HOT PINK CTA, replacing the black "solid" fill.
+  pink: "bg-[var(--ng-hotpink)] text-white border border-[var(--ng-hotpink)] hover:opacity-85",
+  "pink-outline":
+    "border border-[var(--ng-hotpink)] text-[var(--ng-ink)] hover:bg-[var(--ng-hotpink)] hover:text-white",
 };
 
 /**

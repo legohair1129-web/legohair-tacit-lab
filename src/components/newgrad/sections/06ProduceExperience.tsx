@@ -10,6 +10,7 @@ import {
   FACE_DESIGN_OPTIONS,
   faceDesignSummary,
 } from "@/lib/newgrad/data/produce";
+import { NEWGRAD_IMAGES } from "@/lib/newgrad/data/images";
 import { getLegonComment } from "@/lib/newgrad/legon";
 import { trackEvent } from "@/lib/newgrad/track";
 import type { ColorChoice, FaceChoice } from "@/lib/newgrad/types";
@@ -18,9 +19,12 @@ import { ChoiceRow } from "../ui/ChoiceRow";
 import { Button } from "../ui/Button";
 import { Legon } from "../ui/Legon";
 import { ProgressLine } from "../ui/ProgressLine";
-import { MediaPlaceholder } from "../ui/MediaPlaceholder";
+import { Photo } from "../ui/Photo";
 
 const STEP_COUNT = 6;
+
+// The thought process this section makes visible, one verb per step.
+const STEP_VERBS = ["見る", "気づく", "考える", "考える", "考える", "提案する"];
 
 export function ProduceExperience() {
   const { state, update } = useNewGradState();
@@ -48,7 +52,11 @@ export function ProduceExperience() {
     <Section
       id="produce-experience"
       index="06"
-      kicker="you are the stylist."
+      accentIndex
+      topLine
+      tone="beige-tint"
+      pad="l"
+      kicker="produce experience"
       title={
         <>
           あなたなら、
@@ -57,26 +65,29 @@ export function ProduceExperience() {
         </>
       }
     >
-      <MediaPlaceholder label="BEFORE MODEL" className="mb-10" />
+      <Photo slot={NEWGRAD_IMAGES.beforeModel} className="mb-10" />
 
       {step === 0 && (
-        <Button onClick={beginProduce}>プロデュースをはじめる</Button>
+        <Button variant="pink" onClick={beginProduce}>
+          プロデュースをはじめる
+        </Button>
       )}
 
       {step >= 1 && step <= 6 && (
         <div className="mb-10">
-          <ProgressLine total={STEP_COUNT} current={step - 1} />
+          <ProgressLine total={STEP_COUNT} current={step - 1} accent="pink" />
         </div>
       )}
 
       {step === 1 && (
-        <StepBlock kicker="STEP 01" title="WHAT DO YOU SEE?" subtitle="第一印象は？">
+        <StepBlock verb={STEP_VERBS[0]} kicker="STEP 01" title="WHAT DO YOU SEE?" subtitle="第一印象は？">
           <div>
             {FIRST_IMPRESSION_OPTIONS.map((option, i) => (
               <ChoiceRow
                 key={option}
                 index={String(i + 1).padStart(2, "0")}
                 label={option}
+                accent="pink"
                 selected={state.firstImpression === option}
                 onClick={() => update({ firstImpression: option })}
               />
@@ -95,13 +106,14 @@ export function ProduceExperience() {
       )}
 
       {step === 2 && (
-        <StepBlock kicker="STEP 02" title="WHAT WOULD YOU CHANGE?">
+        <StepBlock verb={STEP_VERBS[1]} kicker="STEP 02" title="WHAT WOULD YOU CHANGE?">
           <div>
             {FOCUS_AREA_OPTIONS.map((option, i) => (
               <ChoiceRow
                 key={option}
                 index={String(i + 1).padStart(2, "0")}
                 label={option}
+                accent="pink"
                 selected={state.focusArea === option}
                 onClick={() => update({ focusArea: option })}
               />
@@ -120,7 +132,7 @@ export function ProduceExperience() {
       )}
 
       {step === 3 && (
-        <StepBlock kicker="STEP 03" title="WHO IS SHE?">
+        <StepBlock verb={STEP_VERBS[2]} kicker="STEP 03" title="WHO IS SHE?">
           <div>
             {MODEL_CONTEXT.map((item) => (
               <div
@@ -159,13 +171,14 @@ export function ProduceExperience() {
       )}
 
       {step === 4 && (
-        <StepBlock kicker="STEP 04" title="COLOR">
+        <StepBlock verb={STEP_VERBS[3]} kicker="STEP 04" title="COLOR">
           <div>
             {COLOR_OPTIONS.map((option) => (
               <ChoiceRow
                 key={option.key}
                 index={option.key}
                 label={option.label}
+                accent="pink"
                 selected={state.colorChoice === option.key}
                 onClick={() => update({ colorChoice: option.key as ColorChoice })}
               />
@@ -199,13 +212,14 @@ export function ProduceExperience() {
       )}
 
       {step === 5 && (
-        <StepBlock kicker="STEP 05" title="FACE DESIGN">
+        <StepBlock verb={STEP_VERBS[4]} kicker="STEP 05" title="FACE DESIGN">
           <div>
             {FACE_DESIGN_OPTIONS.map((option) => (
               <ChoiceRow
                 key={option.key}
                 index={option.key}
                 label={option.label}
+                accent="pink"
                 selected={state.faceChoice === option.key}
                 onClick={() => update({ faceChoice: option.key as FaceChoice })}
               />
@@ -224,7 +238,7 @@ export function ProduceExperience() {
       )}
 
       {step === 6 && (
-        <StepBlock kicker="STEP 06" title="FINAL PROPOSAL">
+        <StepBlock verb={STEP_VERBS[5]} kicker="STEP 06" title="FINAL PROPOSAL">
           <div>
             <Row label="前髪" value={faceDesignSummary(state.faceChoice)} />
             <Row
@@ -246,7 +260,7 @@ export function ProduceExperience() {
           </div>
 
           {!revealed && (
-            <Button className="mt-8" onClick={finish}>
+            <Button variant="pink" className="mt-8" onClick={finish}>
               この提案で完成を見る
             </Button>
           )}
@@ -257,8 +271,8 @@ export function ProduceExperience() {
                 before / after
               </div>
               <div className="grid grid-cols-2 gap-2">
-                <MediaPlaceholder label="BEFORE MODEL" />
-                <MediaPlaceholder label="AFTER MODEL" />
+                <Photo slot={NEWGRAD_IMAGES.beforeModel} aspect="aspect-[3/4]" />
+                <Photo slot={NEWGRAD_IMAGES.afterModel} aspect="aspect-[3/4]" />
               </div>
             </div>
           )}
@@ -269,11 +283,13 @@ export function ProduceExperience() {
 }
 
 function StepBlock({
+  verb,
   kicker,
   title,
   subtitle,
   children,
 }: {
+  verb: string;
   kicker: string;
   title: string;
   subtitle?: string;
@@ -281,8 +297,13 @@ function StepBlock({
 }) {
   return (
     <div className="ng-reveal">
-      <div className="ng-sans-en mb-2 text-xs font-semibold tracking-[0.2em] uppercase opacity-45">
-        {kicker}
+      <div className="mb-2 flex items-center gap-3">
+        <span className="ng-sans-en text-xs font-semibold tracking-[0.2em] uppercase opacity-45">
+          {kicker}
+        </span>
+        <span className="rounded-full bg-[var(--ng-hotpink-soft)] px-2.5 py-0.5 text-xs font-semibold text-[var(--ng-hotpink)]">
+          {verb}
+        </span>
       </div>
       <h3 className="ng-serif mb-6 text-2xl font-medium">
         {title}

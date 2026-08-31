@@ -7,10 +7,12 @@ import {
   SENPAI_VIDEO_QUESTIONS,
   matchSenpai,
 } from "@/lib/newgrad/data/senpai";
+import { NEWGRAD_IMAGES } from "@/lib/newgrad/data/images";
 import { toggleWithMax } from "@/lib/newgrad/selection";
 import { trackEvent } from "@/lib/newgrad/track";
 import { Section } from "../ui/Section";
 import { Button } from "../ui/Button";
+import { Photo } from "../ui/Photo";
 import { MediaPlaceholder } from "../ui/MediaPlaceholder";
 
 const DISPLAY_COUNT = 2;
@@ -39,6 +41,10 @@ export function SenpaiMatch() {
     <Section
       id="senpai-match"
       index="11"
+      accentIndex
+      topLine
+      tone="beige-tint"
+      pad="l"
       kicker="match with"
       title="あなたに近い先輩は、誰？"
     >
@@ -54,8 +60,10 @@ export function SenpaiMatch() {
               type="button"
               onClick={() => toggleTag(tag)}
               aria-pressed={selected}
-              className={`text-xs underline underline-offset-4 transition-opacity ${
-                selected ? "opacity-100" : "opacity-40 hover:opacity-70"
+              className={`text-xs underline underline-offset-4 transition-colors ${
+                selected
+                  ? "text-[var(--ng-hotpink)] opacity-100"
+                  : "opacity-40 hover:opacity-70"
               }`}
             >
               {tag}
@@ -67,7 +75,7 @@ export function SenpaiMatch() {
       <div className="flex flex-col gap-20">
         {ranked.map(({ senpai, percent }) => (
           <div key={senpai.id} className="border-t border-[var(--ng-line)] pt-8">
-            <MediaPlaceholder label="STAFF PHOTO" className="mb-6" />
+            <Photo slot={NEWGRAD_IMAGES.staff} aspect="aspect-[4/5]" className="mb-6" />
 
             <div className="mb-4 flex items-start justify-between gap-4">
               <div>
@@ -76,7 +84,7 @@ export function SenpaiMatch() {
                   {senpai.school} / {senpai.joinedYear}
                 </p>
               </div>
-              <span className="ng-sans-en shrink-0 pt-1 text-xs tracking-widest opacity-45">
+              <span className="ng-sans-en shrink-0 pt-1 text-xs tracking-widest text-[var(--ng-hotpink)]">
                 MATCH {percent}%
               </span>
             </div>
@@ -97,7 +105,7 @@ export function SenpaiMatch() {
             </div>
 
             <Button
-              variant={state.matchedSenpai === senpai.id ? "solid" : "outline"}
+              variant={state.matchedSenpai === senpai.id ? "pink" : "pink-outline"}
               onClick={() => chooseSenpai(senpai.id)}
             >
               この先輩に聞いてみたい

@@ -6,10 +6,11 @@ import {
   ONE_DAY_GROWTH_RESULT,
   ONE_DAY_FAVORITE_OPTIONS,
 } from "@/lib/newgrad/data/oneDay";
+import { NEWGRAD_IMAGES } from "@/lib/newgrad/data/images";
 import { trackEvent } from "@/lib/newgrad/track";
 import { Section } from "../ui/Section";
 import { ChoiceRow } from "../ui/ChoiceRow";
-import { MediaPlaceholder } from "../ui/MediaPlaceholder";
+import { Photo } from "../ui/Photo";
 
 export function OneDayExperience() {
   const { state, update } = useNewGradState();
@@ -23,6 +24,10 @@ export function OneDayExperience() {
     <Section
       id="one-day-experience"
       index="10"
+      accentIndex
+      topLine
+      tone="ivory"
+      pad="l"
       kicker="a day at legohair"
       title={
         <>
@@ -38,25 +43,24 @@ export function OneDayExperience() {
             key={moment.time}
             className="border-t border-[var(--ng-line)] py-6 last:border-b"
           >
+            {i % 2 === 0 && (
+              <Photo
+                slot={NEWGRAD_IMAGES.oneDay[(i / 2) % NEWGRAD_IMAGES.oneDay.length]}
+                aspect="aspect-video"
+                className="mb-4"
+              />
+            )}
             <div className="flex items-baseline gap-4">
               <span className="ng-sans-en text-2xl font-semibold tracking-tight">
                 {moment.time}
               </span>
               <span className="text-sm opacity-60">{moment.label}</span>
             </div>
-            {i % 2 === 0 && (
-              <MediaPlaceholder
-                label="ONE DAY VIDEO"
-                kind="video"
-                aspect="wide"
-                className="mt-4"
-              />
-            )}
           </li>
         ))}
       </ol>
 
-      <div className="mt-16 border-t border-b border-[var(--ng-ink)] py-6">
+      <div className="mt-16 border-t border-b border-[var(--ng-hotpink)] py-6">
         <div className="ng-sans-en mb-4 text-xs font-semibold tracking-[0.2em] uppercase opacity-50">
           today&apos;s growth
         </div>
@@ -64,7 +68,7 @@ export function OneDayExperience() {
           {ONE_DAY_GROWTH_RESULT.map((r) => (
             <div key={r.key} className="ng-sans-en text-sm">
               <span className="opacity-55">{r.key}</span>{" "}
-              <span className="font-semibold">{r.delta}</span>
+              <span className="font-semibold text-[var(--ng-hotpink)]">{r.delta}</span>
             </div>
           ))}
         </div>
@@ -80,6 +84,7 @@ export function OneDayExperience() {
               key={option}
               index={String(i + 1).padStart(2, "0")}
               label={option}
+              accent="pink"
               selected={state.oneDayFavorite === option}
               onClick={() => pickFavorite(option)}
             />

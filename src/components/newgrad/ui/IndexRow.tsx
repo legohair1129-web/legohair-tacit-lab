@@ -4,6 +4,8 @@ interface IndexRowProps {
   detail?: React.ReactNode;
   onClick?: () => void; // pass to make this an accordion row
   open?: boolean;
+  /** Small HOT PINK tick before the numeral - opt-in (Phase 2 only). */
+  accent?: boolean;
 }
 
 /**
@@ -11,7 +13,7 @@ interface IndexRowProps {
  * expandable detail. Reused for static indexes (FACE/COLOR/... , growth
  * elements, salon-tour spots) and as the RECRUIT INFO accordion row.
  */
-export function IndexRow({ index, label, detail, onClick, open }: IndexRowProps) {
+export function IndexRow({ index, label, detail, onClick, open, accent = false }: IndexRowProps) {
   const interactive = typeof onClick === "function";
   const expanded = interactive ? Boolean(open) : Boolean(detail);
 
@@ -19,6 +21,9 @@ export function IndexRow({ index, label, detail, onClick, open }: IndexRowProps)
     <>
       <span className="flex w-full items-center justify-between gap-4">
         <span className="flex items-baseline gap-4">
+          {accent && (
+            <span className="h-1.5 w-1.5 shrink-0 self-center rounded-full bg-[var(--ng-hotpink)]" />
+          )}
           <span className="ng-sans-en text-xs font-semibold tracking-widest opacity-45">
             {index}
           </span>

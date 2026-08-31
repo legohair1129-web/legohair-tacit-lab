@@ -22,10 +22,19 @@ export interface NewGradImageConfig {
   question: ImageSlot[];
   diagnosis: ImageSlot;
   strength: ImageSlot;
+  /** 06 PRODUCE EXPERIENCE - model before the produce flow. */
+  beforeModel: ImageSlot;
+  /** 06 PRODUCE EXPERIENCE - model after the produce flow. */
+  afterModel: ImageSlot;
+  /** 07 - a person, for "似合うには理由がある" (a viewpoint, not a menu). */
+  goodImpression: ImageSlot;
+  /** 08 最高のビフォー - a counseling/design moment, not a before/after ad shot. */
+  bestBefore: ImageSlot;
   staff: ImageSlot;
   salon: ImageSlot;
   education: ImageSlot;
-  oneDay: ImageSlot;
+  /** One photo per alternating 10 ONE DAY EXPERIENCE timeline moment. */
+  oneDay: ImageSlot[];
   senpai: ImageSlot;
 }
 
@@ -40,9 +49,17 @@ export const NEWGRAD_IMAGES: NewGradImageConfig = {
   ],
   diagnosis: { src: null, alt: "診断イメージ写真", objectPosition: "center" },
   strength: { src: null, alt: "スタッフの自然な表情", objectPosition: "center" },
+  beforeModel: { src: null, alt: "プロデュース前のモデル写真", objectPosition: "center" },
+  afterModel: { src: null, alt: "プロデュース後のモデル写真", objectPosition: "center" },
+  goodImpression: { src: null, alt: "カウンセリングをする美容師のイメージ写真", objectPosition: "center" },
+  bestBefore: { src: null, alt: "デザイン・ケアを考える美容師のイメージ写真", objectPosition: "center" },
   staff: { src: null, alt: "LEGOHAIRスタッフ", objectPosition: "top" },
   salon: { src: null, alt: "LEGOHAIRの店舗", objectPosition: "center" },
   education: { src: null, alt: "教育・研修の様子", objectPosition: "center" },
-  oneDay: { src: null, alt: "1日の働き方の一場面", objectPosition: "center" },
+  oneDay: [
+    { src: null, alt: "出勤・準備の様子", objectPosition: "center" },
+    { src: null, alt: "カラー施術の様子", objectPosition: "center" },
+    { src: null, alt: "先輩に質問する様子", objectPosition: "center" },
+  ],
   senpai: { src: null, alt: "先輩スタッフ", objectPosition: "top" },
 };
