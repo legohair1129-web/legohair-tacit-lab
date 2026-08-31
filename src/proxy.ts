@@ -5,7 +5,12 @@ import type { Database } from "@/lib/types/database";
 export async function proxy(request: NextRequest) {
   // LEGOHAIR NEW GRAD (/newgrad) is a public recruiting LP, independent
   // from this authenticated app - skip the auth check entirely for it.
-  if (request.nextUrl.pathname.startsWith("/newgrad")) {
+  // "/" is included so a dedicated newgrad-only Vercel deployment (its
+  // Production Branch pointed at a non-main branch) can land visitors on
+  // the LP instead of forcing them through /login; this proxy still gates
+  // every other route as before, and main's own root page.tsx sends "/"
+  // to /home there, so TACIT LAB's real production is unaffected.
+  if (request.nextUrl.pathname === "/" || request.nextUrl.pathname.startsWith("/newgrad")) {
     return NextResponse.next({ request });
   }
 
