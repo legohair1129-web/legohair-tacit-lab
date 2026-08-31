@@ -37,28 +37,39 @@ export function OneDayExperience() {
         </>
       }
     >
-      <ol>
-        {ONE_DAY_TIMELINE.map((moment, i) => (
-          <li
-            key={moment.time}
-            className="border-t border-[var(--ng-line)] py-6 last:border-b"
-          >
-            {i % 2 === 0 && (
-              <Photo
-                slot={NEWGRAD_IMAGES.oneDay[(i / 2) % NEWGRAD_IMAGES.oneDay.length]}
-                aspect="aspect-video"
-                className="mb-4"
-              />
-            )}
-            <div className="flex items-baseline gap-4">
-              <span className="ng-sans-en text-2xl font-semibold tracking-tight">
-                {moment.time}
-              </span>
-              <span className="text-sm opacity-60">{moment.label}</span>
+      <div className="flex flex-col">
+        {ONE_DAY_TIMELINE.map((moment, i) => {
+          const pairIndex = Math.floor(i / 2);
+          const isPhotoBeat = i % 2 === 0;
+          return (
+            <div key={moment.time}>
+              {isPhotoBeat && (
+                <div className="-mx-6 relative mt-2 first:mt-0">
+                  <Photo
+                    slot={NEWGRAD_IMAGES.oneDay[pairIndex % NEWGRAD_IMAGES.oneDay.length]}
+                    aspect={pairIndex % 2 === 0 ? "aspect-[4/5]" : "aspect-video"}
+                    rounded="rounded-none"
+                  />
+                  <div className="absolute bottom-4 left-6 rounded-[18px] bg-[var(--ng-white)]/95 px-4 py-2.5 shadow-[0_2px_10px_rgba(22,22,22,0.08)]">
+                    <span className="ng-sans-en block text-2xl font-semibold tracking-tight text-[var(--ng-hotpink)]">
+                      {moment.time}
+                    </span>
+                    <span className="text-sm opacity-70">{moment.label}</span>
+                  </div>
+                </div>
+              )}
+              {!isPhotoBeat && (
+                <div className="flex items-baseline gap-4 border-b border-[var(--ng-line)] py-5">
+                  <span className="ng-sans-en text-xl font-semibold tracking-tight opacity-70">
+                    {moment.time}
+                  </span>
+                  <span className="text-sm opacity-55">{moment.label}</span>
+                </div>
+              )}
             </div>
-          </li>
-        ))}
-      </ol>
+          );
+        })}
+      </div>
 
       <div className="mt-16 border-t border-b border-[var(--ng-hotpink)] py-6">
         <div className="ng-sans-en mb-4 text-xs font-semibold tracking-[0.2em] uppercase opacity-50">

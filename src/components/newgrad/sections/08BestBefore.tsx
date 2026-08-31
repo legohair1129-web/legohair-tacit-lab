@@ -15,7 +15,7 @@ export function BestBefore() {
       pad="l"
       align="center"
     >
-      <div className="ng-reveal flex flex-col items-center gap-8">
+      <div className="ng-reveal flex flex-col items-center gap-10">
         <p className="text-lg leading-relaxed opacity-80">
           今日、
           <br />
@@ -30,11 +30,21 @@ export function BestBefore() {
           デザインする。
         </p>
 
-        <Photo
-          slot={NEWGRAD_IMAGES.bestBefore}
-          aspect="aspect-[4/5]"
-          className="w-[80%] -rotate-1"
-        />
+        <div className="relative w-full py-6">
+          <Photo
+            slot={NEWGRAD_IMAGES.bestBefore}
+            aspect="aspect-[4/5]"
+            className="mx-auto w-[74%] -rotate-2"
+          />
+          <div className="absolute right-[8%] bottom-0 w-[38%] rotate-3">
+            <Photo
+              slot={NEWGRAD_IMAGES.bestBeforeDetail}
+              aspect="aspect-square"
+              rounded="rounded-[18px]"
+              className="shadow-[0_0_0_5px_var(--ng-pink-tint)]"
+            />
+          </div>
+        </div>
 
         <div className="ng-sans-en flex items-center gap-2 text-[10px] font-semibold tracking-[0.14em] text-[var(--ng-ink)] opacity-45 uppercase">
           {PROCESS.map((step, i) => (
@@ -50,7 +60,7 @@ export function BestBefore() {
           <br />
           つくる。
         </p>
-        <p className="mt-4 max-w-[30ch] text-xs leading-relaxed opacity-45">
+        <p className="mt-2 max-w-[30ch] text-xs leading-relaxed opacity-45">
           LEGOHAIRでは、次回来店した時の髪まで考えて技術・提案・ホームケアを組み立てます。
         </p>
       </div>

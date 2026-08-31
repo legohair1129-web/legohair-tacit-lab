@@ -72,44 +72,50 @@ export function SenpaiMatch() {
         })}
       </div>
 
-      <div className="flex flex-col gap-20">
-        {ranked.map(({ senpai, percent }) => (
-          <div key={senpai.id} className="border-t border-[var(--ng-line)] pt-8">
-            <Photo slot={NEWGRAD_IMAGES.staff} aspect="aspect-[4/5]" className="mb-6" />
-
-            <div className="mb-4 flex items-start justify-between gap-4">
-              <div>
-                <p className="text-lg font-semibold">{senpai.name}</p>
-                <p className="text-xs opacity-55">
-                  {senpai.school} / {senpai.joinedYear}
-                </p>
-              </div>
-              <span className="ng-sans-en shrink-0 pt-1 text-xs tracking-widest text-[var(--ng-hotpink)]">
+      <div className="-mx-6 flex flex-col gap-24">
+        {ranked.map(({ senpai, percent }, rank) => (
+          <div key={senpai.id}>
+            <div className="relative">
+              <Photo
+                slot={NEWGRAD_IMAGES.senpaiPhotos[rank % NEWGRAD_IMAGES.senpaiPhotos.length]}
+                aspect="aspect-[4/5]"
+                rounded="rounded-none"
+              />
+              <span className="ng-sans-en absolute top-5 right-6 rounded-full bg-[var(--ng-hotpink)] px-3 py-1.5 text-[10px] font-semibold tracking-[0.16em] text-[var(--ng-white)] uppercase">
                 MATCH {percent}%
               </span>
             </div>
 
-            <blockquote className="ng-serif mb-6 text-xl leading-relaxed italic opacity-90">
-              「{senpai.story}」
-            </blockquote>
+            <div className="px-6">
+              <div className="mt-6 mb-4">
+                <p className="ng-serif text-2xl font-semibold">{senpai.name}</p>
+                <p className="text-xs opacity-55">
+                  {senpai.school} / {senpai.joinedYear}
+                </p>
+              </div>
 
-            <div className="mb-6 -mx-6 flex gap-3 overflow-x-auto px-6 pb-1">
-              {SENPAI_VIDEO_QUESTIONS.map((q) => (
-                <div key={q.key} className="w-28 shrink-0">
-                  <MediaPlaceholder label="STAFF VIDEO" kind="video" aspect="portrait" />
-                  <p className="mt-2 text-[11px] leading-tight opacity-55">
-                    {q.question}
-                  </p>
-                </div>
-              ))}
+              <blockquote className="ng-serif mb-6 text-xl leading-relaxed italic opacity-90">
+                「{senpai.story}」
+              </blockquote>
+
+              <div className="mb-6 -mx-6 flex gap-3 overflow-x-auto px-6 pb-1">
+                {SENPAI_VIDEO_QUESTIONS.map((q) => (
+                  <div key={q.key} className="w-28 shrink-0">
+                    <MediaPlaceholder label="STAFF VIDEO" kind="video" aspect="portrait" />
+                    <p className="mt-2 text-[11px] leading-tight opacity-55">
+                      {q.question}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <Button
+                variant={state.matchedSenpai === senpai.id ? "pink" : "pink-outline"}
+                onClick={() => chooseSenpai(senpai.id)}
+              >
+                この先輩に聞いてみたい
+              </Button>
             </div>
-
-            <Button
-              variant={state.matchedSenpai === senpai.id ? "pink" : "pink-outline"}
-              onClick={() => chooseSenpai(senpai.id)}
-            >
-              この先輩に聞いてみたい
-            </Button>
           </div>
         ))}
       </div>

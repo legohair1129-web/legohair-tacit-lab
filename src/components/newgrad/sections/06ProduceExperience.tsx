@@ -25,6 +25,8 @@ const STEP_COUNT = 6;
 
 // The thought process this section makes visible, one verb per step.
 const STEP_VERBS = ["見る", "気づく", "考える", "考える", "考える", "提案する"];
+// Same process, de-duplicated, as a single preview chain before starting.
+const PROCESS_CHAIN = ["見る", "気づく", "考える", "提案する"];
 
 export function ProduceExperience() {
   const { state, update } = useNewGradState();
@@ -56,21 +58,38 @@ export function ProduceExperience() {
       topLine
       tone="beige-tint"
       pad="l"
-      kicker="produce experience"
-      title={
-        <>
-          あなたなら、
-          <br />
-          この人の魅力をどう引き出す？
-        </>
-      }
     >
-      <Photo slot={NEWGRAD_IMAGES.beforeModel} className="mb-10" />
+      <div className="-mx-6 relative">
+        <Photo
+          slot={NEWGRAD_IMAGES.beforeModel}
+          aspect="aspect-[3/4]"
+          rounded="rounded-none"
+        />
+        <span className="ng-sans-en absolute top-5 left-6 rounded-full bg-[var(--ng-white)]/90 px-3 py-1.5 text-[10px] font-semibold tracking-[0.18em] uppercase">
+          PRODUCE EXPERIENCE
+        </span>
+      </div>
+
+      <h2 className="ng-reveal mt-8 mb-6 text-[2rem] leading-[1.15] font-medium tracking-tight">
+        あなたなら、
+        <br />
+        この人の魅力をどう引き出す？
+      </h2>
 
       {step === 0 && (
-        <Button variant="pink" onClick={beginProduce}>
-          プロデュースをはじめる
-        </Button>
+        <>
+          <div className="mb-10 flex flex-wrap items-center gap-x-2 gap-y-1">
+            {PROCESS_CHAIN.map((verb, i) => (
+              <span key={verb} className="flex items-center gap-2">
+                {i > 0 && <span className="text-[var(--ng-hotpink)]">→</span>}
+                <span className="ng-hand text-lg -rotate-1">{verb}</span>
+              </span>
+            ))}
+          </div>
+          <Button variant="pink" onClick={beginProduce}>
+            プロデュースをはじめる
+          </Button>
+        </>
       )}
 
       {step >= 1 && step <= 6 && (
