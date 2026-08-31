@@ -1,41 +1,90 @@
 /*
- * Scoped design tokens for the FUTURE EXPERIENCE new-grad LP.
+ * Design tokens for LEGOHAIR NEW GRAD - FUTURE EXPERIENCE (v2 / editorial).
  * Everything lives under .ng-scope so it can never bleed into, or be
  * affected by, the existing TACIT LAB styles in src/app/globals.css.
+ *
+ * Palette: near-monochrome (ivory / ink / white). Five muted accents exist
+ * but a single screen uses at most one - accent color marks a selection, a
+ * state change, or one important line, never a UI chrome default.
  */
 .ng-scope {
-  --ng-bg: #ffffff;
-  --ng-surface: #f7f5f0;
-  --ng-ink: #17140f;
-  --ng-muted: #78746c;
-  --ng-border: #e9e5db;
-  --ng-accent: #b5794f;
-  --ng-accent-soft: #fbe9db;
-  --ng-pop: #ff5a36;
-  --ng-pop-soft: #ffe6dd;
+  --ng-ivory: #f7f6f2;
+  --ng-ivory-2: #f1efea;
+  --ng-white: #ffffff;
+  --ng-ink: #161616;
 
-  background: var(--ng-bg);
+  --ng-line: rgba(22, 22, 22, 0.14);
+  --ng-line-soft: rgba(22, 22, 22, 0.08);
+  --ng-line-dark: rgba(255, 255, 255, 0.22);
+  --ng-line-dark-soft: rgba(255, 255, 255, 0.12);
+
+  --ng-muted: rgba(22, 22, 22, 0.58);
+  --ng-muted-dark: rgba(255, 255, 255, 0.62);
+
+  /* Muted accents - use exactly one per screen/context. */
+  --ng-coral: #c1665a;
+  --ng-orange: #c98a4b;
+  --ng-blue: #70899f;
+  --ng-sage: #7c8a66;
+  --ng-gray-warm: #9c9186;
+
+  /* Diagnosis type -> accent (display only; scoring keys are unaffected). */
+  --ng-type-creator: var(--ng-coral);
+  --ng-type-connector: var(--ng-blue);
+  --ng-type-producer: var(--ng-orange);
+  --ng-type-challenger: var(--ng-sage);
+
+  /* Section rhythm - deliberately large and uneven; whitespace is part of
+     the design, not a gap to fill. */
+  --ng-pad-s: 5rem;
+  --ng-pad-m: 6.5rem;
+  --ng-pad-l: 8.75rem;
+
+  background: var(--ng-ivory);
   color: var(--ng-ink);
   font-family: var(--font-noto-sans-jp), ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "palt" 1;
 }
 
 .ng-scope * {
   box-sizing: border-box;
 }
 
+.ng-serif {
+  font-family: var(--ng-font-serif), "Times New Roman", serif;
+}
+
+.ng-sans-en {
+  font-family: var(--ng-font-sans-en), Helvetica, Arial, sans-serif;
+}
+
 @media (prefers-reduced-motion: no-preference) {
-  .ng-scope .ng-animate-in {
-    animation: ng-fade-up 0.5s ease-out both;
+  .ng-scope .ng-reveal {
+    animation: ng-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .ng-scope .ng-scale-in {
+    animation: ng-scale-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 }
 
 @keyframes ng-fade-up {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(14px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes ng-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }

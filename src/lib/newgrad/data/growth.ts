@@ -42,11 +42,9 @@ export const GROWTH_TROUBLE_ACTIONS = [
   "もう一度やる",
 ] as const;
 
+/** Chapter-style year markers - large numerals, one line of copy each. */
 export const GROWTH_TIMELINE = [
-  {
-    year: "1年後",
-    lines: ["1年前、\n美容師に向いてるかな、と思っていた。", "今は、\nできることが増えている。"],
-  },
-  { year: "YEAR 2", lines: ["自分の得意を見つける"] },
-  { year: "YEAR 3", lines: ["自分らしい美容師になる"] },
+  { year: "01", line: "まず、できないことを知る。" },
+  { year: "02", line: "得意を見つける。" },
+  { year: "03", line: "自分らしい美容師になる。" },
 ] as const;

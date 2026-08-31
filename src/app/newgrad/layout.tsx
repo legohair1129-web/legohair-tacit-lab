@@ -1,7 +1,23 @@
 import type { Metadata } from "next";
+import { Fraunces, Inter } from "next/font/google";
 import "./newgrad.css";
 import { NewGradProvider } from "@/lib/newgrad/StateProvider";
 import { ScrollSmooth } from "@/components/newgrad/ui/ScrollSmooth";
+
+// Editorial serif for large English headline words (WHO WILL YOU BECOME?).
+const fraunces = Fraunces({
+  variable: "--ng-font-serif",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
+});
+
+// Helvetica/Arial-adjacent grotesk for English labels, kickers and numerals.
+const inter = Inter({
+  variable: "--ng-font-sans-en",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
   title: "LEGOHAIR NEW GRAD | FUTURE EXPERIENCE",
@@ -19,7 +35,7 @@ export default function NewGradLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="ng-scope">
+    <div className={`ng-scope ${fraunces.variable} ${inter.variable}`}>
       <ScrollSmooth />
       <NewGradProvider>{children}</NewGradProvider>
     </div>

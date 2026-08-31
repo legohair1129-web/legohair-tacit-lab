@@ -6,8 +6,10 @@ import {
   REAL_SIDE_ITEMS,
   REAL_BEAUTIFUL_CARDS,
 } from "@/lib/newgrad/data/realBeautiful";
+import { getLegonComment } from "@/lib/newgrad/legon";
 import { Section } from "../ui/Section";
 import { MediaPlaceholder } from "../ui/MediaPlaceholder";
+import { Legon } from "../ui/Legon";
 
 type Side = "beautiful" | "real";
 
@@ -25,64 +27,83 @@ export function RealBeautiful() {
 
   return (
     <Section id="real-beautiful" index="12" title="美容師の、ふたつの顔。">
-      <div className="mb-6 grid grid-cols-2 gap-2">
+      <div className="mb-10 flex gap-8 border-b border-[var(--ng-line)]">
         <button
           type="button"
           onClick={() => select("beautiful")}
           aria-pressed={side === "beautiful"}
-          className={`rounded-full py-3 text-xs font-bold tracking-wide ${
+          className={`ng-sans-en border-b-2 pb-4 text-xs font-semibold tracking-[0.16em] uppercase transition-colors ${
             side === "beautiful"
-              ? "bg-[var(--ng-ink)] text-white"
-              : "border border-[var(--ng-border)] text-[var(--ng-muted)]"
+              ? "border-[var(--ng-ink)] opacity-100"
+              : "border-transparent opacity-40"
           }`}
         >
-          BEAUTIFUL SIDE｜キラキラを見る
+          Beautiful side
         </button>
         <button
           type="button"
           onClick={() => select("real")}
           aria-pressed={side === "real"}
-          className={`rounded-full py-3 text-xs font-bold tracking-wide ${
+          className={`ng-sans-en border-b-2 pb-4 text-xs font-semibold tracking-[0.16em] uppercase transition-colors ${
             side === "real"
-              ? "bg-[var(--ng-ink)] text-white"
-              : "border border-[var(--ng-border)] text-[var(--ng-muted)]"
+              ? "border-[var(--ng-ink)] opacity-100"
+              : "border-transparent opacity-40"
           }`}
         >
-          REAL SIDE｜リアルを見る
+          Real side
         </button>
       </div>
 
-      <div key={side} className="ng-animate-in grid grid-cols-2 gap-3">
+      <div key={side} className="ng-reveal grid grid-cols-2 gap-2">
         {items.map((item) => (
           <div key={item}>
-            <MediaPlaceholder label={side === "beautiful" ? "STAFF PHOTO" : "STAFF VIDEO"} aspect="square" />
-            <p className="mt-1 text-center text-xs text-[var(--ng-muted)]">{item}</p>
+            <MediaPlaceholder
+              label={side === "beautiful" ? "STAFF PHOTO" : "STAFF VIDEO"}
+              kind={side === "beautiful" ? "photo" : "video"}
+              aspect="square"
+            />
+            <p className="mt-2 text-xs opacity-55">{item}</p>
           </div>
         ))}
       </div>
 
       {bothViewed && (
-        <div className="ng-animate-in mt-12 flex flex-col items-center gap-6 text-center">
-          <p className="text-2xl font-bold">どちらも、美容師。</p>
-          <p className="text-2xl font-bold text-[var(--ng-pop)]">だから、面白い。</p>
-
-          <p className="whitespace-pre-line text-sm leading-relaxed text-[var(--ng-muted)]">
-            {"LEGOHAIRは、\n楽しいことしかありません、とは言いません。\n\nでも、\n一人にしない。"}
+        <div className="ng-reveal mt-20">
+          <p className="ng-serif text-4xl leading-[1.2] font-medium">
+            BOTH ARE
+            <br />
+            BEAUTY.
+          </p>
+          <p className="mt-4 text-base opacity-70">
+            どちらも、美容師。
+            <br />
+            だから、面白い。
           </p>
 
-          <div className="grid w-full grid-cols-3 gap-2">
-            {REAL_BEAUTIFUL_CARDS.map((card) => (
+          <p className="mt-10 max-w-[32ch] text-sm leading-relaxed opacity-55">
+            LEGOHAIRは、楽しいことしかありません、とは言いません。でも、一人にしない。
+          </p>
+
+          <div className="mt-8">
+            {REAL_BEAUTIFUL_CARDS.map((card, i) => (
               <div
                 key={card.title}
-                className="rounded-2xl border border-[var(--ng-border)] p-3"
+                className="flex gap-4 border-t border-[var(--ng-line)] py-4 last:border-b"
               >
-                <div className="mb-1 text-xs font-bold tracking-wide text-[var(--ng-accent)]">
-                  {card.title}
+                <span className="ng-sans-en w-6 shrink-0 text-xs font-semibold tracking-widest opacity-45">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <p className="ng-sans-en text-sm font-semibold tracking-wide">
+                    {card.title}
+                  </p>
+                  <p className="mt-1 text-sm opacity-60">{card.body}</p>
                 </div>
-                <p className="text-[0.7rem] leading-snug">{card.body}</p>
               </div>
             ))}
           </div>
+
+          <Legon text={getLegonComment("realBeautifulReveal")} className="mt-10" />
         </div>
       )}
     </Section>

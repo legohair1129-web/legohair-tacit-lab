@@ -1,27 +1,42 @@
 import type { ButtonHTMLAttributes } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "ghost";
+  variant?: "solid" | "outline" | "text";
+  fullWidth?: boolean;
 }
 
 const VARIANT_CLASSES: Record<NonNullable<ButtonProps["variant"]>, string> = {
-  primary:
-    "bg-[var(--ng-pop)] text-white hover:opacity-90 disabled:opacity-40",
-  secondary:
-    "border border-[var(--ng-ink)] text-[var(--ng-ink)] hover:bg-[var(--ng-ink)] hover:text-white disabled:opacity-40",
-  ghost:
-    "text-[var(--ng-ink)] underline underline-offset-4 hover:opacity-70 disabled:opacity-40",
+  solid:
+    "bg-[var(--ng-ink)] text-[var(--ng-ivory)] border border-[var(--ng-ink)] hover:opacity-85",
+  outline:
+    "border border-[var(--ng-ink)] text-[var(--ng-ink)] hover:bg-[var(--ng-ink)] hover:text-[var(--ng-ivory)]",
+  text: "border-b border-[var(--ng-ink)] text-[var(--ng-ink)] px-0 hover:opacity-60",
 };
 
+/**
+ * Slim, rectangular editorial CTA - text + arrow, not a chunky rounded
+ * pill. `text` variant is a bare underline label for secondary actions.
+ */
 export function Button({
-  variant = "primary",
+  variant = "solid",
+  fullWidth = true,
   className = "",
+  children,
+  disabled,
   ...props
 }: ButtonProps) {
   return (
     <button
-      className={`w-full rounded-full px-6 py-4 text-sm font-bold tracking-wide transition-opacity ${VARIANT_CLASSES[variant]} ${className}`}
+      disabled={disabled}
+      className={`ng-sans-en group inline-flex items-center justify-between gap-4 px-6 py-4 text-xs font-semibold tracking-[0.18em] uppercase transition-colors disabled:cursor-not-allowed disabled:opacity-35 ${
+        fullWidth ? "w-full" : ""
+      } ${VARIANT_CLASSES[variant]} ${className}`}
       {...props}
-    />
+    >
+      <span>{children}</span>
+      <span aria-hidden className="transition-transform group-hover:translate-x-1">
+        →
+      </span>
+    </button>
   );
 }

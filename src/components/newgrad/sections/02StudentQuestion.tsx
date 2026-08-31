@@ -3,7 +3,7 @@
 import { useNewGradState } from "@/lib/newgrad/StateProvider";
 import { IDEAL_DAY_OPTIONS } from "@/lib/newgrad/data/studentQuestion";
 import { Section } from "../ui/Section";
-import { ChoiceCard } from "../ui/ChoiceCard";
+import { ChoiceRow } from "../ui/ChoiceRow";
 
 export function StudentQuestion() {
   const { state, update } = useNewGradState();
@@ -12,12 +12,19 @@ export function StudentQuestion() {
     <Section
       id="student-question"
       index="02"
-      title={"美容師になったら、\nどんな毎日を送りたい？"}
+      title={
+        <>
+          美容師になったら、
+          <br />
+          どんな毎日を送りたい？
+        </>
+      }
     >
-      <div className="flex flex-col gap-3">
-        {IDEAL_DAY_OPTIONS.map((option) => (
-          <ChoiceCard
+      <div>
+        {IDEAL_DAY_OPTIONS.map((option, i) => (
+          <ChoiceRow
             key={option}
+            index={String(i + 1).padStart(2, "0")}
             label={option}
             selected={state.idealDay === option}
             onClick={() =>
@@ -26,8 +33,10 @@ export function StudentQuestion() {
           />
         ))}
       </div>
-      <p className="mt-8 whitespace-pre-line text-sm leading-relaxed text-[var(--ng-muted)]">
-        {"まだ答えが決まっていなくても大丈夫。\nここから一緒に考えてみよう。"}
+      <p className="mt-10 max-w-[30ch] text-sm leading-relaxed opacity-55">
+        まだ答えが決まっていなくても大丈夫。
+        <br />
+        ここから一緒に考えてみよう。
       </p>
     </Section>
   );

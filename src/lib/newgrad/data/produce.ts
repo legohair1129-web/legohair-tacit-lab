@@ -10,10 +10,10 @@ export const FIRST_IMPRESSION_OPTIONS = [
 export const FOCUS_AREA_OPTIONS = [
   "前髪",
   "顔周り",
-  "カラー",
-  "シルエット",
-  "質感",
-  "トータルバランス",
+  "COLOR",
+  "SILHOUETTE",
+  "TEXTURE",
+  "TOTAL",
 ] as const;
 
 /** STEP 3: information revealed about the model before the "keep / change" decision. */

@@ -13,7 +13,7 @@ import { Section } from "../ui/Section";
 import { Button } from "../ui/Button";
 import { MediaPlaceholder } from "../ui/MediaPlaceholder";
 
-const DISPLAY_COUNT = 3;
+const DISPLAY_COUNT = 2;
 
 export function SenpaiMatch() {
   const { state, update } = useNewGradState();
@@ -36,11 +36,16 @@ export function SenpaiMatch() {
   }
 
   return (
-    <Section id="senpai-match" index="11" title="あなたに近い先輩は、誰？">
-      <p className="mb-4 text-sm font-bold">
+    <Section
+      id="senpai-match"
+      index="11"
+      kicker="match with"
+      title="あなたに近い先輩は、誰？"
+    >
+      <p className="mb-5 text-sm opacity-55">
         気になるものを最大{MAX_SENPAI_TAGS}つ選んでください。
       </p>
-      <div className="mb-10 flex flex-wrap gap-2">
+      <div className="mb-16 flex flex-wrap gap-x-5 gap-y-2">
         {SENPAI_TAG_OPTIONS.map((tag) => {
           const selected = state.senpaiPreferences.includes(tag);
           return (
@@ -49,10 +54,8 @@ export function SenpaiMatch() {
               type="button"
               onClick={() => toggleTag(tag)}
               aria-pressed={selected}
-              className={`rounded-full border px-4 py-2 text-xs font-medium transition-colors ${
-                selected
-                  ? "border-[var(--ng-pop)] bg-[var(--ng-pop-soft)]"
-                  : "border-[var(--ng-border)] bg-white hover:border-[var(--ng-accent)]"
+              className={`text-xs underline underline-offset-4 transition-opacity ${
+                selected ? "opacity-100" : "opacity-40 hover:opacity-70"
               }`}
             >
               {tag}
@@ -61,37 +64,32 @@ export function SenpaiMatch() {
         })}
       </div>
 
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-20">
         {ranked.map(({ senpai, percent }) => (
-          <div
-            key={senpai.id}
-            className="rounded-2xl border border-[var(--ng-border)] p-5"
-          >
-            <div className="mb-4 flex items-center gap-4">
-              <div className="w-20 shrink-0">
-                <MediaPlaceholder label="STAFF PHOTO" aspect="square" />
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center justify-between">
-                  <span className="font-bold">{senpai.name}</span>
-                  <span className="rounded-full bg-[var(--ng-pop)] px-2 py-1 text-xs font-bold text-white">
-                    MATCH {percent}%
-                  </span>
-                </div>
-                <p className="text-xs text-[var(--ng-muted)]">
-                  {senpai.joinedYear} / {senpai.school}
+          <div key={senpai.id} className="border-t border-[var(--ng-line)] pt-8">
+            <MediaPlaceholder label="STAFF PHOTO" className="mb-6" />
+
+            <div className="mb-4 flex items-start justify-between gap-4">
+              <div>
+                <p className="text-lg font-semibold">{senpai.name}</p>
+                <p className="text-xs opacity-55">
+                  {senpai.school} / {senpai.joinedYear}
                 </p>
-                <p className="text-xs text-[var(--ng-accent)]">{senpai.type}</p>
               </div>
+              <span className="ng-sans-en shrink-0 pt-1 text-xs tracking-widest opacity-45">
+                MATCH {percent}%
+              </span>
             </div>
 
-            <p className="mb-4 text-sm leading-relaxed">{senpai.story}</p>
+            <blockquote className="ng-serif mb-6 text-xl leading-relaxed italic opacity-90">
+              「{senpai.story}」
+            </blockquote>
 
-            <div className="mb-4 grid grid-cols-2 gap-2">
+            <div className="mb-6 -mx-6 flex gap-3 overflow-x-auto px-6 pb-1">
               {SENPAI_VIDEO_QUESTIONS.map((q) => (
-                <div key={q.key}>
-                  <MediaPlaceholder label="STAFF VIDEO" aspect="portrait" />
-                  <p className="mt-1 text-[0.65rem] leading-tight text-[var(--ng-muted)]">
+                <div key={q.key} className="w-28 shrink-0">
+                  <MediaPlaceholder label="STAFF VIDEO" kind="video" aspect="portrait" />
+                  <p className="mt-2 text-[11px] leading-tight opacity-55">
                     {q.question}
                   </p>
                 </div>
@@ -99,7 +97,7 @@ export function SenpaiMatch() {
             </div>
 
             <Button
-              variant={state.matchedSenpai === senpai.id ? "primary" : "secondary"}
+              variant={state.matchedSenpai === senpai.id ? "solid" : "outline"}
               onClick={() => chooseSenpai(senpai.id)}
             >
               この先輩に聞いてみたい

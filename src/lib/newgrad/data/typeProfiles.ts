@@ -7,7 +7,6 @@ export interface TypeProfile {
   headline: string;
   description: string;
   quote: string;
-  color: string; // CSS color used for the type's badge/accent
 }
 
 export const TYPE_PROFILES: Record<TypeKey, TypeProfile> = {
@@ -19,7 +18,6 @@ export const TYPE_PROFILES: Record<TypeKey, TypeProfile> = {
     description:
       "新しいものを見るとワクワクする。自分なりに考えたい。もっとカッコよく、もっと可愛くしたい。そんな感覚があなたの強みかもしれません。",
     quote: "センスは、才能だけじゃない。育てられる。",
-    color: "#E8552E",
   },
   CONNECTOR: {
     key: "CONNECTOR",
@@ -29,7 +27,6 @@ export const TYPE_PROFILES: Record<TypeKey, TypeProfile> = {
     description:
       "話を聞く。相手の気持ちを考える。一緒にいる人を安心させる。",
     quote: "また会いたい、は美容師の技術になる。",
-    color: "#2E8B6F",
   },
   PRODUCER: {
     key: "PRODUCER",
@@ -39,7 +36,6 @@ export const TYPE_PROFILES: Record<TypeKey, TypeProfile> = {
     description:
       "人の変化によく気づく。こっちの方が似合いそう、と考える。相手に合うものを探すのが好き。",
     quote: "髪を切る前に、人を見る。",
-    color: "#B5794F",
   },
   CHALLENGER: {
     key: "CHALLENGER",
@@ -49,7 +45,6 @@ export const TYPE_PROFILES: Record<TypeKey, TypeProfile> = {
     description:
       "目標があると燃える。昨日よりできるようになると嬉しい。やるならもっと上手くなりたい。",
     quote: "成長は、競争だけじゃない。",
-    color: "#3D5AA8",
   },
 };
 

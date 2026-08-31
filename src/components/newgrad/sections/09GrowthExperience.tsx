@@ -13,7 +13,8 @@ import {
 import { getLegonComment } from "@/lib/newgrad/legon";
 import { trackEvent } from "@/lib/newgrad/track";
 import { Section } from "../ui/Section";
-import { ChoiceCard } from "../ui/ChoiceCard";
+import { ChoiceRow } from "../ui/ChoiceRow";
+import { IndexRow } from "../ui/IndexRow";
 import { Legon } from "../ui/Legon";
 
 export function GrowthExperience() {
@@ -30,102 +31,107 @@ export function GrowthExperience() {
   }
 
   return (
-    <Section id="growth-experience" index="09" title={"入社したら、\nどんなふうに成長する？"}>
-      <Legon text={getLegonComment("growthIntro")} className="mb-10" />
+    <Section
+      id="growth-experience"
+      index="09"
+      kicker="growth experience"
+      title={
+        <>
+          入社したら、
+          <br />
+          どんなふうに成長する？
+        </>
+      }
+    >
+      <Legon text={getLegonComment("growthIntro")} className="mb-14" />
 
-      <SubHeading>入社1ヶ月</SubHeading>
-      <p className="mb-4 text-sm font-bold">最初に不安なのは？</p>
-      <div className="flex flex-col gap-3">
+      <SubKicker>MONTH 01 — 最初に不安なのは？</SubKicker>
+      <div className="mb-6">
         {GROWTH_CONCERN_OPTIONS.map((option) => (
-          <ChoiceCard
+          <ChoiceRow
             key={option.key}
-            label={`${option.key}　${option.text}`}
+            index={option.key}
+            label={option.text}
             selected={state.growthConcern === option.key}
             onClick={() => pickConcern(option.key)}
           />
         ))}
       </div>
       {pickedOption && (
-        <Legon
-          text={getLegonComment(pickedOption.legonKey)}
-          className="ng-animate-in mt-4"
-        />
+        <Legon text={getLegonComment(pickedOption.legonKey)} className="ng-reveal" />
       )}
 
-      <SubHeading className="mt-12">学ぶ4要素</SubHeading>
-      <div className="grid grid-cols-2 gap-3">
-        {GROWTH_ELEMENTS.map((el) => (
-          <div
+      <SubKicker className="mt-16">WHAT YOU LEARN</SubKicker>
+      <div>
+        {GROWTH_ELEMENTS.map((el, i) => (
+          <IndexRow
             key={el.key}
-            className="rounded-2xl border border-[var(--ng-border)] bg-[var(--ng-surface)] px-4 py-3 text-center"
-          >
-            <div className="text-xs tracking-widest text-[var(--ng-accent)]">
-              {el.label}
-            </div>
-            <div className="text-sm font-bold">{el.ja}</div>
-          </div>
-        ))}
-      </div>
-
-      <SubHeading className="mt-12">半年後</SubHeading>
-      <div className="flex flex-col gap-4">
-        {GROWTH_METER.map((meter) => (
-          <div key={meter.key}>
-            <div className="mb-1 flex justify-between text-xs text-[var(--ng-muted)]">
-              <span>{meter.label}</span>
-            </div>
-            <div className="flex gap-1">
-              {Array.from({ length: meter.max }).map((_, i) => (
-                <span
-                  key={i}
-                  className={`h-2 flex-1 rounded-full ${
-                    i < meter.level ? "bg-[var(--ng-pop)]" : "bg-[var(--ng-border)]"
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <SubHeading className="mt-12">うまくいかない日</SubHeading>
-      <ul className="mb-4 flex flex-col gap-1 text-sm text-[var(--ng-muted)]">
-        {GROWTH_TROUBLES.map((t) => (
-          <li key={t}>・{t}</li>
-        ))}
-      </ul>
-      <p className="mb-3 text-center text-lg opacity-40">↓</p>
-      <div className="mb-4 grid grid-cols-2 gap-3">
-        {GROWTH_TROUBLE_ACTIONS.map((action) => (
-          <ChoiceCard
-            key={action}
-            label={action}
-            selected={troubleAction === action}
-            onClick={() => setTroubleAction(action)}
+            index={String(i + 1).padStart(2, "0")}
+            label={el.label}
+            detail={el.ja}
           />
         ))}
       </div>
+
+      <SubKicker className="mt-16">SIX MONTHS IN</SubKicker>
+      <div className="flex flex-col gap-5">
+        {GROWTH_METER.map((meter) => (
+          <div key={meter.key} className="flex items-center gap-4">
+            <span className="w-14 shrink-0 text-xs opacity-55">{meter.label}</span>
+            <span className="flex flex-1 gap-1">
+              {Array.from({ length: meter.max }).map((_, i) => (
+                <span
+                  key={i}
+                  className={`h-px flex-1 ${
+                    i < meter.level ? "bg-[var(--ng-ink)]" : "bg-[var(--ng-line)]"
+                  }`}
+                />
+              ))}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      <SubKicker className="mt-16">A DIFFICULT DAY</SubKicker>
+      <ul className="mb-6 flex flex-col gap-1 text-sm opacity-55">
+        {GROWTH_TROUBLES.map((t) => (
+          <li key={t}>{t}</li>
+        ))}
+      </ul>
+      <div className="mb-4 flex flex-wrap gap-x-6 gap-y-2">
+        {GROWTH_TROUBLE_ACTIONS.map((action) => (
+          <button
+            key={action}
+            type="button"
+            onClick={() => setTroubleAction(action)}
+            aria-pressed={troubleAction === action}
+            className={`text-sm underline underline-offset-4 transition-opacity ${
+              troubleAction === action ? "opacity-100" : "opacity-45 hover:opacity-70"
+            }`}
+          >
+            {action}
+          </button>
+        ))}
+      </div>
       {troubleAction && (
-        <p className="ng-animate-in text-center text-sm font-bold text-[var(--ng-pop)]">
-          {getLegonComment("growthTroubleResolved")}
-        </p>
+        <Legon text={getLegonComment("growthTroubleResolved")} className="ng-reveal" />
       )}
 
-      <SubHeading className="mt-12">その先</SubHeading>
-      <div className="flex flex-col gap-4">
+      <div className="mt-20 flex flex-col">
         {GROWTH_TIMELINE.map((item) => (
           <div
             key={item.year}
-            className="rounded-2xl border border-[var(--ng-border)] p-4"
+            className="border-t border-[var(--ng-line)] py-10 first:border-t"
           >
-            <div className="mb-2 text-xs tracking-widest text-[var(--ng-accent)]">
-              {item.year}
+            <div className="flex items-baseline gap-4">
+              <span className="ng-serif text-5xl font-medium opacity-90">
+                {item.year}
+              </span>
+              <span className="ng-sans-en text-xs tracking-[0.2em] uppercase opacity-40">
+                year
+              </span>
             </div>
-            {item.lines.map((line, i) => (
-              <p key={i} className="whitespace-pre-line text-sm leading-relaxed">
-                {line}
-              </p>
-            ))}
+            <p className="mt-3 text-lg leading-relaxed">{item.line}</p>
           </div>
         ))}
       </div>
@@ -133,7 +139,7 @@ export function GrowthExperience() {
   );
 }
 
-function SubHeading({
+function SubKicker({
   children,
   className = "",
 }: {
@@ -141,8 +147,10 @@ function SubHeading({
   className?: string;
 }) {
   return (
-    <h3 className={`mb-4 text-sm font-bold tracking-wide ${className}`}>
-      【{children}】
-    </h3>
+    <div
+      className={`ng-sans-en mb-5 text-xs font-semibold tracking-[0.18em] uppercase opacity-45 ${className}`}
+    >
+      {children}
+    </div>
   );
 }

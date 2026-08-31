@@ -2,38 +2,49 @@ export function Hero() {
   return (
     <section id="hero" data-section="hero" className="relative">
       <div
-        className="absolute inset-0 flex items-center justify-center bg-[var(--ng-ink)]"
+        className="absolute inset-0 bg-[var(--ng-ink)]"
         role="img"
-        aria-label="HERO MOVIE"
+        aria-label="HERO VIDEO PLACEHOLDER"
       >
-        <span className="text-xs tracking-widest text-white/50">
-          [ HERO MOVIE ]
+        <span className="ng-sans-en absolute top-6 right-6 text-[10px] tracking-[0.2em] text-white/30 uppercase">
+          video — hero
         </span>
+        <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
       </div>
-      <div className="relative flex min-h-[100dvh] flex-col justify-between px-6 py-10 text-white">
-        <div className="text-xs tracking-[0.2em]">LEGO HAIR GROUP / OSAKA</div>
 
-        <div className="ng-animate-in rounded-2xl bg-black/35 p-5 backdrop-blur-sm">
-          <h1 className="whitespace-pre-line text-3xl font-bold leading-snug drop-shadow">
-            {"美容師になる。\nで、終わらせない。"}
+      <div className="relative flex min-h-[100svh] flex-col justify-between px-6 py-10 text-white">
+        <div className="ng-sans-en text-[11px] tracking-[0.28em] text-white/70 uppercase">
+          LEGOHAIR — NEW GRAD 2027 — OSAKA
+        </div>
+
+        <div className="ng-reveal mb-2">
+          <h1 className="mb-6 text-[2.15rem] leading-[1.25] font-medium tracking-tight">
+            美容師になる。
+            <br />
+            で、終わらせない。
           </h1>
-          <p className="mt-4 whitespace-pre-line text-sm leading-relaxed opacity-90">
-            {"技術を覚えるだけじゃない。\n人の魅力を見つけ、\n自分らしい美容師になろう。"}
+          <p className="max-w-[30ch] text-sm leading-relaxed text-white/75">
+            技術を覚えるだけじゃない。
+            <br />
+            人の魅力を見つけ、
+            <br />
+            自分らしい美容師になろう。
           </p>
         </div>
 
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-4">
           <a
             href="#diagnosis"
-            className="w-full rounded-full bg-[var(--ng-pop)] px-6 py-4 text-center text-sm font-bold tracking-wide text-white shadow-lg"
+            className="ng-sans-en flex items-center justify-between border-b border-white/70 pb-3 text-xs font-semibold tracking-[0.18em] uppercase"
           >
-            30秒で未来の美容師タイプを診断する
+            未来の美容師タイプを見つける
+            <span aria-hidden>→</span>
           </a>
           <a
             href="#salon-tour"
-            className="w-full rounded-full border border-white/70 px-6 py-4 text-center text-sm font-bold tracking-wide text-white"
+            className="ng-sans-en text-xs tracking-[0.18em] text-white/60 uppercase underline underline-offset-4"
           >
-            LEGOHAIRを見てみる
+            LEGOHAIRを知る
           </a>
         </div>
       </div>

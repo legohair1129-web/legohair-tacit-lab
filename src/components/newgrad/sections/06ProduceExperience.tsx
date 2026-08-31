@@ -14,10 +14,10 @@ import { getLegonComment } from "@/lib/newgrad/legon";
 import { trackEvent } from "@/lib/newgrad/track";
 import type { ColorChoice, FaceChoice } from "@/lib/newgrad/types";
 import { Section } from "../ui/Section";
-import { ChoiceCard } from "../ui/ChoiceCard";
+import { ChoiceRow } from "../ui/ChoiceRow";
 import { Button } from "../ui/Button";
 import { Legon } from "../ui/Legon";
-import { ProgressDots } from "../ui/ProgressDots";
+import { ProgressLine } from "../ui/ProgressLine";
 import { MediaPlaceholder } from "../ui/MediaPlaceholder";
 
 const STEP_COUNT = 6;
@@ -48,26 +48,34 @@ export function ProduceExperience() {
     <Section
       id="produce-experience"
       index="06"
-      title={"あなたなら、\nこの人の魅力をどう引き出す？"}
+      kicker="you are the stylist."
+      title={
+        <>
+          あなたなら、
+          <br />
+          この人の魅力をどう引き出す？
+        </>
+      }
     >
-      <MediaPlaceholder label="BEFORE MODEL" className="mb-8" />
+      <MediaPlaceholder label="BEFORE MODEL" className="mb-10" />
 
       {step === 0 && (
         <Button onClick={beginProduce}>プロデュースをはじめる</Button>
       )}
 
       {step >= 1 && step <= 6 && (
-        <div className="mb-6">
-          <ProgressDots total={STEP_COUNT} current={step - 1} />
+        <div className="mb-10">
+          <ProgressLine total={STEP_COUNT} current={step - 1} />
         </div>
       )}
 
       {step === 1 && (
-        <StepBlock title="STEP 1　第一印象" subtitle="第一印象は？">
-          <div className="grid grid-cols-2 gap-3">
-            {FIRST_IMPRESSION_OPTIONS.map((option) => (
-              <ChoiceCard
+        <StepBlock kicker="STEP 01" title="WHAT DO YOU SEE?" subtitle="第一印象は？">
+          <div>
+            {FIRST_IMPRESSION_OPTIONS.map((option, i) => (
+              <ChoiceRow
                 key={option}
+                index={String(i + 1).padStart(2, "0")}
                 label={option}
                 selected={state.firstImpression === option}
                 onClick={() => update({ firstImpression: option })}
@@ -75,7 +83,9 @@ export function ProduceExperience() {
             ))}
           </div>
           <Button
-            className="mt-6"
+            className="mt-8"
+            variant="text"
+            fullWidth={false}
             disabled={!state.firstImpression}
             onClick={() => setStep(2)}
           >
@@ -85,11 +95,12 @@ export function ProduceExperience() {
       )}
 
       {step === 2 && (
-        <StepBlock title="STEP 2　何を変える？">
-          <div className="grid grid-cols-2 gap-3">
-            {FOCUS_AREA_OPTIONS.map((option) => (
-              <ChoiceCard
+        <StepBlock kicker="STEP 02" title="WHAT WOULD YOU CHANGE?">
+          <div>
+            {FOCUS_AREA_OPTIONS.map((option, i) => (
+              <ChoiceRow
                 key={option}
+                index={String(i + 1).padStart(2, "0")}
                 label={option}
                 selected={state.focusArea === option}
                 onClick={() => update({ focusArea: option })}
@@ -97,7 +108,9 @@ export function ProduceExperience() {
             ))}
           </div>
           <Button
-            className="mt-6"
+            className="mt-8"
+            variant="text"
+            fullWidth={false}
             disabled={!state.focusArea}
             onClick={() => setStep(3)}
           >
@@ -107,19 +120,23 @@ export function ProduceExperience() {
       )}
 
       {step === 3 && (
-        <StepBlock title="STEP 3　情報開示">
-          <ul className="flex flex-col gap-2 rounded-2xl border border-[var(--ng-border)] bg-[var(--ng-surface)] p-4 text-sm">
+        <StepBlock kicker="STEP 03" title="WHO IS SHE?">
+          <div>
             {MODEL_CONTEXT.map((item) => (
-              <li key={item.label} className="flex justify-between gap-4">
-                <span className="text-[var(--ng-muted)]">{item.label}</span>
-                <span className="font-medium">{item.value}</span>
-              </li>
+              <div
+                key={item.label}
+                className="flex justify-between gap-4 border-b border-[var(--ng-line)] py-3 text-sm first:border-t"
+              >
+                <span className="opacity-55">{item.label}</span>
+                <span className="text-right font-medium">{item.value}</span>
+              </div>
             ))}
-          </ul>
-          <Legon text={getLegonComment("produceStep3")} className="mt-6" />
-          <div className="mt-6 flex flex-col gap-3">
+          </div>
+          <Legon text={getLegonComment("produceStep3")} className="mt-8" />
+          <div className="mt-8 flex gap-6">
             <Button
-              variant="secondary"
+              variant="text"
+              fullWidth={false}
               onClick={() => {
                 update({ changedAfterContext: "keep" });
                 setStep(4);
@@ -128,6 +145,8 @@ export function ProduceExperience() {
               このままでいく
             </Button>
             <Button
+              variant="text"
+              fullWidth={false}
               onClick={() => {
                 update({ changedAfterContext: "change" });
                 setStep(4);
@@ -140,33 +159,37 @@ export function ProduceExperience() {
       )}
 
       {step === 4 && (
-        <StepBlock title="STEP 4　COLOR">
-          <div className="flex flex-col gap-3">
+        <StepBlock kicker="STEP 04" title="COLOR">
+          <div>
             {COLOR_OPTIONS.map((option) => (
-              <ChoiceCard
+              <ChoiceRow
                 key={option.key}
-                label={`${option.key}　${option.label}`}
+                index={option.key}
+                label={option.label}
                 selected={state.colorChoice === option.key}
-                onClick={() =>
-                  update({ colorChoice: option.key as ColorChoice })
-                }
+                onClick={() => update({ colorChoice: option.key as ColorChoice })}
               />
             ))}
           </div>
           {state.colorChoice && (
-            <ul className="ng-animate-in mt-4 flex flex-col gap-2 rounded-2xl border border-[var(--ng-border)] bg-[var(--ng-surface)] p-4 text-sm">
+            <div className="ng-reveal mt-6">
               {COLOR_OPTIONS.find((c) => c.key === state.colorChoice)!.hints.map(
                 (hint) => (
-                  <li key={hint.label} className="flex justify-between gap-4">
-                    <span className="text-[var(--ng-muted)]">{hint.label}</span>
-                    <span className="font-medium">{hint.value}</span>
-                  </li>
+                  <div
+                    key={hint.label}
+                    className="flex justify-between gap-4 border-b border-[var(--ng-line)] py-3 text-sm first:border-t"
+                  >
+                    <span className="opacity-55">{hint.label}</span>
+                    <span className="text-right font-medium">{hint.value}</span>
+                  </div>
                 )
               )}
-            </ul>
+            </div>
           )}
           <Button
-            className="mt-6"
+            className="mt-8"
+            variant="text"
+            fullWidth={false}
             disabled={!state.colorChoice}
             onClick={() => setStep(5)}
           >
@@ -176,19 +199,22 @@ export function ProduceExperience() {
       )}
 
       {step === 5 && (
-        <StepBlock title="STEP 5　FACE DESIGN">
-          <div className="flex flex-col gap-3">
+        <StepBlock kicker="STEP 05" title="FACE DESIGN">
+          <div>
             {FACE_DESIGN_OPTIONS.map((option) => (
-              <ChoiceCard
+              <ChoiceRow
                 key={option.key}
-                label={`${option.key}　${option.label}`}
+                index={option.key}
+                label={option.label}
                 selected={state.faceChoice === option.key}
                 onClick={() => update({ faceChoice: option.key as FaceChoice })}
               />
             ))}
           </div>
           <Button
-            className="mt-6"
+            className="mt-8"
+            variant="text"
+            fullWidth={false}
             disabled={!state.faceChoice}
             onClick={() => setStep(6)}
           >
@@ -198,48 +224,39 @@ export function ProduceExperience() {
       )}
 
       {step === 6 && (
-        <StepBlock title="STEP 6　最終提案">
-          <ul className="flex flex-col gap-2 rounded-2xl border border-[var(--ng-border)] bg-[var(--ng-surface)] p-4 text-sm">
-            <li className="flex justify-between gap-4">
-              <span className="text-[var(--ng-muted)]">前髪</span>
-              <span className="font-medium">
-                {faceDesignSummary(state.faceChoice)}
-              </span>
-            </li>
-            <li className="flex justify-between gap-4">
-              <span className="text-[var(--ng-muted)]">顔周り</span>
-              <span className="font-medium">
-                {state.focusArea ? `${state.focusArea}を意識` : "軽く"}
-              </span>
-            </li>
-            <li className="flex justify-between gap-4">
-              <span className="text-[var(--ng-muted)]">カラー</span>
-              <span className="font-medium">
-                {state.colorChoice
+        <StepBlock kicker="STEP 06" title="FINAL PROPOSAL">
+          <div>
+            <Row label="前髪" value={faceDesignSummary(state.faceChoice)} />
+            <Row
+              label="顔周り"
+              value={state.focusArea ? `${state.focusArea}を意識` : "軽く"}
+            />
+            <Row
+              label="カラー"
+              value={
+                state.colorChoice
                   ? COLOR_OPTIONS.find((c) => c.key === state.colorChoice)!.label
-                  : "-"}
-              </span>
-            </li>
-            <li className="flex justify-between gap-4">
-              <span className="text-[var(--ng-muted)]">印象</span>
-              <span className="font-medium">
-                {state.firstImpression ? `${state.firstImpression}に` : "あなたらしく"}
-              </span>
-            </li>
-          </ul>
+                  : "-"
+              }
+            />
+            <Row
+              label="印象"
+              value={state.firstImpression ? `${state.firstImpression}に` : "あなたらしく"}
+            />
+          </div>
 
           {!revealed && (
-            <Button className="mt-6" onClick={finish}>
+            <Button className="mt-8" onClick={finish}>
               この提案で完成を見る
             </Button>
           )}
 
           {revealed && (
-            <div className="ng-animate-in mt-8">
-              <div className="mb-2 text-xs tracking-widest text-[var(--ng-muted)]">
-                BEFORE / AFTER
+            <div className="ng-reveal mt-10">
+              <div className="ng-sans-en mb-3 text-xs font-semibold tracking-[0.2em] uppercase opacity-45">
+                before / after
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-2">
                 <MediaPlaceholder label="BEFORE MODEL" />
                 <MediaPlaceholder label="AFTER MODEL" />
               </div>
@@ -252,22 +269,39 @@ export function ProduceExperience() {
 }
 
 function StepBlock({
+  kicker,
   title,
   subtitle,
   children,
 }: {
+  kicker: string;
   title: string;
   subtitle?: string;
   children: React.ReactNode;
 }) {
   return (
-    <div className="ng-animate-in">
-      <div className="mb-1 text-xs tracking-widest text-[var(--ng-accent)]">
-        {title}
+    <div className="ng-reveal">
+      <div className="ng-sans-en mb-2 text-xs font-semibold tracking-[0.2em] uppercase opacity-45">
+        {kicker}
       </div>
-      {subtitle && <h3 className="mb-4 text-base font-bold">{subtitle}</h3>}
-      {!subtitle && <div className="mb-4" />}
+      <h3 className="ng-serif mb-6 text-2xl font-medium">
+        {title}
+        {subtitle && (
+          <span className="mt-1 block text-base font-normal opacity-60">
+            {subtitle}
+          </span>
+        )}
+      </h3>
       {children}
+    </div>
+  );
+}
+
+function Row({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex justify-between gap-4 border-b border-[var(--ng-line)] py-3 text-sm first:border-t">
+      <span className="opacity-55">{label}</span>
+      <span className="text-right font-medium">{value}</span>
     </div>
   );
 }

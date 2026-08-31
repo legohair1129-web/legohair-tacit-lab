@@ -8,7 +8,7 @@ import {
 } from "@/lib/newgrad/data/salonTour";
 import { trackEvent } from "@/lib/newgrad/track";
 import { Section } from "../ui/Section";
-import { ChoiceCard } from "../ui/ChoiceCard";
+import { ChoiceRow } from "../ui/ChoiceRow";
 import { MediaPlaceholder } from "../ui/MediaPlaceholder";
 
 export function SalonTour() {
@@ -20,43 +20,56 @@ export function SalonTour() {
   }
 
   return (
-    <Section id="salon-tour" index="13" title={"30秒で、\nLEGOHAIRを歩いてみる。"}>
-      <div className="mb-6 flex flex-wrap gap-2">
-        {SALON_NAMES.map((name) => (
-          <span
-            key={name}
-            className="rounded-full border border-[var(--ng-border)] bg-[var(--ng-surface)] px-3 py-1 text-xs text-[var(--ng-muted)]"
-          >
-            {name}
-          </span>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-2 gap-3">
-        {SALON_TOUR_SPOTS.map((spot) => (
-          <div key={spot}>
-            <MediaPlaceholder label="SALON TOUR VIDEO" />
-            <p className="mt-1 text-center text-xs text-[var(--ng-muted)]">{spot}</p>
+    <Section
+      id="salon-tour"
+      index="13"
+      kicker="30 sec salon walk"
+      title={
+        <>
+          30秒で、
+          <br />
+          LEGOHAIRを歩いてみる。
+        </>
+      }
+    >
+      <div className="-mx-6 mb-3 flex snap-x snap-mandatory gap-3 overflow-x-auto px-6 pb-2">
+        {SALON_TOUR_SPOTS.map((spot, i) => (
+          <div key={spot} className="w-[78%] shrink-0 snap-start">
+            <MediaPlaceholder label="SALON TOUR VIDEO" kind="video" aspect="portrait" />
+            <p className="mt-3 flex items-baseline gap-3">
+              <span className="ng-sans-en text-xs opacity-40">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="text-sm font-medium">{spot}</span>
+            </p>
           </div>
         ))}
       </div>
+      <p className="ng-sans-en mb-14 text-[11px] tracking-widest opacity-35">
+        swipe →
+      </p>
 
-      <div className="mt-10">
-        <p className="mb-4 text-sm font-bold">
-          もし働くなら、
-          <br />
-          どんな場所が気になる？
-        </p>
-        <div className="grid grid-cols-2 gap-3">
-          {SALON_INTEREST_OPTIONS.map((option) => (
-            <ChoiceCard
-              key={option}
-              label={option}
-              selected={state.salonInterest === option}
-              onClick={() => pickInterest(option)}
-            />
-          ))}
-        </div>
+      <div className="mb-16 flex flex-wrap gap-x-4 gap-y-1 text-xs opacity-45">
+        {SALON_NAMES.map((name) => (
+          <span key={name}>{name}</span>
+        ))}
+      </div>
+
+      <p className="mb-6 text-sm font-medium">
+        もし働くなら、
+        <br />
+        どんな場所が気になる？
+      </p>
+      <div>
+        {SALON_INTEREST_OPTIONS.map((option, i) => (
+          <ChoiceRow
+            key={option}
+            index={String(i + 1).padStart(2, "0")}
+            label={option}
+            selected={state.salonInterest === option}
+            onClick={() => pickInterest(option)}
+          />
+        ))}
       </div>
     </Section>
   );

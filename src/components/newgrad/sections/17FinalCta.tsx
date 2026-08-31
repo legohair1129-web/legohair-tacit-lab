@@ -5,7 +5,7 @@ import { LINE_URL } from "@/lib/newgrad/data/config";
 import { SENPAI_LIST } from "@/lib/newgrad/data/senpai";
 import { trackEvent } from "@/lib/newgrad/track";
 import { Section } from "../ui/Section";
-import { ChoiceCard } from "../ui/ChoiceCard";
+import { ChoiceRow } from "../ui/ChoiceRow";
 import { Button } from "../ui/Button";
 
 const FINAL_INTEREST_OPTIONS = [
@@ -41,11 +41,22 @@ export function FinalCta() {
   }
 
   return (
-    <Section id="final-cta" index="17" title={"ここまで見て、\nLEGOHAIRをどう感じましたか？"}>
-      <div className="mb-12 flex flex-col gap-3">
-        {FINAL_INTEREST_OPTIONS.map((option) => (
-          <ChoiceCard
+    <Section
+      id="final-cta"
+      index="17"
+      title={
+        <>
+          ここまで見て、
+          <br />
+          LEGOHAIRをどう感じましたか？
+        </>
+      }
+    >
+      <div className="mb-20">
+        {FINAL_INTEREST_OPTIONS.map((option, i) => (
+          <ChoiceRow
             key={option}
+            index={String(i + 1).padStart(2, "0")}
             label={option}
             selected={state.finalInterest === option}
             onClick={() => pickInterest(option)}
@@ -53,34 +64,43 @@ export function FinalCta() {
         ))}
       </div>
 
-      <div className="mb-10 flex flex-col items-center gap-4 text-center">
-        <p className="text-sm leading-relaxed">
+      <div className="ng-reveal">
+        <p className="ng-serif text-[1.9rem] leading-[1.2] font-medium">
+          YOU DON&apos;T
+          <br />
+          HAVE TO DECIDE
+          <br />
+          TODAY.
+        </p>
+
+        <p className="mt-8 text-sm leading-relaxed opacity-70">
           就職先は、
           <br />
           画面だけで決めなくていい。
         </p>
-        <p className="text-sm leading-relaxed text-[var(--ng-muted)]">
+        <p className="mt-4 text-sm leading-relaxed opacity-55">
           写真では分からない空気がある。
           <br />
           会わないと分からない人がいる。
         </p>
-        <p className="text-2xl font-bold leading-snug">
+        <p className="mt-8 text-xl leading-snug font-medium">
           だから、
           <br />
           まず見に来てください。
         </p>
       </div>
 
-      <div className="flex flex-col gap-3">
-        <Button onClick={handleVisitClick}>サロン見学してみる</Button>
+      <div className="mt-12 flex flex-col gap-4">
+        <Button onClick={handleVisitClick}>SALON TOUR</Button>
         <a
           href={isRealLineUrl ? LINE_URL : "#final-cta"}
           onClick={handleLineClick}
           target={isRealLineUrl ? "_blank" : undefined}
           rel={isRealLineUrl ? "noopener noreferrer" : undefined}
-          className="w-full rounded-full border border-[var(--ng-ink)] px-6 py-4 text-center text-sm font-bold tracking-wide"
+          className="ng-sans-en flex w-full items-center justify-between border border-[var(--ng-ink)] px-6 py-4 text-xs font-semibold tracking-[0.18em] uppercase"
         >
-          LINEで質問してみる
+          <span>LINEで質問してみる</span>
+          <span aria-hidden>→</span>
         </a>
 
         {senpai && (
@@ -89,15 +109,21 @@ export function FinalCta() {
             onClick={handleLineClick}
             target={isRealLineUrl ? "_blank" : undefined}
             rel={isRealLineUrl ? "noopener noreferrer" : undefined}
-            className="w-full rounded-full bg-[var(--ng-accent-soft)] px-6 py-4 text-center text-sm font-bold tracking-wide text-[var(--ng-ink)]"
+            className="ng-sans-en flex w-full items-center justify-between px-1 py-2 text-xs tracking-[0.14em] uppercase opacity-60 underline underline-offset-4"
           >
-            {senpai.name}さんについて聞いてみる
+            <span>{senpai.name}さんについて聞いてみる</span>
+            <span aria-hidden>→</span>
           </a>
         )}
       </div>
 
-      <p className="mt-8 whitespace-pre-line text-center text-xs leading-relaxed text-[var(--ng-muted)]">
-        {"LINE追加だけでは応募になりません。\n質問・見学だけでも大丈夫です。\n\nまだ就職先を決めていなくても大丈夫です。"}
+      <p className="mt-10 text-xs leading-relaxed opacity-45">
+        LINE追加だけでは応募になりません。
+        <br />
+        質問・見学だけでも大丈夫です。
+        <br />
+        <br />
+        まだ就職先を決めていなくても大丈夫です。
       </p>
     </Section>
   );

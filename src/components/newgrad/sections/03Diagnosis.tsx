@@ -8,10 +8,10 @@ import { getLegonComment } from "@/lib/newgrad/legon";
 import { trackEvent } from "@/lib/newgrad/track";
 import type { TypeKey } from "@/lib/newgrad/types";
 import { Section } from "../ui/Section";
-import { ChoiceCard } from "../ui/ChoiceCard";
+import { ChoiceRow } from "../ui/ChoiceRow";
 import { Button } from "../ui/Button";
 import { Legon } from "../ui/Legon";
-import { ProgressDots } from "../ui/ProgressDots";
+import { ProgressLine } from "../ui/ProgressLine";
 
 type Phase = "intro" | number | "done";
 
@@ -53,21 +53,27 @@ export function Diagnosis() {
   }
 
   return (
-    <Section id="diagnosis" index="03" title="30秒美容師タイプ診断">
+    <Section id="diagnosis" index="03" pad={typeof phase === "number" ? "s" : "m"}>
       {phase === "intro" && (
-        <div className="flex flex-col gap-6">
-          <Legon text={getLegonComment("diagnosisIntro")} />
-          <div className="flex items-center justify-center gap-6 text-xs text-[var(--ng-muted)]">
-            <span>約30秒</span>
-            <span>正解・不正解はありません</span>
+        <div>
+          <div className="ng-sans-en mb-4 text-xs font-semibold tracking-[0.22em] uppercase opacity-60">
+            find your style.
           </div>
-          <Button onClick={start}>
+          <h2 className="ng-reveal mb-6 text-[2rem] leading-[1.15] font-medium tracking-tight">
+            30秒で、
+            <br />
+            あなたの中にある
+            <br />
+            美容師としての強みを探す。
+          </h2>
+          <Legon text={getLegonComment("diagnosisIntro")} className="mb-10" />
+          <Button onClick={start} variant="solid">
             {alreadyDone ? "もう一度診断する" : "START"}
           </Button>
           {alreadyDone && (
             <a
               href="#diagnosis-result"
-              className="text-center text-xs text-[var(--ng-muted)] underline underline-offset-4"
+              className="ng-sans-en mt-4 block text-center text-xs tracking-widest opacity-55 underline underline-offset-4"
             >
               診断結果を見る
             </a>
@@ -76,19 +82,20 @@ export function Diagnosis() {
       )}
 
       {typeof phase === "number" && (
-        <div key={phase} className="ng-animate-in flex flex-col gap-6">
-          <ProgressDots total={DIAGNOSIS_QUESTIONS.length} current={phase} />
-          <div className="text-xs tracking-widest text-[var(--ng-muted)]">
-            QUESTION {phase + 1} / {DIAGNOSIS_QUESTIONS.length}
+        <div key={phase} className="ng-reveal">
+          <div className="mb-10">
+            <ProgressLine total={DIAGNOSIS_QUESTIONS.length} current={phase} />
           </div>
-          <h3 className="text-lg font-bold leading-snug">
+          <h3 className="mb-8 text-2xl leading-snug font-medium">
             {DIAGNOSIS_QUESTIONS[phase].question}
           </h3>
-          <div className="flex flex-col gap-3">
+          <div>
             {DIAGNOSIS_QUESTIONS[phase].options.map((option) => (
-              <ChoiceCard
+              <ChoiceRow
                 key={option.label}
-                label={`${option.label}　${option.text}`}
+                index={option.label}
+                label={option.text}
+                size="lg"
                 onClick={() => answer(option.key)}
               />
             ))}
@@ -97,13 +104,14 @@ export function Diagnosis() {
       )}
 
       {phase === "done" && (
-        <div className="ng-animate-in flex flex-col gap-4 text-center">
-          <p className="text-sm leading-relaxed">診断が完了しました。</p>
+        <div className="ng-reveal">
+          <p className="mb-8 text-sm opacity-65">診断が完了しました。</p>
           <a
             href="#diagnosis-result"
-            className="rounded-full bg-[var(--ng-pop)] px-6 py-4 text-sm font-bold text-white"
+            className="ng-sans-en flex items-center justify-between border-b border-[var(--ng-ink)] pb-3 text-xs font-semibold tracking-[0.18em] uppercase"
           >
             結果を見る
+            <span aria-hidden>→</span>
           </a>
         </div>
       )}

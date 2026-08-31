@@ -2,6 +2,7 @@
 
 import { useNewGradState } from "@/lib/newgrad/StateProvider";
 import { TYPE_PROFILES, getCombinationMessage } from "@/lib/newgrad/data/typeProfiles";
+import { typeColorVar } from "@/lib/newgrad/typeColor";
 import { Section } from "../ui/Section";
 
 export function DiagnosisResult() {
@@ -9,8 +10,8 @@ export function DiagnosisResult() {
 
   if (!state.diagnosisCompleted || !state.primaryType || !state.secondaryType) {
     return (
-      <Section id="diagnosis-result" index="04" title="診断結果">
-        <p className="text-sm text-[var(--ng-muted)]">
+      <Section id="diagnosis-result" index="04" kicker="your type">
+        <p className="text-sm opacity-55">
           上の診断に答えると、ここにあなたの結果が表示されます。
         </p>
       </Section>
@@ -20,51 +21,40 @@ export function DiagnosisResult() {
   const primary = TYPE_PROFILES[state.primaryType];
   const secondary = TYPE_PROFILES[state.secondaryType];
   const combination = getCombinationMessage(state.primaryType, state.secondaryType);
+  const accent = typeColorVar(state.primaryType);
 
   return (
-    <Section id="diagnosis-result" index="04" title="診断結果">
-      <div className="flex flex-col gap-6">
-        <p className="text-sm leading-relaxed">
-          今のあなたには、
-          <span className="font-bold" style={{ color: primary.color }}>
-            {primary.nameEn}
-          </span>
-          の強みが少し強く出ているみたい。
+    <Section id="diagnosis-result" index="04" kicker="your type">
+      <div className="ng-reveal">
+        <p className="ng-serif text-[2.2rem] leading-[1.2] font-medium tracking-tight break-words">
+          {primary.nameEn}{" "}
+          <span className="mx-1 align-middle text-lg opacity-40">×</span>{" "}
+          {secondary.nameEn}
+        </p>
+        <p className="mt-3 text-base opacity-60">
+          {primary.nameJa} × {secondary.nameJa}
         </p>
 
-        <div
-          className="rounded-2xl border p-5"
-          style={{ borderColor: primary.color, background: `${primary.color}0f` }}
-        >
-          <div
-            className="mb-2 inline-block rounded-full px-3 py-1 text-xs font-bold text-white"
-            style={{ background: primary.color }}
-          >
-            {primary.nameEn}｜{primary.nameJa}
-          </div>
-          <h3 className="mb-3 text-lg font-bold leading-snug">{primary.headline}</h3>
-          <p className="mb-4 text-sm leading-relaxed text-[var(--ng-muted)]">
-            {primary.description}
-          </p>
-          <p className="text-sm font-bold">「{primary.quote}」</p>
-        </div>
+        <p className="mt-10 text-lg leading-relaxed font-medium">
+          {primary.headline}
+        </p>
 
-        <div className="rounded-2xl border border-[var(--ng-border)] bg-[var(--ng-surface)] p-5">
-          <div className="mb-2 text-xs tracking-widest text-[var(--ng-muted)]">
-            SECONDARY
-          </div>
-          <div
-            className="mb-3 inline-block rounded-full px-3 py-1 text-xs font-bold text-white"
-            style={{ background: secondary.color }}
-          >
-            {secondary.nameEn}｜{secondary.nameJa}
-          </div>
-          <p className="mb-2 text-sm font-bold">
-            {primary.nameEn} × {secondary.nameEn}
+        <blockquote
+          className="ng-serif mt-8 border-l pl-5 text-lg leading-relaxed italic"
+          style={{ borderColor: accent }}
+        >
+          「{primary.quote}」
+        </blockquote>
+
+        <p className="mt-8 max-w-[34ch] text-sm leading-relaxed opacity-65">
+          {primary.description}
+        </p>
+
+        <div className="mt-14 border-t border-[var(--ng-line)] pt-6">
+          <p className="ng-sans-en text-xs font-semibold tracking-[0.2em] uppercase opacity-45">
+            secondary — {secondary.nameEn}
           </p>
-          <p className="text-sm leading-relaxed text-[var(--ng-muted)]">
-            「{combination}」
-          </p>
+          <p className="mt-3 text-sm leading-relaxed opacity-70">{combination}</p>
         </div>
       </div>
     </Section>

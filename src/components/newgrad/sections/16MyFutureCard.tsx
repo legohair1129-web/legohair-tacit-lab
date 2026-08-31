@@ -3,8 +3,10 @@
 import { useEffect, useRef } from "react";
 import { useNewGradState } from "@/lib/newgrad/StateProvider";
 import { TYPE_PROFILES } from "@/lib/newgrad/data/typeProfiles";
+import { STRENGTH_EN } from "@/lib/newgrad/data/strengths";
 import { SENPAI_LIST } from "@/lib/newgrad/data/senpai";
 import { getLegonComment } from "@/lib/newgrad/legon";
+import { typeColorVar } from "@/lib/newgrad/typeColor";
 import { trackEvent } from "@/lib/newgrad/track";
 import { Section } from "../ui/Section";
 import { Legon } from "../ui/Legon";
@@ -36,8 +38,8 @@ export function MyFutureCard() {
 
   if (!state.diagnosisCompleted || !state.primaryType || !state.secondaryType) {
     return (
-      <Section id="my-future-card" index="16" title="MY FUTURE CARD">
-        <p className="text-sm text-[var(--ng-muted)]">
+      <Section id="my-future-card" index="16" kicker="future id" title="MY FUTURE CARD">
+        <p className="text-sm opacity-55">
           診断に答えると、あなただけの FUTURE CARD が生成されます。
         </p>
       </Section>
@@ -49,45 +51,73 @@ export function MyFutureCard() {
   const senpai = SENPAI_LIST.find((s) => s.id === state.matchedSenpai);
   const strengthText =
     state.strengths.length > 0
-      ? state.strengths.map((s) => `${s}力`).join(" × ")
+      ? state.strengths.map((s) => STRENGTH_EN[s]).join(" / ")
       : "-";
-  const interestText = `${state.focusArea ?? "似合わせ"}・カウンセリング`;
+  const interestText = state.focusArea ?? "TOTAL";
+  const accent = typeColorVar(state.primaryType);
 
   return (
-    <Section id="my-future-card" index="16" title="MY FUTURE CARD">
+    <Section id="my-future-card" index="16" kicker="future id" title="MY FUTURE CARD">
       <div
         ref={cardRef}
-        className="ng-animate-in aspect-[3/5] w-full overflow-y-auto rounded-3xl p-6 text-white shadow-xl"
-        style={{
-          background: `linear-gradient(160deg, ${primary.color}, ${secondary.color})`,
-        }}
+        className="ng-reveal border border-[var(--ng-ink)] bg-[var(--ng-white)] px-7 py-8"
       >
-        <div className="mb-6 text-center text-xs tracking-[0.25em] opacity-90">
-          LEGOHAIR FUTURE EXPERIENCE
+        <div className="flex items-baseline justify-between">
+          <span className="ng-sans-en text-xs font-bold tracking-[0.2em]">
+            LEGOHAIR
+          </span>
+          <span className="ng-sans-en text-[10px] tracking-[0.2em] opacity-45">
+            FUTURE ID
+          </span>
         </div>
 
-        <CardRow label="YOUR TYPE" value={`${primary.nameEn} × ${secondary.nameEn}`} />
-        <CardRow label="YOUR STRENGTH" value={strengthText} />
-        <CardRow label="YOU CARE ABOUT" value={state.jobPriority ?? "-"} />
-        <CardRow label="YOUR INTEREST" value={interestText} />
-        <CardRow label="SENPAI MATCH" value={senpai ? senpai.name : "-"} />
+        <div
+          className="my-6 h-[2px] w-10"
+          style={{ background: accent }}
+          aria-hidden
+        />
 
-        <p className="mt-6 whitespace-pre-line text-sm leading-relaxed">
+        <p className="ng-serif text-3xl leading-[1.2] font-medium break-words">
+          {primary.nameEn}{" "}
+          <span className="mx-1 text-lg opacity-40">×</span> {secondary.nameEn}
+        </p>
+
+        <div className="mt-8 flex flex-col">
+          <CardRow label="YOUR STRENGTH" value={strengthText} />
+          <CardRow label="YOU CARE ABOUT" value={state.jobPriority ?? "-"} />
+          <CardRow label="INTEREST" value={interestText} />
+          <CardRow label="SENPAI" value={senpai ? senpai.name : "-"} last />
+        </div>
+
+        <p className="mt-8 text-sm leading-relaxed opacity-70">
           {primary.headline}
         </p>
-        <p className="mt-3 text-xs italic opacity-90">「{primary.quote}」</p>
       </div>
 
-      <Legon text={getLegonComment("futureCard")} className="mt-6" />
+      <Legon text={getLegonComment("futureCard")} className="mt-8" />
     </Section>
   );
 }
 
-function CardRow({ label, value }: { label: string; value: string }) {
+function CardRow({
+  label,
+  value,
+  last = false,
+}: {
+  label: string;
+  value: string;
+  last?: boolean;
+}) {
   return (
-    <div className="mb-4 border-b border-white/25 pb-2">
-      <div className="text-[0.65rem] tracking-widest opacity-70">{label}</div>
-      <div className="text-base font-bold">{value}</div>
+    <div
+      className={`flex items-baseline justify-between border-t border-[var(--ng-line)] py-3 ${
+        last ? "border-b" : ""
+      }`}
+    >
+      <span className="ng-sans-en text-[10px] tracking-[0.14em] uppercase opacity-45">
+        {label}
+      </span>
+      <span className="ng-sans-en text-sm font-semibold">{value}</span>
     </div>
   );
 }
