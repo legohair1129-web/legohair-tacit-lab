@@ -9,7 +9,16 @@ export function RecruitInfo() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <Section id="recruit-info" index="15" kicker="recruit info" title="採用情報">
+    <Section
+      id="recruit-info"
+      index="15"
+      accentIndex
+      topLine
+      tone="beige-tint"
+      pad="l"
+      kicker="recruit info"
+      title="採用情報"
+    >
       <div>
         {RECRUIT_INFO_ITEMS.map((item, i) => (
           <IndexRow
@@ -17,6 +26,7 @@ export function RecruitInfo() {
             index={String(i + 1).padStart(2, "0")}
             label={item.title}
             detail={item.body}
+            accent
             open={openIndex === i}
             onClick={() => setOpenIndex(openIndex === i ? null : i)}
           />

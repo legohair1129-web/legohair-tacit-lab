@@ -26,7 +26,17 @@ export function RealBeautiful() {
   const bothViewed = viewed.has("beautiful") && viewed.has("real");
 
   return (
-    <Section id="real-beautiful" index="12" title="美容師の、ふたつの顔。">
+    <Section
+      id="real-beautiful"
+      index="12"
+      accentIndex
+      topLine
+      pad="l"
+      // The two "pages" get their own quiet background, so switching sides
+      // reads as turning to a different spread, not just swapping a grid.
+      tone={side === "beautiful" ? "pink-tint" : "beige-tint"}
+      title="美容師の、ふたつの顔。"
+    >
       <div className="mb-10 flex gap-8 border-b border-[var(--ng-line)]">
         <button
           type="button"
@@ -34,7 +44,7 @@ export function RealBeautiful() {
           aria-pressed={side === "beautiful"}
           className={`ng-sans-en border-b-2 pb-4 text-xs font-semibold tracking-[0.16em] uppercase transition-colors ${
             side === "beautiful"
-              ? "border-[var(--ng-ink)] opacity-100"
+              ? "border-[var(--ng-hotpink)] text-[var(--ng-hotpink)] opacity-100"
               : "border-transparent opacity-40"
           }`}
         >
@@ -46,7 +56,7 @@ export function RealBeautiful() {
           aria-pressed={side === "real"}
           className={`ng-sans-en border-b-2 pb-4 text-xs font-semibold tracking-[0.16em] uppercase transition-colors ${
             side === "real"
-              ? "border-[var(--ng-ink)] opacity-100"
+              ? "border-[var(--ng-hotpink)] text-[var(--ng-hotpink)] opacity-100"
               : "border-transparent opacity-40"
           }`}
         >
@@ -90,7 +100,7 @@ export function RealBeautiful() {
                 key={card.title}
                 className="flex gap-4 border-t border-[var(--ng-line)] py-4 last:border-b"
               >
-                <span className="ng-sans-en w-6 shrink-0 text-xs font-semibold tracking-widest opacity-45">
+                <span className="ng-sans-en w-6 shrink-0 text-xs font-semibold tracking-widest text-[var(--ng-hotpink)]">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div>

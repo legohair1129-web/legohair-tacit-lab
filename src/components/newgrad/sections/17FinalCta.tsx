@@ -44,6 +44,11 @@ export function FinalCta() {
     <Section
       id="final-cta"
       index="17"
+      accentIndex
+      topLine
+      tone="ivory"
+      pad="l"
+      kicker="salon visit"
       title={
         <>
           ここまで見て、
@@ -58,6 +63,7 @@ export function FinalCta() {
             key={option}
             index={String(i + 1).padStart(2, "0")}
             label={option}
+            accent="pink"
             selected={state.finalInterest === option}
             onClick={() => pickInterest(option)}
           />
@@ -91,16 +97,18 @@ export function FinalCta() {
       </div>
 
       <div className="mt-12 flex flex-col gap-4">
-        <Button onClick={handleVisitClick}>SALON TOUR</Button>
+        <Button variant="pink" onClick={handleVisitClick}>
+          SALON TOUR
+        </Button>
         <a
           href={isRealLineUrl ? LINE_URL : "#final-cta"}
           onClick={handleLineClick}
           target={isRealLineUrl ? "_blank" : undefined}
           rel={isRealLineUrl ? "noopener noreferrer" : undefined}
-          className="ng-sans-en flex w-full items-center justify-between border border-[var(--ng-ink)] px-6 py-4 text-xs font-semibold tracking-[0.18em] uppercase"
+          className="ng-sans-en flex w-full items-center justify-between border border-[var(--ng-hotpink)] px-6 py-4 text-xs font-semibold tracking-[0.18em] text-[var(--ng-ink)] uppercase"
         >
           <span>LINEで質問してみる</span>
-          <span aria-hidden>→</span>
+          <span aria-hidden className="text-[var(--ng-hotpink)]">→</span>
         </a>
 
         {senpai && (
@@ -109,7 +117,7 @@ export function FinalCta() {
             onClick={handleLineClick}
             target={isRealLineUrl ? "_blank" : undefined}
             rel={isRealLineUrl ? "noopener noreferrer" : undefined}
-            className="ng-sans-en flex w-full items-center justify-between px-1 py-2 text-xs tracking-[0.14em] uppercase opacity-60 underline underline-offset-4"
+            className="ng-sans-en flex w-full items-center justify-between px-1 py-2 text-xs tracking-[0.14em] text-[var(--ng-hotpink)] uppercase underline underline-offset-4"
           >
             <span>{senpai.name}さんについて聞いてみる</span>
             <span aria-hidden>→</span>

@@ -36,6 +36,8 @@ export interface NewGradImageConfig {
   /** One photo per alternating 10 ONE DAY EXPERIENCE timeline moment. */
   oneDay: ImageSlot[];
   senpai: ImageSlot;
+  /** ENDING - a single quiet photo, not a call-to-action visual. */
+  ending: ImageSlot;
 }
 
 export const NEWGRAD_IMAGES: NewGradImageConfig = {
@@ -62,4 +64,5 @@ export const NEWGRAD_IMAGES: NewGradImageConfig = {
     { src: null, alt: "先輩に質問する様子", objectPosition: "center" },
   ],
   senpai: { src: null, alt: "先輩スタッフ", objectPosition: "top" },
+  ending: { src: null, alt: "落ち着いた雰囲気のサロンスタッフ", objectPosition: "center" },
 };

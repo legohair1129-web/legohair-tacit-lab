@@ -23,6 +23,10 @@ export function SalonTour() {
     <Section
       id="salon-tour"
       index="13"
+      accentIndex
+      topLine
+      tone="beige-tint"
+      pad="l"
       kicker="30 sec salon walk"
       title={
         <>
@@ -66,6 +70,7 @@ export function SalonTour() {
             key={option}
             index={String(i + 1).padStart(2, "0")}
             label={option}
+            accent="pink"
             selected={state.salonInterest === option}
             onClick={() => pickInterest(option)}
           />

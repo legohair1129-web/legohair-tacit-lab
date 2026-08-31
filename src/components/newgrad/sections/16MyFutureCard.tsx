@@ -6,7 +6,6 @@ import { TYPE_PROFILES } from "@/lib/newgrad/data/typeProfiles";
 import { STRENGTH_EN } from "@/lib/newgrad/data/strengths";
 import { SENPAI_LIST } from "@/lib/newgrad/data/senpai";
 import { getLegonComment } from "@/lib/newgrad/legon";
-import { typeColorVar } from "@/lib/newgrad/typeColor";
 import { trackEvent } from "@/lib/newgrad/track";
 import { Section } from "../ui/Section";
 import { Legon } from "../ui/Legon";
@@ -38,7 +37,16 @@ export function MyFutureCard() {
 
   if (!state.diagnosisCompleted || !state.primaryType || !state.secondaryType) {
     return (
-      <Section id="my-future-card" index="16" kicker="future id" title="MY FUTURE CARD">
+      <Section
+        id="my-future-card"
+        index="16"
+        accentIndex
+        topLine
+        tone="pink-tint"
+        pad="l"
+        kicker="future id"
+        title="MY FUTURE CARD"
+      >
         <p className="text-sm opacity-55">
           診断に答えると、あなただけの FUTURE CARD が生成されます。
         </p>
@@ -54,13 +62,21 @@ export function MyFutureCard() {
       ? state.strengths.map((s) => STRENGTH_EN[s]).join(" / ")
       : "-";
   const interestText = state.focusArea ?? "TOTAL";
-  const accent = typeColorVar(state.primaryType);
 
   return (
-    <Section id="my-future-card" index="16" kicker="future id" title="MY FUTURE CARD">
+    <Section
+      id="my-future-card"
+      index="16"
+      accentIndex
+      topLine
+      tone="pink-tint"
+      pad="l"
+      kicker="future id"
+      title="MY FUTURE CARD"
+    >
       <div
         ref={cardRef}
-        className="ng-reveal border border-[var(--ng-ink)] bg-[var(--ng-white)] px-7 py-8"
+        className="ng-reveal border border-[var(--ng-line)] bg-[var(--ng-white)] px-7 py-8"
       >
         <div className="flex items-baseline justify-between">
           <span className="ng-sans-en text-xs font-bold tracking-[0.2em]">
@@ -71,11 +87,7 @@ export function MyFutureCard() {
           </span>
         </div>
 
-        <div
-          className="my-6 h-[2px] w-10"
-          style={{ background: accent }}
-          aria-hidden
-        />
+        <div className="my-6 h-[2px] w-10 bg-[var(--ng-hotpink)]" aria-hidden />
 
         <p className="ng-serif text-3xl leading-[1.2] font-medium break-words">
           {primary.nameEn}{" "}
