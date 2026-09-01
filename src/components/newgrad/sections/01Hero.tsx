@@ -20,42 +20,40 @@ export function Hero() {
       className="bg-[var(--ng-ivory)] px-6 pt-[max(2rem,env(safe-area-inset-top))] pb-20"
     >
       <div className="mx-auto max-w-md">
-        <div className="ng-sans-en mb-5 text-[11px] tracking-[0.24em] opacity-55 uppercase">
-          LEGOHAIR — NEW GRAD 2027 — OSAKA
+        {/* Masthead - stacked like a magazine cover, not a one-line kicker. */}
+        <div className="ng-sans-en mb-6 flex flex-col gap-0.5 text-[11px] tracking-[0.24em] text-[var(--ng-ink)] opacity-45 uppercase">
+          <span>LEGOHAIR</span>
+          <span>NEW GRAD 2027</span>
+          <span>OSAKA</span>
         </div>
 
+        {/* Full-bleed cover photo - the single dominant element, no text
+            layered on top of it, so the photo and the copy below read as
+            one quiet editorial spread rather than an ad banner. */}
         <div
           ref={photoRef}
-          className={`ng-io-clip relative ${photoInView ? "ng-in" : ""}`}
+          className={`-mx-6 ng-io-clip ${photoInView ? "ng-in" : ""}`}
         >
-          <Photo slot={NEWGRAD_IMAGES.hero} aspect="aspect-[4/5]" />
-          {/* Layer: a large handwritten HOT PINK phrase sits on the photo
-              and spills past its bottom-left edge. */}
-          <span
-            aria-hidden
-            className="ng-hand pointer-events-none absolute -bottom-3 -left-2 -rotate-2 text-[1.85rem] leading-none whitespace-nowrap"
-          >
-            で、終わらせない。
-          </span>
+          <Photo slot={NEWGRAD_IMAGES.hero} aspect="aspect-[4/5]" rounded="rounded-none" />
         </div>
 
-        <div ref={copyRef} className={`mt-14 ng-io-mask ${copyInView ? "ng-in" : ""}`}>
-          <h1 className="text-[2.15rem] leading-[1.25] font-bold tracking-tight">
-            美容師になる。
+        <div ref={copyRef} className={`mt-9 ng-io-mask ${copyInView ? "ng-in" : ""}`}>
+          <h1 className="text-[1.85rem] leading-[1.35] font-semibold tracking-tight text-[var(--ng-ink)]">
+            自分の魅力を知る。
+            <br />
+            人の魅力を引き出す。
           </h1>
-          <p className="mt-5 max-w-[30ch] text-sm leading-relaxed opacity-65">
-            技術を覚えるだけじゃない。
+          <p className="mt-5 text-sm leading-relaxed text-[var(--ng-ink)] opacity-65">
+            LEGOHAIRで、
             <br />
-            人の魅力を見つけ、
-            <br />
-            自分らしい美容師になろう。
+            自分らしい美容師になる。
           </p>
         </div>
 
         <div className="mt-10 flex flex-col gap-4">
           <a
             href="#diagnosis"
-            className="ng-sans-en flex w-full items-center justify-between border border-[var(--ng-hotpink)] bg-[var(--ng-white)] px-6 py-4 text-sm font-bold tracking-wide text-[var(--ng-ink)] hover:bg-[var(--ng-hotpink)] hover:text-white"
+            className="ng-sans-en flex w-full items-center justify-between border border-[var(--ng-hotpink)] bg-[var(--ng-white)] px-6 py-4 text-sm font-semibold tracking-wide text-[var(--ng-ink)] hover:bg-[var(--ng-hotpink)] hover:text-white"
           >
             未来の美容師タイプを見つける
             <span aria-hidden>→</span>
