@@ -48,7 +48,7 @@ export function DiagnosisResult() {
       <div className="ng-reveal">
         <p className="text-2xl leading-[1.4] font-bold break-words">
           {primary.nameJa}{" "}
-          <span className="ng-hand mx-0.5 inline-block -rotate-2 align-middle text-3xl text-[var(--ng-hotpink)]">
+          <span className="ng-hand mx-0.5 inline-block -rotate-2 align-middle text-3xl">
             ×
           </span>{" "}
           {secondary.nameJa}

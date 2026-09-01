@@ -55,7 +55,7 @@ export function Photo({
       role="img"
       aria-label={slot.alt}
       style={style}
-      className={`relative overflow-hidden ${aspect} ${rounded} ${className} bg-gradient-to-br from-[var(--ng-hotpink-soft)] via-[var(--ng-ivory-2)] to-[var(--ng-ivory)]`}
+      className={`relative overflow-hidden ${aspect} ${rounded} ${className} bg-gradient-to-br from-[var(--ng-pink-tint)] via-[var(--ng-ivory-2)] to-[var(--ng-ivory)]`}
     >
       <span
         aria-hidden

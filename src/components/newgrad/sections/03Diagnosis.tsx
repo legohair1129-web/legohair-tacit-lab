@@ -93,13 +93,13 @@ export function Diagnosis() {
             className="mb-10"
           />
 
-          <p className="mb-10 text-sm font-medium text-[var(--ng-hotpink)]">
+          <p className="mb-10 text-sm font-medium opacity-75">
             {getLegonComment("diagnosisIntro")}
           </p>
           <button
             type="button"
             onClick={start}
-            className="ng-sans-en flex w-full items-center justify-between border border-[var(--ng-hotpink)] bg-[var(--ng-hotpink)] px-6 py-4 text-sm font-bold tracking-wide text-white hover:opacity-85"
+            className="ng-sans-en flex w-full items-center justify-between border border-[var(--ng-hotpink)] bg-[var(--ng-white)] px-6 py-4 text-sm font-bold tracking-wide text-[var(--ng-ink)] hover:bg-[var(--ng-hotpink)] hover:text-white"
           >
             {alreadyDone ? "もう一度診断する" : "診断スタート！"}
             <span aria-hidden>→</span>

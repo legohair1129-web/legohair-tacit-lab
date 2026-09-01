@@ -8,17 +8,23 @@
  * state change, or one important line, never a UI chrome default.
  */
 .ng-scope {
-  --ng-ivory: #f7f6f2;
-  --ng-ivory-2: #f1efea;
+  /* Phase 5 (world-view rebalance): WHITE x PALE PINK x SOFT CHARCOAL.
+     White/near-white is ~90% of any screen; --ng-ink moved off true black
+     to a soft charcoal so body text is never #000, and the two section
+     tint tokens moved paler (pink) or from warm-beige to a quiet neutral
+     grey (beige-tint) so tone-to-tone contrast reads as "the same page,
+     gently marked," not a wash of color. */
+  --ng-ivory: #faf9f7;
+  --ng-ivory-2: #f4f3f0;
   --ng-white: #ffffff;
-  --ng-ink: #161616;
+  --ng-ink: #2a2a2a;
 
-  --ng-line: rgba(22, 22, 22, 0.14);
-  --ng-line-soft: rgba(22, 22, 22, 0.08);
+  --ng-line: rgba(42, 42, 42, 0.13);
+  --ng-line-soft: rgba(42, 42, 42, 0.08);
   --ng-line-dark: rgba(255, 255, 255, 0.22);
   --ng-line-dark-soft: rgba(255, 255, 255, 0.12);
 
-  --ng-muted: rgba(22, 22, 22, 0.58);
+  --ng-muted: rgba(42, 42, 42, 0.56);
   --ng-muted-dark: rgba(255, 255, 255, 0.62);
 
   /* Muted accents - use exactly one per screen/context. */
@@ -28,18 +34,24 @@
   --ng-sage: #7c8a66;
   --ng-gray-warm: #9c9186;
 
-  /* Phase 1 (01-04 only): a single vivid HOT PINK accent for the warmer,
-     more playful "magazine x recruit" direction - handwritten emphasis,
-     underlines, selection state, small CTAs. Kept ~5-10% of any screen. */
+  /* HOT PINK stays the one accent color, unchanged in hue - only how much
+     surface area is allowed to use it, section by section, has been
+     reduced (CTAs moved to white/charcoal + thin pink border; large solid-
+     pink fills removed). --ng-hotpink-hand is a slightly de-saturated,
+     lower-presence pink reserved for handwritten emphasis only, so that
+     one accent doesn't read as loud as a CTA. */
   --ng-hotpink: #ff2d78;
   --ng-hotpink-soft: #ffe1ec;
-  /* Very washed background tints (not UI fills) - the "warm ivory / light
-     beige / light pink / light greige" options for marking a new section
+  --ng-hotpink-hand: #e8659a;
+  /* Very washed background tints (not UI fills) - marking a new section
      without a strong color field. Own tokens, not shared with --ng-ivory-2
      (which MediaPlaceholder and 05+ sections already rely on), so tuning
-     these can never shift how any existing section looks. */
-  --ng-pink-tint: #fbe8ee;
-  --ng-beige-tint: #f0e7da;
+     these can never shift how any existing section looks. beige-tint now
+     reads as a quiet neutral grey rather than warm beige, per the WHITE x
+     PALE PINK x SOFT CHARCOAL direction - the Section `tone="beige-tint"`
+     prop name is unchanged so no call site needs editing. */
+  --ng-pink-tint: #f8ecef;
+  --ng-beige-tint: #f4f4f2;
 
   /* Diagnosis type -> accent (display only; scoring keys are unaffected). */
   --ng-type-creator: var(--ng-coral);
@@ -71,10 +83,12 @@
   font-family: var(--ng-font-sans-en), Helvetica, Arial, sans-serif;
 }
 
-/* Phase 1: short handwritten-style pink emphasis within a JP headline. */
+/* Short handwritten-style pink emphasis within a JP headline - uses the
+   de-saturated --ng-hotpink-hand (Phase 5) so this reads as a quiet mark,
+   not a second CTA-strength pink on the page. */
 .ng-hand {
   font-family: var(--ng-font-hand), var(--font-noto-sans-jp), sans-serif;
-  color: var(--ng-hotpink);
+  color: var(--ng-hotpink-hand);
 }
 
 @media (prefers-reduced-motion: no-preference) {

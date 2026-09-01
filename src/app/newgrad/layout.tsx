@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Fraunces, Inter, Yomogi } from "next/font/google";
 import "./newgrad.css";
 import { NewGradProvider } from "@/lib/newgrad/StateProvider";
@@ -29,6 +29,20 @@ const yomogi = Yomogi({
 export const metadata: Metadata = {
   title: "LEGOHAIR NEW GRAD | FUTURE EXPERIENCE",
   description: "就職先を探すページではない。未来の自分を見つけるページ。",
+};
+
+// Scoped to this route segment only (never touches the root layout, so
+// TACIT LAB's own viewport is unaffected). viewportFit: "cover" lets this
+// page draw its own background under the iOS status bar/notch instead of
+// the OS drawing a separate blank bar there - Hero (which sits at the very
+// top of the page) adds its own env(safe-area-inset-top) padding so its
+// content still clears the notch, keeping the "Add to Home Screen"
+// standalone launch and a normal Safari tab visually aligned.
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  viewportFit: "cover",
 };
 
 /**

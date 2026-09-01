@@ -14,7 +14,11 @@ export function Hero() {
   const lineInView = useReveal(lineRef, 0.2);
 
   return (
-    <section id="hero" data-section="hero" className="bg-[var(--ng-ivory)] px-6 pt-8 pb-20">
+    <section
+      id="hero"
+      data-section="hero"
+      className="bg-[var(--ng-ivory)] px-6 pt-[max(2rem,env(safe-area-inset-top))] pb-20"
+    >
       <div className="mx-auto max-w-md">
         <div className="ng-sans-en mb-5 text-[11px] tracking-[0.24em] opacity-55 uppercase">
           LEGOHAIR — NEW GRAD 2027 — OSAKA
@@ -29,7 +33,7 @@ export function Hero() {
               and spills past its bottom-left edge. */}
           <span
             aria-hidden
-            className="ng-hand pointer-events-none absolute -bottom-3 -left-2 -rotate-2 text-[2.1rem] leading-none whitespace-nowrap text-[var(--ng-hotpink)]"
+            className="ng-hand pointer-events-none absolute -bottom-3 -left-2 -rotate-2 text-[1.85rem] leading-none whitespace-nowrap"
           >
             で、終わらせない。
           </span>
@@ -51,7 +55,7 @@ export function Hero() {
         <div className="mt-10 flex flex-col gap-4">
           <a
             href="#diagnosis"
-            className="ng-sans-en flex w-full items-center justify-between border border-[var(--ng-hotpink)] bg-[var(--ng-hotpink)] px-6 py-4 text-sm font-bold tracking-wide text-white hover:opacity-85"
+            className="ng-sans-en flex w-full items-center justify-between border border-[var(--ng-hotpink)] bg-[var(--ng-white)] px-6 py-4 text-sm font-bold tracking-wide text-[var(--ng-ink)] hover:bg-[var(--ng-hotpink)] hover:text-white"
           >
             未来の美容師タイプを見つける
             <span aria-hidden>→</span>

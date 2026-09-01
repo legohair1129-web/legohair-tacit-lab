@@ -11,8 +11,10 @@ const VARIANT_CLASSES: Record<NonNullable<ButtonProps["variant"]>, string> = {
   outline:
     "border border-[var(--ng-ink)] text-[var(--ng-ink)] hover:bg-[var(--ng-ink)] hover:text-[var(--ng-ivory)]",
   text: "border-b border-[var(--ng-ink)] text-[var(--ng-ink)] px-0 hover:opacity-60",
-  // Phase 2 (05-10): HOT PINK CTA, replacing the black "solid" fill.
-  pink: "bg-[var(--ng-hotpink)] text-white border border-[var(--ng-hotpink)] hover:opacity-85",
+  // Phase 5 (world-view rebalance): the main pink CTA is no longer a large
+  // solid-pink fill - white background, thin pink border, charcoal text.
+  // The vivid fill now only shows on hover/tap, per brief.
+  pink: "bg-[var(--ng-white)] text-[var(--ng-ink)] border border-[var(--ng-hotpink)] hover:bg-[var(--ng-hotpink)] hover:text-white",
   "pink-outline":
     "border border-[var(--ng-hotpink)] text-[var(--ng-ink)] hover:bg-[var(--ng-hotpink)] hover:text-white",
 };
