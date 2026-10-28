@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/newgrad",
+      "destination": "https://legohair-newglad.vercel.app/",
+      "permanent": true
+    }
+  ]
+}
